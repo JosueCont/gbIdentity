@@ -12,6 +12,9 @@ export const theme = extendTheme({
                 sm: { fontSize: '12px' },
             },
         },
+        Switch:{
+            
+        }
     },
     fontConfig: {
        

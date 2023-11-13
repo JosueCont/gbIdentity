@@ -4,10 +4,10 @@ const commonConfig = {
     "slug": "bimboWallet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    //"icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-        "image": "./assets/icon.png",
+        //"image": "./assets/icon.png",
         "resizeMode":'contain',
         "backgroundColor": "#284ED4",
     },
@@ -18,20 +18,21 @@ const commonConfig = {
         "fallbackToCacheTimeout": 0
     },
     "web": {
-        "favicon": "./assets/favicon.png"
+        "favicon": "./assets/icon.png"
     },
     "extra": {
         "eas": {
           "projectId": "01ba6eee-26b8-4d4c-94e6-e90a2a73a05b"
         }
     },
+    //"assets": ["./assets/fonts/"],
     "owner": "appshuman"
 }
 
 const android = {
     "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        //"foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#284ED4"
     }
 }
 

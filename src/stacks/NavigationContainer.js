@@ -5,14 +5,18 @@ import {Spinner, View} from "native-base";
 import AuthStack from "./AuthStack";
 import LoggedStack from "./LoggedStack";
 import { Colors } from "../utils/Colors";
+import { useDispatch, useSelector } from "react-redux";
+import { createSession } from "../store/ducks/authDuck";
 
 
 const NavigationContainerConfig = () => {
+    const dispatch = useDispatch();
     const [loggedIn, setLoggedIn] = useState(null)
     const [loading, setLoading] = useState(true)
-    const status = false;
+    const status = useSelector(state => state.authDuck.isLogged)//false;
 
     useEffect(() => {
+        getSession()
         if (status) {
             setLoggedIn(true)
         } else {
@@ -22,6 +26,11 @@ const NavigationContainerConfig = () => {
             setLoading(false)
         }, 300)
     },[status])
+
+    const getSession = async() => {
+        dispatch(await createSession())
+
+    }
 
     return(
         <NavigationContainer>

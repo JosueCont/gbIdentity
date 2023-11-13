@@ -1,11 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
+import ScreenBaseLogged from "../components/screensBase/ScreenBaseLogged";
+import InitialPage from "../components/Home/InitialPage";
+import ProfilePage from "../components/Home/ProfilePage";
+import NotificationsPage from "../components/Home/NotificationsPage";
+import CodePage from "../components/Home/CodePage";
 
 const HomeScreen = () => {
+    const routes = ['initial', 'profile','notifications','code'];
+    const [selectedSection, setSelectedSection] = useState('initial');
+
+    const getSelectedRoute = (route) => {
+        const obj = routes.reduce((result, key) => {
+            result[key] = `${key}`
+            return result;
+        }, {});
+        console.log('route',route,'navegar a ',obj[route]);
+        setSelectedSection(obj[route])
+    }
+
     return(
-        <View>
-            <Text>Home screen</Text>
-        </View>
+        <ScreenBaseLogged 
+            showNotifications={() => getSelectedRoute('notifications')}
+            showProfile={() => getSelectedRoute('profile')}>
+            {selectedSection === 'initial' ? (
+                <InitialPage setQrRoute={() => getSelectedRoute('code')}/>
+            ) : selectedSection === 'notifications' ? (
+                <NotificationsPage backHome={() => getSelectedRoute('initial')}/>
+            ) : selectedSection === 'profile' ? (
+                <ProfilePage backHome={() => getSelectedRoute('initial')}/>
+            ) : (
+                <CodePage backHome={() => getSelectedRoute('initial')}/>
+            )}
+        </ScreenBaseLogged>
     )
 }
 

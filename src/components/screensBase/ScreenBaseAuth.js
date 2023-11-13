@@ -1,8 +1,8 @@
 import React,{ useEffect} from "react";
-import { SafeAreaView, KeyboardAvoidingView,View, Image, Text, Dimensions, StyleSheet } from "react-native";
-import { Colors } from "../utils/Colors";
-import logo from '../../assets/logoBimbo.png';
-import { getFontSize } from "../utils/functions";
+import { SafeAreaView, KeyboardAvoidingView,View, Image, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
+import { Colors } from "../../utils/Colors";
+import logo from '../../../assets/logoBimbo.png';
+import { getFontSize } from "../../utils/functions";
 
 const {height, width} = Dimensions.get('window');
 
@@ -10,13 +10,25 @@ const ScreenBaseAuth = ({children, title='Hola'}) => {
     return(
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
+                <ScrollView 
+                    keyboardShouldPersistTaps='handled'
+                    automaticallyAdjustKeyboardInsets
+                    nestedScrollEnabled={true}
+                    overScrollMode="always"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                        
+                    }}
+                    >
                 <View style={styles.contHeader}>
-                    <Image source={require('../../assets/logoBimbo.png')} style={styles.img}/>
+                    <Image source={require('../../../assets/logoBimbo.png')} style={styles.img}/>
                     <Text style={styles.title}>{title}</Text>
                 </View>
                 <View style={{justifyContent:'center', alignItems:'center'}}>
                     {children}
                 </View>
+                </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
