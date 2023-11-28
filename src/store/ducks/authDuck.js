@@ -5,6 +5,7 @@ import { saveTokens } from "../../utils/functions";
 const CHANGE_EMAIL = 'change_email';
 const CHANGE_PASSWORD = 'change_password';
 const CHANGE_CHECKBOX = 'change_checkbox';
+const CHANGE_REPEAT_PASSWOTD = 'change_repeat_password';
 const CLOSE_MODAL = 'close_modal'
 
 const LOADER = 'loader';
@@ -24,7 +25,8 @@ const initialState = {
     dataUser:null,
     modalErrorLogin:false,
     isValidMail:false,
-    modalRecover:false
+    modalRecover:false,
+    repeatPassword:''
 }
 
 const authDuck = (state = initialState, action) => {
@@ -33,6 +35,8 @@ const authDuck = (state = initialState, action) => {
             return{ ...state, email: action.payload }
         case CHANGE_PASSWORD:
             return{ ...state, password: action.payload }
+        case CHANGE_REPEAT_PASSWOTD:
+            return{...state, repeatPassword: action.payload}
         case CHANGE_CHECKBOX:
             return{ ...state, isChecked: action.payload }
         case LOADER:
@@ -68,6 +72,13 @@ export const setValuePAssword = (data) => {
     }
 }
 
+export const setRepeatPassword = (data) => {
+    return{
+        type: CHANGE_REPEAT_PASSWOTD,
+        payload: data
+    }
+}
+
 export const setValueCheckbox = (data) => {
     return{
         type: CHANGE_CHECKBOX,
@@ -79,7 +90,7 @@ export const loginAction = (data) => async(dispatch) => {
     try {
         dispatch({type: LOADER})
         const login = await postLogin(data)
-        if(login?.data?.user?.id){
+        if(login?.data?.user?.id && login?.data?.user?.userType === 3){
             await saveTokens(login?.data?.accessToken, login?.data?.refreshToken, login?.data?.user)
             dispatch({type: LOGIN_SUCCESS, payload: login.data.user})
         }else{
@@ -137,6 +148,14 @@ export const createSession = () => async(dispatch) => {
         }
     } catch (error) {
         console.log('error al obtner sesión',e)
+    }
+}
+
+export const resetPassword = (data) => async(dispatch) => {
+    try {
+        console.log('data a mandat',data)
+    } catch (e) {
+        console.log('error al resetear password')
     }
 }
 

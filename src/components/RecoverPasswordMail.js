@@ -35,18 +35,32 @@ const RecoverPasswordMail = ({setModeRecover}) => {
 
             ):(
                 <>
-                    <View>
-                        <Text style={styles.lbl}>Ingrese su correo electrónico</Text>
-                        <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
-                    <CustomButtom title='Recuperar'  onPressed={() => dispatch(onRecoveryPassword(email))} loading={loader} isDisabled={email===''}/>
+                    <View style={{marginTop:40}}>
+                        <Text style={styles.lbl}>ID colaborador</Text>
+                        <Input 
+                            value={email} 
+                            setValue={(val) => dispatch(setValueEmail(val)) }/>
+                        <View style={{marginTop:20}}>
+                            <Text style={styles.lbl}>Fecha de ingreso</Text>
+                            <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
+                        </View>
+                        <View style={{marginTop:20}}>
+                            <Text style={styles.lbl}>Fecha de nacimiento</Text>
+                            <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
+
+                        </View>
+                        <CustomButtom title='Siguiente'  onPressed={() => dispatch(onRecoveryPassword(email))} loading={loader} isDisabled={email===''}/>
                     </View>
-                    <Text style={styles.help}>¿Usted ingresa con el número de colaborador y no tiene un correo electrónico institucional?</Text>
+                    {/*<Text style={styles.help}>¿Usted ingresa con el número de colaborador y no tiene un correo electrónico institucional?</Text>
                     <TouchableOpacity style={styles.btn} onPress={setModeRecover}>
                         <Text style={styles.click}>Haga click aqui</Text>
-                    </TouchableOpacity>
+            </TouchableOpacity>*/}
                 </>
             )}
-            <ModalErrorLogin visible={modalActive} onClose={() => dispatch(closeModal({prop:'modalRecover',value:false})) }/>
+            <ModalErrorLogin 
+                visible={modalActive} 
+                onClose={() => dispatch(closeModal({prop:'modalRecover',value:false})) }
+            />
         </>
     )
 }
@@ -56,7 +70,7 @@ const styles = StyleSheet.create({
         color:Colors.white, 
         fontSize:getFontSize(16), 
         marginBottom:6,
-        marginTop:100
+        //marginTop:100
     },
     help:{
         fontSize: getFontSize(16),

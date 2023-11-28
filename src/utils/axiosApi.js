@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { refreshToken } from "./ApiApp";
 
 
-export const baseURL = 'http://192.168.1.108:5213';
+export const baseURL = 'http://gbwallet.hiumanlab.com/'//'http://192.168.1.108:5213';
 
 
 let config = {

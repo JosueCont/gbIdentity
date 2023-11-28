@@ -5,8 +5,11 @@ import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
+import { cancelAutoGenerateCode, activateAutoGenerate } from "../store/ducks/homeDuck";
+import { useDispatch } from "react-redux";
 
 const HomeScreen = () => {
+    const dispatch = useDispatch();
     const routes = ['initial', 'profile','notifications','code'];
     const [selectedSection, setSelectedSection] = useState('initial');
 
@@ -24,7 +27,7 @@ const HomeScreen = () => {
             showNotifications={() => getSelectedRoute('notifications')}
             showProfile={() => getSelectedRoute('profile')}>
             {selectedSection === 'initial' ? (
-                <InitialPage setQrRoute={() => getSelectedRoute('code')}/>
+                <InitialPage setQrRoute={() => {getSelectedRoute('code'); dispatch(activateAutoGenerate()) }}/>
             ) : selectedSection === 'notifications' ? (
                 <NotificationsPage backHome={() => getSelectedRoute('initial')}/>
             ) : selectedSection === 'profile' ? (

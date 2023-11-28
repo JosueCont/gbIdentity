@@ -14,7 +14,7 @@ const NotificationsPage = ({backHome}) => {
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={true} goBack={backHome} title="Notificaciones (20)"/>
             {data.map((item,index) => (
-                <View style={styles.card}>
+                <View style={styles.card} key={index}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.date}>{moment(item.date,'DD-MM-YYYY').format('DD MMMM YYYY')}</Text>
                     <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item.description}</Text>

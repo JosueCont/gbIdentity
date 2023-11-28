@@ -19,7 +19,7 @@ const RecoverPasswordScreen = () => {
         setValidMail(true)
     }
     return(
-        <ScreenBaseAuth title="Recuperación de contraseña">
+        <ScreenBaseAuth title="Verificaremos sus datos, por favor ingrese la siguiente información">
             {modeRecover ? (
                 <RecoverPasswordCode />
             ):(

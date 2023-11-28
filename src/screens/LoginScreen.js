@@ -40,7 +40,7 @@ const LoginScreen = () => {
     return(
         <ScreenBaseAuth title="Bienvenido a nuestra era de digitalización">
             <View style={styles.contInputs}>
-                <Text style={styles.lblInput}>Correo electrónico / Código Colaborador</Text>
+                <Text style={styles.lblInput}>ID Colaborador</Text>
                 <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
                 <Text style={styles.lblInput}>Contraseña</Text>
                 <Input value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry/>
@@ -50,7 +50,7 @@ const LoginScreen = () => {
                     colorScheme={'green'} 
                     aria-label="" 
                     color={'green'} 
-                    icon={<Icon as={<AntDesign name="check"  color="black" />}/>}
+                    icon={isChecked && <Icon as={<AntDesign name="check"  color="black" />}/>}
                     value={isChecked}
                     onChange={() => dispatch(setValueCheckbox(!isChecked))}
                 />

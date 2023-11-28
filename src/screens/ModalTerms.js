@@ -21,7 +21,7 @@ const ModalTerms = () => {
                 style={styles.img}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Image source={require('../../assets/logoBimbo.png')} style={styles.imgHeader}/>
-                    <View style={{flexDirection:'row', padding:10 }}>
+                    {/*<View style={{flexDirection:'row', padding:10 }}>
                         <TouchableOpacity>
                             <AntDesign name="facebook-square" size={20} color={Colors.white} style={{marginRight:5}} />
                         </TouchableOpacity>
@@ -35,7 +35,7 @@ const ModalTerms = () => {
                             <AntDesign name="instagram" size={20} color={Colors.white} style={{marginRight:5}}/>
 
                         </TouchableOpacity>
-                    </View>
+                    </View>*/}
                 </View>
                 
                 <Text style={styles.title}>Términos y condiciones</Text>
