@@ -26,14 +26,33 @@ const commonConfig = {
         }
     },
     //"assets": ["./assets/fonts/"],
-    "owner": "appshuman"
+    "owner": "appshuman",
+    "plugins":[
+        [
+            "expo-notifications",
+            {
+              "icon": "./assets/icon.png",
+              "color": "#284ED4",
+              //"sounds": [
+              //  "./local/assets/notification-sound.wav",
+              //  "./local/assets/notification-sound-other.wav"
+              //]
+            }
+          ]
+    ]
 }
 
 const android = {
     "adaptiveIcon": {
         //"foregroundImage": "./assets/icon.png",
         "backgroundColor": "#284ED4"
-    }
+    },
+    "permissions": [
+        "INTERNET",
+        "ACCESS_MEDIA_LOCATION",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
+    ]
 }
 
 const ios = {

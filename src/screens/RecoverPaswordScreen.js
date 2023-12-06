@@ -8,18 +8,20 @@ import CustomButtom from "../components/CustomBtn";
 import { useNavigation } from "@react-navigation/core";
 import RecoverPasswordMail from "../components/RecoverPasswordMail";
 import RecoverPasswordCode from "../components/RecoverPassworCode";
+import { useDispatch, useSelector } from "react-redux";
 
 const {height, width} = Dimensions.get('window');
 
 const RecoverPasswordScreen = () => {
     const navigation = useNavigation();
     const [modeRecover, setModeRecover] = useState(false)
+    const isValidCollaborator = useSelector(state => state.authDuck.isValidCollaborator)
 
     const onValidateEmail = () => {
         setValidMail(true)
     }
     return(
-        <ScreenBaseAuth title="Verificaremos sus datos, por favor ingrese la siguiente información">
+        <ScreenBaseAuth title={isValidCollaborator ? 'Recuperación de contraseña' : "Verificaremos sus datos, por favor ingrese la siguiente información"}>
             {modeRecover ? (
                 <RecoverPasswordCode />
             ):(

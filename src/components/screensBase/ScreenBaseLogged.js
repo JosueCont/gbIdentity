@@ -13,8 +13,11 @@ import 'moment/locale/es';
 
 const {height, width} = Dimensions.get('window');
 
-const ScreenBaseLogged = ({children, showNotifications,showProfile}) => {
+const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRef}) => {
     const user = useSelector(state => state.authDuck.dataUser)
+    const badge = useSelector(state => state.notifyDuck.badgeNotification)
+
+    console.log('badge', badge, typeof badge)
 
     return(
         <View style={styles.container}>
@@ -32,9 +35,11 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile}) => {
                     style={styles.btnNoti}>
                     < >
                         <Entypo name="bell" size={16} color="black" />
-                        <View style={styles.contlblIcon}>
-                            <Text style={{fontSize:getFontSize(12), color:Colors.white,}} >20+</Text>
-                        </View>
+                        {badge >0  ? (
+                            <View style={styles.contlblIcon}>
+                                <Text style={{fontSize:getFontSize(12), color:Colors.white,}} >{badge.toString()}+</Text>
+                            </View>
+                        ):null}
                     </>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', paddingHorizontal:12}}>
@@ -44,8 +49,8 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile}) => {
                     </TouchableOpacity>
                     <View style={{flexDirection:'column', marginLeft:12}}>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Bienvenido de nuevo</Text>
-                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.name.split(' ')[0]}</Text>
-                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.lastName.split(' ')[0]}</Text>
+                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.name?.split(' ')[0]}</Text>
+                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.lastName?.split(' ')[0]}</Text>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Miembro desde:</Text>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white, textTransform:'capitalize'}}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>
                     </View>
@@ -53,6 +58,7 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile}) => {
 
             </View>
             <ScrollView
+                ref={scrollViewRef}
                 keyboardShouldPersistTaps='handled'
                 automaticallyAdjustKeyboardInsets
                 nestedScrollEnabled={true}

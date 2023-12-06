@@ -4,22 +4,71 @@ import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import moment from "moment/moment";
 import HeaderContent from "../HeaderContent";
+import { useSelector, useDispatch} from "react-redux";
+import { getReadNotification, cancelReadNotify } from "../../store/ducks/notificationsDuck";
+import { getNotifications } from "../../store/ducks/notificationsDuck";
 import data from '../../utils/notificationsMockData.json'
 
 const {height, width} = Dimensions.get('window');
 
-const NotificationsPage = ({backHome}) => {
-    console.log('notifications',data)
+const NotificationsPage = ({backHome, userId,moveOnTop}) => {
+    const dispatch = useDispatch();
+    const notifications = useSelector(state => state.notifyDuck.notifications)
+    const total = useSelector(state => state.notifyDuck.totalNotifications)
+    const badge = useSelector(state => state.notifyDuck.badgeNotification)
+    const current = useSelector(state => state.notifyDuck.current)
+    const totalPages = useSelector(state => state.notifyDuck.totalPages)
+
+
+
+
+    useEffect(() => {
+        verifyNotify()
+        
+    })
+    
+    const verifyNotify = async() => {
+        
+        console.log('ller las notificaciones')
+        if(badge > 0) dispatch(await getReadNotification({userId, date: moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')}))
+        else dispatch(cancelReadNotify())
+    }
+
+
+    const getIndicators = (item) => {
+        if(!item || typeof item !=='number') return null;
+    
+        let indicators = [];
+        for( let i=0; i<item; i++){
+          indicators.push(i);
+        }
+        return indicators.map((indicator,index) => (
+            <TouchableOpacity 
+                key={index}
+                disabled={current === index+1}
+                onPress={() => {dispatch(getNotifications(userId,index+1)); moveOnTop()}}
+                style={{ marginRight:8, justifyContent:'center',alignItems:'center', width:20, backgroundColor: current === index+1 ? Colors.blue : Colors.white, borderRadius:8}}>
+                <Text style={{fontSize: getFontSize(15), color: current === index+1 ? Colors.white : Colors.black, textAlign:'center'}}>{index+1}</Text>
+            </TouchableOpacity>
+        ))
+    }
+
+
+
+
     return(
         <View style={styles.container}>
-            <HeaderContent isVisibleTitle={true} goBack={backHome} title="Notificaciones (20)"/>
-            {data.map((item,index) => (
+            <HeaderContent isVisibleTitle={true} goBack={backHome} title={`Notificaciones (${total})`}/>
+            {notifications.map((item,index) => (
                 <View style={styles.card} key={index}>
                     <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.date}>{moment(item.date,'DD-MM-YYYY').format('DD MMMM YYYY')}</Text>
-                    <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item.description}</Text>
+                    <Text style={styles.date}>{moment(item?.createdAt,).format('DD MMMM YYYY HH:mm')}</Text>
+                    <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item?.description}</Text>
                 </View>
             ))}
+            {notifications.length > 0  ? (
+                <View style={{flexDirection:'row'}}>{getIndicators(totalPages)}</View>
+            ): null}
         </View>
     )
 }

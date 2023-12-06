@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { refreshToken } from "./ApiApp";
 
 
-export const baseURL = 'http://gbwallet.hiumanlab.com/'//'http://192.168.1.108:5213';
+export const baseURL = 'https://gbwallet.hiumanlab.com'//'http://192.168.1.108:5213';
 
 
 let config = {
@@ -19,29 +19,36 @@ let APIKit = axios.create(config);
 
 APIKit.defaults.timeout = timeOut;
 
-APIKit.interceptors.request.use(function (config) {
+APIKit.interceptors.request.use(async(config) => {
+    try {
+        let token = await AsyncStorage.getItem('accessToken');
+        if (token) config.headers.Authorization =`Bearer ${JSON.parse(token)}`;
+    } catch (e) {
+        console.log('APIKit.interceptors.request error =>',e.toString())
+
+    }
     return config;
 });
 
 APIKit.interceptors.response.use((config)  => config,
-    async(error) => {
-        const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry){
-            const dataUser = await AsyncStorage.getItem('user');
-            let user = JSON.parse(dataUser)
-            if(user){
-                const newToken = await refreshToken({token:user?.refreshToken});
-                if (newToken.data.statusCode === 200 && !originalRequest._retry){
-                    originalRequest._retry = true;
-                    await AsyncStorage.setItem('user',JSON.stringify(newToken.data));
-                    return APIKit(originalRequest);
-                }
-            }else{
-                return Promise.reject(error);
-            }
-
-        }
-    }
+    //async(error) => {
+    //    const originalRequest = error.config;
+    //    if (error.response.status === 401 && !originalRequest._retry){
+    //        const dataUser = await AsyncStorage.getItem('user');
+    //        let user = JSON.parse(dataUser)
+    //        if(user){
+    //            const newToken = await refreshToken({token:user?.refreshToken});
+    //            if (newToken.data.statusCode === 200 && !originalRequest._retry){
+    //                originalRequest._retry = true;
+    //                await AsyncStorage.setItem('user',JSON.stringify(newToken.data));
+    //                return APIKit(originalRequest);
+    //            }
+    //        }else{
+    //            return Promise.reject(error);
+    //        }
+//
+    //    }
+    //}
 );
 
 export const axiosPost = async (url, data) => {

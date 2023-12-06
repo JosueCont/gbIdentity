@@ -17,5 +17,6 @@ export const Colors = {
     inputV2:'#E1E1F8',
     purple:'#716BB0',
     lightPurple:'#B56F73',
+    lightBlue:'#4979D1'
     
 }

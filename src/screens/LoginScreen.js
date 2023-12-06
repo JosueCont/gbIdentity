@@ -64,7 +64,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.center} onPress={() => navigation.navigate('RecoverPassword')}>
                 <>
-                    <Text style={styles.lblRecover}>No recuerdas tus credenciales</Text>
+                    <Text style={styles.lblRecover}>¿No recuerdas tus credenciales?</Text>
                     <Text style={styles.lblRecover}>Recuperalas aqui</Text>
                 </>
             </TouchableOpacity>
