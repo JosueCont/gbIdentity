@@ -49,7 +49,7 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                     </TouchableOpacity>
                     <View style={{flexDirection:'column', marginLeft:12}}>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Bienvenido de nuevo</Text>
-                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.name?.split(' ')[0]}</Text>
+                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.firstName?.split(' ')[0]}</Text>
                         <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.lastName?.split(' ')[0]}</Text>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Miembro desde:</Text>
                         <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white, textTransform:'capitalize'}}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>

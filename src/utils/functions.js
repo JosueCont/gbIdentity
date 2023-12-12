@@ -7,10 +7,10 @@ import Constants from 'expo-constants';
 const fontScale = PixelRatio.getFontScale();
 export const getFontSize = size => size/fontScale;
 
-export const saveTokens = async(access, refresh, user) => {
+export const saveTokens = async(access, user) => {
     try {
         await AsyncStorage.setItem('accessToken', JSON.stringify(access));
-        await AsyncStorage.setItem('refreshToken', JSON.stringify(refresh));
+        //await AsyncStorage.setItem('refreshToken', JSON.stringify(refresh));
         await AsyncStorage.setItem('user', JSON.stringify(user));
 
 

@@ -12,6 +12,7 @@ const CHANGE_PASSWORD = 'change_password';
 const CHANGE_CHECKBOX = 'change_checkbox';
 const CHANGE_REPEAT_PASSWOTD = 'change_repeat_password';
 const CLOSE_MODAL = 'close_modal'
+const CHANGE_INPUT = 'change_input'
 
 const LOADER = 'loader';
 const LOGIN_SUCCESS = 'login_success';
@@ -23,6 +24,9 @@ const RECOVER_PASSWORD_FAILED = 'recover_password_failed';
 const NO_SIMILAR_PASSWORD = 'no_similar_password';
 const PASSWORD_CHANGED_SUCESS = 'password_changed_sucess'
 const PASSWORD_CHANGED_FAILED = 'password_changed_failed'
+const CREATED_USER_SUCCESS = 'created_user';
+const VALIDATE_COLABORATOR_NEW_USER = 'validate_colaborator_new_user';
+const EXPIRED_PASSWORD = 'expired_password';
 
 const initialState = {
     email:'',
@@ -37,7 +41,12 @@ const initialState = {
     modalRecover:false,
     repeatPassword:'',
     isChangedPassword:false,
-    userId:''
+    userId:'',
+    ingress:'',
+    birthdayDate:'',
+    isCreatedUser:false,
+    isValidateToNewUser:false,
+    isExpiredPassword:false
 }
 
 const authDuck = (state = initialState, action) => {
@@ -62,14 +71,22 @@ const authDuck = (state = initialState, action) => {
             return{ ...state, [action.payload.prop]:action.payload.value}
         case RECOVER_PASSWORD_SUCCESS:
             return {...state, isValidCollaborator:true, loading: false, userId: action.payload }
+        case VALIDATE_COLABORATOR_NEW_USER:
+            return{ ...state, isValidateToNewUser: true, loading: false, userId: action.payload }
         case RECOVER_PASSWORD_FAILED:
-            return{ ...state, isValidCollaborator: false, message: action.message, modalRecover: true, loading: false, email:''}
+            return{ ...state, isValidCollaborator: false, message: action.message, modalRecover: true, loading: false, email:'', ingress:'', birthdayDate:''}
         case NO_SIMILAR_PASSWORD:
             return{ ...state, message: action.message, modalRecover: true, loading:false, repeatPassword:''}
         case PASSWORD_CHANGED_SUCESS:
-            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false}
+            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:''}
+        case CREATED_USER_SUCCESS:
+            return{ ...state, isCreatedUser:true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:''}
         case PASSWORD_CHANGED_FAILED:
-            return{ ...state, isChangedPassword:false, modalRecover:true, message: action.message, loading:false, repeatPassword:'',password:''}
+            return{ ...state, isChangedPassword:false, modalRecover:true, message: action.message, loading:false, repeatPassword:'',password:'', isCreatedUser:false}
+        case CHANGE_INPUT:
+            return{ ...state, [action.payload.prop]:action.payload.value}
+        case EXPIRED_PASSWORD:
+            return{ ...state,  loading: false, message: action.message, isLogged: false,  password:'',isChecked:false, isExpiredPassword:true }
         default:
             return state;
     }
@@ -103,13 +120,20 @@ export const setValueCheckbox = (data) => {
     }
 }
 
+export const changeInput = ({prop, value}) =>  {
+    return{
+        type: CHANGE_INPUT,
+        payload: {prop, value}
+    }
+}
+
 export const loginAction = (data) => async(dispatch) => {
     try {
         dispatch({type: LOADER})
         const login = await postLogin(data)
+        console.log('dataYSe',login?.data)
         if(login?.data?.user?.id && login?.data?.user?.userType === 3){
-            console.log('dataYSe',login?.data)
-            await saveTokens(login?.data?.accessToken, login?.data?.refreshToken, login?.data?.user)
+            await saveTokens(login?.data?.accessToken, login?.data?.user)
             dispatch({type: LOGIN_SUCCESS, payload: login.data.user})
         }else{
             dispatch({type: LOGIN_FAILED, message:'El correo o la contraseña son incorrectos'})
@@ -117,7 +141,9 @@ export const loginAction = (data) => async(dispatch) => {
 
     } catch (e) {
         console.log('error',e)
-        dispatch({type: LOGIN_FAILED, message:'Ha ocurrido un error, intenta otra vez'})
+        if(e?.response?.data?.code === 'RecoverPassword'){
+            dispatch({type: EXPIRED_PASSWORD, message:'La contraseña ha caducado, te dirigirá a restablecer'})
+        }else dispatch({type: LOGIN_FAILED, message:'Ha ocurrido un error, intenta otra vez'})
 
     }
 }
@@ -171,7 +197,8 @@ export const onValidateCollaborator = (data) => async(dispatch) => {
         console.log('response',response?.data)
         if(response?.data?.id){
             setTimeout(() =>{
-                dispatch({type: RECOVER_PASSWORD_SUCCESS, payload: response?.data?.id})
+                if(data.isNewUser) dispatch({type: VALIDATE_COLABORATOR_NEW_USER, payload: response?.data?.id})
+                else dispatch({type: RECOVER_PASSWORD_SUCCESS, payload: response?.data?.id})
             },500)
         }else{
             dispatch({type: RECOVER_PASSWORD_FAILED, message: 'Los datos ingresados no son validos'})
@@ -195,7 +222,8 @@ export const onChangeCollaboratorPassword = (data) => async(dispatch) => {
         const response = await postChangeCollaboratorPassword(dataSend)
         console.log('cambio de contraseña', response?.data)
         //Validar que se hizo el cambio
-        dispatch({type: PASSWORD_CHANGED_SUCESS})
+        if(data.isNewUser) dispatch({type: CREATED_USER_SUCCESS})
+        else dispatch({type: PASSWORD_CHANGED_SUCESS})
     } catch (e) {
         dispatch({type: PASSWORD_CHANGED_FAILED, message:'Algo salio mal, intentalo de nuevo'})
         console.log('errorm',e)
@@ -204,10 +232,12 @@ export const onChangeCollaboratorPassword = (data) => async(dispatch) => {
 
 export const validatePassword = (data) => async(dispatch) =>{
     if (data.password.localeCompare(data.repeatPassword) === 0) {
-        console.log('Las contraseñas son iguales');
+        console.log('Las contraseñas son iguales',data);
         //mandar userId tambien
         dispatch(onChangeCollaboratorPassword(data))
       } else {
+        console.log('Las contraseñas no iguales',data);
+
         dispatch({type: NO_SIMILAR_PASSWORD, message: 'Las contraseñas no coinciden, intenta de nuevo'})
       }
 }

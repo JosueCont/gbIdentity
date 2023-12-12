@@ -4,7 +4,7 @@ import ScreenBaseAuth from "../components/screensBase/ScreenBaseAuth";
 import { Colors } from "../utils/Colors";
 import { getFontSize } from "../utils/functions";
 import Input from "../components/CustomInput";
-import { Checkbox, Icon } from "native-base";
+import { Checkbox, Icon, useToast, Toast, Alert, VStack, HStack, } from "native-base";
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,12 +19,15 @@ const {height, width} = Dimensions.get('window');
 const LoginScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const toast = useToast();
 
     const email = useSelector(state => state.authDuck.email)
     const password = useSelector(state => state.authDuck.password)
     const isChecked = useSelector(state => state.authDuck.isChecked)
     const loader = useSelector(state => state.authDuck.loading)
     const modalActive = useSelector(state => state.authDuck.modalErrorLogin)
+    const isExpiredPassword = useSelector(state => state.authDuck.isExpiredPassword)
+    const message = useSelector(state => state.authDuck.message)
 
 
     //const [email, setEmail] = useState('');
@@ -36,6 +39,32 @@ const LoginScreen = () => {
         if(email != '' && password != '' && isChecked) setDisableBtn(false)
         else setDisableBtn(true)
     },[email, password, isChecked])
+
+    useEffect(() => {
+        if(isExpiredPassword){
+            toast.show({
+                placement:'top',
+                render:({id}) => {
+                    return(
+                        <Alert maxWidth="100%" alignSelf="center" flexDirection="row" status='warning' variant='solid' backgroundColor={Colors.orange}>
+                            <VStack space={1} flexShrink={1} w="100%" >
+                                <HStack flexShrink={1} alignItems="center" justifyContent="space-between" >
+                                    <HStack space={2} flexShrink={1} alignItems="center">
+                                        <Alert.Icon/>
+                                        <Text>La contraseña ha caducado</Text>
+                                    </HStack>
+                                </HStack>
+                                <Text style={{marginLeft:20}}>Redireccionando a restablecer la contraseña...</Text>
+                            </VStack>
+                        </Alert>
+                    )
+                }
+            })
+            setTimeout(() => {
+                navigation.navigate('RecoverPassword')
+            },3000)
+        }
+    },[isExpiredPassword])
 
     return(
         <ScreenBaseAuth title="Bienvenido a nuestra era de digitalización">
@@ -50,9 +79,9 @@ const LoginScreen = () => {
                     colorScheme={'green'} 
                     aria-label="" 
                     color={'green'} 
-                    icon={isChecked && <Icon as={<AntDesign name="check"  color="black" />}/>}
+                    //icon={<Icon as={<AntDesign name="check"  color="black" />}/>}
                     value={isChecked}
-                    onChange={() => dispatch(setValueCheckbox(!isChecked))}
+                    onChange={(val) => dispatch(setValueCheckbox(val))}
                 />
                 <Text style={styles.lblAcep}>Acepto los <Text style={styles.termsCond} onPress={() => navigation.navigate('ModalTerms')}>términos y condiciones</Text></Text>
             </View>
@@ -61,6 +90,12 @@ const LoginScreen = () => {
                 disabled={disableBtn}
                 onPress={() => dispatch(loginAction({email,password}))}>
                 {loader ? <Spinner size={'sm'} color={'white'}></Spinner> :<Text style={styles.lblIn}>Ingresar</Text>}
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={[styles.btnIn,{backgroundColor: Colors.darkBlue,}]} 
+                //disabled={disableBtn}
+                onPress={() => navigation.navigate('CreateUser')}>
+                <Text style={styles.lblIn}>Crear cuenta</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.center} onPress={() => navigation.navigate('RecoverPassword')}>
                 <>
@@ -86,13 +121,14 @@ const styles = StyleSheet.create({
     },
     row:{
         flexDirection:'row',
+        marginBottom:30
     },
     center:{
         justifyContent:'center', 
         alignItems:'center'
     },
     btnIn:{
-        marginTop:30, 
+        //marginTop:30, 
         width: width/1.27, 
         height:50,  
         justifyContent:'center', 

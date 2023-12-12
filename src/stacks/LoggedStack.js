@@ -29,10 +29,10 @@ const LoggedStack = () => {
         getExpoToken();
 
         // This listener is fired whenever a notification is received while the app is foregrounded
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        notificationListener.current = Notifications.addNotificationReceivedListener(async(notification) => {
             //setNotification(notification);
             console.log('notification',notification)
-            dispatch(getInitialData({userId}))
+            await dispatch(getInitialData({userId}))
         });
 
         // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)

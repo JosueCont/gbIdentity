@@ -13,6 +13,8 @@ import ModalErrorLogin from "./modals/ModalErrorLogin";
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from "moment";
 import { AntDesign } from '@expo/vector-icons'; 
+import FormValidateUser from "./FormValidateUser";
+import FormConfirmPassword from "./FormConfirmPassword";
 
 
 const {height, width} = Dimensions.get('window');
@@ -31,18 +33,18 @@ const RecoverPasswordMail = ({setModeRecover}) => {
     const modalActive = useSelector(state => state.authDuck.modalRecover)
     const isChangedPassword = useSelector(state => state.authDuck.isChangedPassword)
 
-    const [date, setDate] = useState(new Date());
-    const [ingressDate, setIngressDate] = useState(new Date());
-    const [birthdayDate, setBirthdayDate] = useState('')
-    const [ingress, setIngress] = useState('')
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showDatePickerBirthday, setShowDatePickerBirthdat] = useState(false)
-    const [disabledButon, setDisble] = useState(false)
+    //const [date, setDate] = useState(new Date());
+    //const [ingressDate, setIngressDate] = useState(new Date());
+    //const [birthdayDate, setBirthdayDate] = useState('')
+    //const [ingress, setIngress] = useState('')
+    //const [showDatePicker, setShowDatePicker] = useState(false);
+    //const [showDatePickerBirthday, setShowDatePickerBirthdat] = useState(false)
+    //const [disabledButon, setDisble] = useState(false)
 
-    useEffect(() => {
-        if(email != '' && ingress != '' && birthdayDate != '') setDisble(false)
-        else setDisble(true)
-    },[email, ingress,birthdayDate])
+    //useEffect(() => {
+    //    if(email != '' && ingress != '' && birthdayDate != '') setDisble(false)
+    //    else setDisble(true)
+    //},[email, ingress,birthdayDate])
 
     useEffect(() => {
         if(isChangedPassword){
@@ -53,11 +55,12 @@ const RecoverPasswordMail = ({setModeRecover}) => {
     },[isChangedPassword])
 
 
-    const onShowDatepicker = () => {
-        setShowDatePicker(!showDatePicker);
-    };
 
-    const onShowDatePickerBirthDay = () => {
+    //const onShowDatepicker = () => {
+    //    setShowDatePicker(!showDatePicker);
+    //};
+
+    /*const onShowDatePickerBirthDay = () => {
         setShowDatePickerBirthdat(!showDatePickerBirthday)
     }
 
@@ -76,9 +79,9 @@ const RecoverPasswordMail = ({setModeRecover}) => {
             //onShowDatepicker()
             console.log('entro aqui')
         }
-    };
+    };*/
 
-    const handleDateChangeBirthDay = ({type}, selectedDate) => {
+    /*const handleDateChangeBirthDay = ({type}, selectedDate) => {
         console.log('event',type)
         if(type === 'set'){
             const currentDate = selectedDate || date;
@@ -93,22 +96,24 @@ const RecoverPasswordMail = ({setModeRecover}) => {
             //onShowDatepicker()
             console.log('entro aqui')
         }
-    };
-    const confirmIOSDate = (type) => {
-        if(type === 'ingress'){
-            setIngress(moment(ingressDate.toDateString()).format('DD MMMM YYYY'))
-            onShowDatepicker()
-
-        }else{
-            setBirthdayDate(moment(date.toDateString()).format('DD MMMM YYYY'))
-            onShowDatePickerBirthDay()
-        }
-    }
+    };*/
+    //const confirmIOSDate = (type) => {
+    //    if(type === 'ingress'){
+    //        setIngress(moment(ingressDate.toDateString()).format('DD MMMM YYYY'))
+    //        onShowDatepicker()
+//
+    //    }else{
+    //        setBirthdayDate(moment(date.toDateString()).format('DD MMMM YYYY'))
+    //        onShowDatePickerBirthDay()
+    //    }
+    //}
 
     return(
         <>
             {isValidMail ? !isChangedPassword ? (
-                <View style={{marginTop:100}}>
+                <>
+                <FormConfirmPassword isNewUser={false} title='Recuperar'/>
+                {/*<View style={{marginTop:100}}>
                     <View style={{marginBottom:20}}>
                         <Text style={styles.lbl}>Ingrese su nueva contraseña</Text>
                         <Input 
@@ -127,7 +132,8 @@ const RecoverPasswordMail = ({setModeRecover}) => {
                     </View>
                     <CustomButtom title='Recuperar' onPressed={() => dispatch(validatePassword({password, repeatPassword, userId}))} />
 
-                </View>
+            </View>*/}
+            </>
             ):
             (
                 <>
@@ -141,7 +147,8 @@ const RecoverPasswordMail = ({setModeRecover}) => {
 
             ):(
                 <>
-                    <View style={{marginTop:40}}>
+                <FormValidateUser isNewUser={false}/>
+                    {/*<View style={{marginTop:40}}>
                         <Text style={styles.lbl}>ID colaborador</Text>
                         <Input 
                             value={email} 
@@ -226,7 +233,7 @@ const RecoverPasswordMail = ({setModeRecover}) => {
                             loading={loader} 
                             isDisabled={disabledButon}
                         />
-                    </View>
+                            </View>*/}
                     {/*<Text style={styles.help}>¿Usted ingresa con el número de colaborador y no tiene un correo electrónico institucional?</Text>
                     <TouchableOpacity style={styles.btn} onPress={setModeRecover}>
                         <Text style={styles.click}>Haga click aqui</Text>
