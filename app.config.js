@@ -15,7 +15,10 @@ const commonConfig = {
       "**/*"
     ],
     "updates": {
-        "fallbackToCacheTimeout": 0
+        "url": "https://u.expo.dev/01ba6eee-26b8-4d4c-94e6-e90a2a73a05b"
+    },
+    "runtimeVersion": {
+        "policy": "sdkVersion"
     },
     "web": {
         "favicon": "./assets/icon.png"

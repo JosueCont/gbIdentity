@@ -19,6 +19,7 @@
     "expo-device": "~5.4.0",
     "expo-notifications": "~0.20.1",
     "expo-status-bar": "~1.6.0",
+    "expo-updates": "~0.18.17",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",
     "patch-package": "^8.0.0",
