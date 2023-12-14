@@ -5,6 +5,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RecoverPasswordScreen from "../screens/RecoverPaswordScreen";
 import ModalTerms from "../screens/ModalTerms";
 import CreateUserScreen from "../screens/CreateUserScreen";
+import UpdatePassword from "../screens/UpdatePassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,9 +18,10 @@ const AuthStack = () => {
             screenOptions={({navigation, route}) =>({
                 headerShown:false
             })}>
-                <Stack.Screen  name='Login' component={LoginScreen} />
+                <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='RecoverPassword' component={RecoverPasswordScreen} />
                 <Stack.Screen name="CreateUser" component={CreateUserScreen}/>
+                <Stack.Screen name="UpdatePassword" component={UpdatePassword}/>
                 <Stack.Group screenOptions={{presentation:'transparentModal', headerShown:false, animation:'slide_from_bottom', gestureEnabled:true }} >
                     <Stack.Screen name="ModalTerms" component={ModalTerms}/>
                 </Stack.Group>

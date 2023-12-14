@@ -1,18 +1,21 @@
 import React,{useEffect, useState} from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Spinner } from "native-base";
 import Input from "./CustomInput";
 import CustomButtom from "./CustomBtn";
 import { Colors } from "../utils/Colors";
 import { getFontSize } from "../utils/functions";
-import { validatePassword, setValuePAssword,setRepeatPassword } from "../store/ducks/authDuck";
+import { validatePassword, setValuePAssword,setRepeatPassword, resetPassword } from "../store/ducks/authDuck";
 import { useDispatch, useSelector } from "react-redux";
 
-const FormConfirmPassword = ({isNewUser, title}) => {
+const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
     const dispatch = useDispatch();
 
     const password = useSelector(state => state.authDuck.password)
     const repeatPassword = useSelector(state => state.authDuck.repeatPassword)
     const userId = useSelector(state => state.authDuck.userId)
+    const id = useSelector(state => state.authDuck.email)
+    const loading = useSelector(state => state.authDuck.loading)
 
     return(
         <View style={{marginTop:100}}>
@@ -32,7 +35,12 @@ const FormConfirmPassword = ({isNewUser, title}) => {
                     secureTextEntry/>
 
             </View>
-            <CustomButtom title={title} onPressed={() => dispatch(validatePassword({password, repeatPassword, userId, isNewUser}))} />
+            <CustomButtom 
+                loading={loading}
+                isDisabled={!(password != '' && repeatPassword !='')}
+                title={title} 
+                onPressed={() => dispatch(validatePassword({password, repeatPassword, userId, isNewUser, id, isContainToken}))} 
+            />
 
         </View>
     )

@@ -2,7 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { 
     postLogin, postRecoverPassword, postValidateDataCollaborator, postChangeCollaboratorPassword,
     postSaveExpoToken,
-    logoutUser
+    logoutUser,
+    postChangeExpiredPassword
  } from "../../utils/ApiApp";
 import { saveTokens } from "../../utils/functions";
 import moment from "moment";
@@ -27,6 +28,8 @@ const PASSWORD_CHANGED_FAILED = 'password_changed_failed'
 const CREATED_USER_SUCCESS = 'created_user';
 const VALIDATE_COLABORATOR_NEW_USER = 'validate_colaborator_new_user';
 const EXPIRED_PASSWORD = 'expired_password';
+const CHANGE_EXPIRED_PASSWORD_SUCCES = 'change_expired_password_succes'
+const CHANGE_EXPIRED_PASSWORD_FAILED = 'change_expired_password_failed'
 
 const initialState = {
     email:'',
@@ -46,7 +49,8 @@ const initialState = {
     birthdayDate:'',
     isCreatedUser:false,
     isValidateToNewUser:false,
-    isExpiredPassword:false
+    isExpiredPassword:false,
+    tokenProvitional:''
 }
 
 const authDuck = (state = initialState, action) => {
@@ -86,7 +90,11 @@ const authDuck = (state = initialState, action) => {
         case CHANGE_INPUT:
             return{ ...state, [action.payload.prop]:action.payload.value}
         case EXPIRED_PASSWORD:
-            return{ ...state,  loading: false, message: action.message, isLogged: false,  password:'',isChecked:false, isExpiredPassword:true }
+            return{ ...state,  loading: false, message: action.message, isLogged: false,  password:'',isChecked:false, isExpiredPassword:true, tokenProvitional: action.payload }
+        case CHANGE_EXPIRED_PASSWORD_SUCCES:
+            return{ ...state, loading: false, isExpiredPassword:false, tokenProvitional:'', repeatPassword:'', password:'',isChangedPassword:true}
+        case CHANGE_EXPIRED_PASSWORD_FAILED:
+            return{ ...state, loading: false, modalRecover:true, message: action.payload, repeatPassword:'', password:''}
         default:
             return state;
     }
@@ -142,7 +150,10 @@ export const loginAction = (data) => async(dispatch) => {
     } catch (e) {
         console.log('error',e)
         if(e?.response?.data?.code === 'RecoverPassword'){
-            dispatch({type: EXPIRED_PASSWORD, message:'La contraseña ha caducado, te dirigirá a restablecer'})
+            dispatch({
+                type: EXPIRED_PASSWORD, 
+                message:'La contraseña ha caducado, te dirigirá a restablecer',
+                payload: e?.response?.data?.token})
         }else dispatch({type: LOGIN_FAILED, message:'Ha ocurrido un error, intenta otra vez'})
 
     }
@@ -234,7 +245,8 @@ export const validatePassword = (data) => async(dispatch) =>{
     if (data.password.localeCompare(data.repeatPassword) === 0) {
         console.log('Las contraseñas son iguales',data);
         //mandar userId tambien
-        dispatch(onChangeCollaboratorPassword(data))
+        if(data.isContainToken != '') dispatch(resetPassword(data))
+        else dispatch(onChangeCollaboratorPassword(data))
       } else {
         console.log('Las contraseñas no iguales',data);
 
@@ -255,9 +267,18 @@ export const createSession = () => async(dispatch) => {
 
 export const resetPassword = (data) => async(dispatch) => {
     try {
-        console.log('data a mandat',data)
+        dispatch({type:LOADER})
+        let dataSend = {
+            collaboratorId: data.id,
+            token: data.isContainToken,
+            newPassword: data.password
+        }
+        const response = await postChangeExpiredPassword(dataSend)
+        if(response?.data?.succeeded) dispatch({type: CHANGE_EXPIRED_PASSWORD_SUCCES})
+        console.log('data response',response.data)
     } catch (e) {
-        console.log('error al resetear password')
+        console.log('error al cahmbiar password expirado',e)
+        dispatch({type: CHANGE_EXPIRED_PASSWORD_FAILED, message:'Error al cambiar password, intentalo de nuevo'})
     }
 }
 
@@ -273,6 +294,7 @@ export const saveExpoToken = (data) => async(dispatch) => {
         console.log('error save expoToken',e)
     }
 }
+
 
 
 export default authDuck;

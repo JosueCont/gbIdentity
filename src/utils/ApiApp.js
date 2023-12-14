@@ -10,6 +10,7 @@ export const postLogin = async(data) => await axiosPost(axiosTypes.LOGIN, data)
 export const postRecoverPassword = async(data) => await axiosPost(axiosTypes.RECOVER_PASSWORD, data)
 export const postValidateDataCollaborator = async(data) => await axiosPost(axiosTypes.VALIDATE_COLLABORATOR, data)
 export const postChangeCollaboratorPassword = async(data) => await axiosPost(axiosTypes.CHANGE_COLLABORATOR_PASSWORD, data)
+export const postChangeExpiredPassword = async(data) => await axiosPost(axiosTypes.CHANGE_EXPIRED_PASSWORD,data)
 
 export const refreshToken = async(data) => await axiosPost(axiosTypes.REFRESH_TOKEN, data)
 export const logoutUser = async(data) => await axiosPost(axiosTypes.LOGOUT,data)

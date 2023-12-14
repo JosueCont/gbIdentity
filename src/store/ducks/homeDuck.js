@@ -73,37 +73,23 @@ const homeDuck = (state = initialState, action) => {
 
 export const getCodeQR = ({isRunning, userId}) => async(dispatch) => {
     try {
-        console.log('userId',userId)
         dispatch({type: LOADING})
         if(isRunning != true){
-            //Aqui se cambiará por el endpoint debería traer el texto y el contador como response 
-            /*const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let resultado = '';
-            
-            for (let i = 0; i < 8; i++) {
-                const indice = Math.floor(Math.random() * caracteres.length);
-                resultado += caracteres.charAt(indice);
-            }
-            dispatch({type: SET_CODE, payload: resultado})
-            if(resultado != ''){
-                dispatch(getCounter(counter))
-            }*/
-            //let counter = 40
             const code = await getDinamicCode(userId)
             if(code?.data?.code != ''){
-                await createAccessLocation({name:code?.data?.code})
-                const locationsActives = (await getAccesLocationActives())?.data || [];
-                let accessLocation = locationsActives?.filter(item => item.name === code?.data?.code)
-                let dataSend = {
-                    code: code?.data?.code,
-                    userId: userId,
-                    accessLocationId: accessLocation[0]?.id
-                }
-                const isValidate = await validateQrCode(dataSend)
-                if(isValidate.data){
+                //await createAccessLocation({name:code?.data?.code})
+                //const locationsActives = (await getAccesLocationActives())?.data || [];
+                //let accessLocation = locationsActives?.filter(item => item.name === code?.data?.code)
+                //let dataSend = {
+                //    code: code?.data?.code,
+                //    userId: userId,
+                //    accessLocationId: accessLocation[0]?.id
+                //}
+                //const isValidate = await validateQrCode(dataSend)
+                //if(isValidate.data){
                     dispatch({type: SET_CODE, payload: code?.code})
                     dispatch(getCounter(code?.data?.seconds))
-                }
+                //}
             }
 
         }else console.log('no es necesario hacer uno nuevo')

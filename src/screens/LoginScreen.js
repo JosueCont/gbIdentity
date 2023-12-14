@@ -61,7 +61,7 @@ const LoginScreen = () => {
                 }
             })
             setTimeout(() => {
-                navigation.navigate('RecoverPassword')
+                navigation.navigate('UpdatePassword')
             },3000)
         }
     },[isExpiredPassword])
