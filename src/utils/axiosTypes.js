@@ -13,5 +13,6 @@ export const axiosTypes = {
     GET_BADGE_NOTIFY:'/Notifications/Badge',
     READ_NOTIFICATIONS:'/Notifications/Read',
     LOGOUT: '/Auth/Logout',
-    CHANGE_EXPIRED_PASSWORD: '/Auth/ConfirmRecoveryPasswordCollaborator'
+    CHANGE_EXPIRED_PASSWORD: '/Auth/ConfirmRecoveryPasswordCollaborator',
+    ACCESS_LOG_COLLABORATOR:'/AccessLog/Collaborator'
 }

@@ -5,7 +5,7 @@ import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
-import { cancelAutoGenerateCode, activateAutoGenerate } from "../store/ducks/homeDuck";
+import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser } from "../store/ducks/homeDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,6 +31,12 @@ const HomeScreen = () => {
     useEffect(() => {
         if(selectedSection === 'initial' || isReadNotify) getInfoNotifcationInit()
     },[selectedSection, isReadNotify])
+
+    //useEffect(() => {
+    //    (async() => {
+    //        //if(userId && userId != undefined ) dispatch(await getLogsUser({userId,}))
+    //    })();
+    //},[])
 
     const getInfoNotifcationInit = async() => {
         dispatch(await getInitialData({userId}))

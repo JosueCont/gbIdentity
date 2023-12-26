@@ -15,6 +15,9 @@ export const postChangeExpiredPassword = async(data) => await axiosPost(axiosTyp
 export const refreshToken = async(data) => await axiosPost(axiosTypes.REFRESH_TOKEN, data)
 export const logoutUser = async(data) => await axiosPost(axiosTypes.LOGOUT,data)
 
+//AccessLog
+export const postAccessLogList = async(data) => await axiosPost(axiosTypes.ACCESS_LOG_COLLABORATOR,data)
+
 //Code
 export const getDinamicCode = async(id) => await axiosGet(`${axiosTypes.GET_CODE}${id}`);
 export const createAccessLocation = async(code) => await axiosPost(axiosTypes.CREATE_ACCESSLOCATION, code)

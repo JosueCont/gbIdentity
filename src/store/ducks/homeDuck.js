@@ -87,7 +87,7 @@ export const getCodeQR = ({isRunning, userId}) => async(dispatch) => {
                 //}
                 //const isValidate = await validateQrCode(dataSend)
                 //if(isValidate.data){
-                    dispatch({type: SET_CODE, payload: code?.code})
+                    dispatch({type: SET_CODE, payload: code?.data?.code})
                     dispatch(getCounter(code?.data?.seconds))
                 //}
             }
@@ -142,6 +142,20 @@ export const closeModalHome = ({prop, value, message=''}) => {
     return{
         type: CLOSE_MODAL,
         payload: {prop, value, message }
+    }
+}
+
+export const getLogsUser = (data) => async(dispatch) => {
+    try {
+        let dataSend = {
+            ...data,
+            "pageNumber": 0,
+            "pageSize": 0,
+            "isFile": true
+        }
+        console.log('AccessList',dataSend)
+    } catch (e) {
+        console.log('error logs acces',e)
     }
 }
 
