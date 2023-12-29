@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
-import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
-import { Switch } from "native-base";
+import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity, Switch } from "react-native";
+//import { Switch } from "native-base";
 import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import HeaderContent from "../HeaderContent";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAction, setValuePAssword, setRepeatPassword } from "../../store/ducks/authDuck";
 import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
 import ModalAlertConfirm from "../modals/ModalAlert";
+import { updatePreferences } from "../../store/ducks/preferencesDuck";
 
 const {height, width} = Dimensions.get('window');
 
@@ -21,14 +22,23 @@ const ProfilePage = ({backHome}) => {
     const user = useSelector(state => state.authDuck.dataUser)
     const modalConfirm = useSelector(state => state.homeDuck.modalConfirm)
     const isCloseSession = useSelector(state => state.homeDuck.isCloseSession)
-
+    const preferences = useSelector(state => state.preferencesDuck.preferences)
+    const receiveNotifications = useSelector(state => state.preferencesDuck.receiveNotifications)
+    const userId = useSelector(state => state.authDuck?.dataUser?.id)
+    const isDisabled = useSelector(state => state.preferencesDuck.loading)
 
     useEffect(() => {
         if(password != '' && repeatPassword != '') setDisable(false)
         else setDisable(true)
     },[password, repeatPassword])
 
-    //dispatch(resetPassword({password, repeatPassword, user})) dispatch(logoutAction())
+    useEffect(() => {
+        console.log('recibr noticicaiones', receiveNotifications)
+    },[receiveNotifications])
+
+    const onChangeSwitch = async(val) => {
+        await dispatch(updatePreferences({userId, receiveNotifications: val}))
+    }
 
     return(
         <View style={styles.container}>
@@ -37,7 +47,15 @@ const ProfilePage = ({backHome}) => {
                 <Text style={styles.title}>Preferencias</Text>
                 <View style={styles.contPref}>
                     <Text style={styles.txtPref}>Recibir notificaciones</Text>
-                    <Switch size={'sm'} colorScheme={'green'}/>
+                    <Switch 
+                        trackColor={{true: Colors.green, false: Colors.gray}}
+                        thumbColor={receiveNotifications ? Colors.greenStrong : Colors.gray}
+                        disabled={isDisabled}
+                        style={{ transform:[{ scaleX: .7 }, { scaleY: .7 }] }}
+                        //size={'sm'} 
+                        //colorScheme={'green'} 
+                        value={receiveNotifications}
+                        onValueChange={(val) => onChangeSwitch(val)}/>
                 </View>
             </View>
             <View style={[styles.card,{height: height/2.1, marginBottom:30}]}>

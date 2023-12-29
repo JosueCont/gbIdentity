@@ -1,4 +1,4 @@
-import { getNotificationsCollaborator,getBadgetCollaborator, postReadNotifications  } from "../../utils/ApiApp";
+import { getNotificationsCollaborator,getBadgetCollaborator, postReadNotifications, putReceiveNotifications  } from "../../utils/ApiApp";
 
 const LOADING = 'loading';
 const CANCEL_LOADING = 'cancel_loading'
@@ -15,7 +15,7 @@ const initialState = {
     totalNotifications:0,
     isReadNotify:false,
     totalPages:0,
-    current:0
+    current:0,
 }
 
 const notificationDuck = (state = initialState, action) => {
@@ -80,7 +80,6 @@ export const getNotifications = (userId, page =1, size=10,) => async(dispatch) =
             pages: response?.data?.totalPages,
             current: response?.data?.current 
         })
-        console.log('response notifications',response?.data)
     } catch (e) {
         console.log('error notificaciones',e)
     }

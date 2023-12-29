@@ -14,5 +14,7 @@ export const axiosTypes = {
     READ_NOTIFICATIONS:'/Notifications/Read',
     LOGOUT: '/Auth/Logout',
     CHANGE_EXPIRED_PASSWORD: '/Auth/ConfirmRecoveryPasswordCollaborator',
-    ACCESS_LOG_COLLABORATOR:'/AccessLog/Collaborator'
+    ACCESS_LOG_COLLABORATOR:'/AccessLog/Collaborator',
+    USER_PREFERENCES: '/UserConfiguration/preferences/',
+    UPDATE_USER_PREFERENCES: '/UserConfiguration/Preferences'
 }

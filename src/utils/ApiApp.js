@@ -1,4 +1,4 @@
-import APIKit,{ baseURL } from "./axiosApi";
+import APIKit,{ axiosPut, baseURL } from "./axiosApi";
 import moment from "moment";
 
 import { axiosGet, axiosPost } from "./axiosApi";
@@ -29,3 +29,5 @@ export const postSaveExpoToken = async(data) => await axiosPost(axiosTypes.SAVE_
 export const getNotificationsCollaborator = async(data) => await axiosPost(axiosTypes.GET_NOTIFICATIONS, data)
 export const getBadgetCollaborator = async(data) => await axiosPost(axiosTypes.GET_BADGE_NOTIFY, data)
 export const postReadNotifications = async(data) => await axiosPost(axiosTypes.READ_NOTIFICATIONS, data)
+export const getPreferences = async(id) => await axiosGet(`${axiosTypes.USER_PREFERENCES}${id}`)
+export const putReceiveNotifications = async(data) => await axiosPut(axiosTypes.UPDATE_USER_PREFERENCES, data)

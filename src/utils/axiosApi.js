@@ -71,3 +71,7 @@ export const axiosPost = async (url, data) => {
 export const axiosGet = async (url, params = '') => {
     return await APIKit.get(`${url}${params}`);
 }
+
+export const axiosPut = async (url, data) => {
+    return await APIKit.put(`${url}`, data)
+}

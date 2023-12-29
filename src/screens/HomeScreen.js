@@ -6,6 +6,7 @@ import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
 import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser } from "../store/ducks/homeDuck";
+import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,7 @@ const HomeScreen = () => {
     const [selectedSection, setSelectedSection] = useState('initial');
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const isReadNotify = useSelector(state => state.notifyDuck.isReadNotify)
+    const dataUser = useSelector(state => state.authDuck.dataUser)
     const scrollViewRef = useRef();
 
 
@@ -32,11 +34,11 @@ const HomeScreen = () => {
         if(selectedSection === 'initial' || isReadNotify) getInfoNotifcationInit()
     },[selectedSection, isReadNotify])
 
-    //useEffect(() => {
-    //    (async() => {
-    //        //if(userId && userId != undefined ) dispatch(await getLogsUser({userId,}))
-    //    })();
-    //},[])
+    useEffect(() => {
+        (async() => {
+            if(userId && userId != undefined ) dispatch(await getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
+        })();
+    },[])
 
     const getInfoNotifcationInit = async() => {
         dispatch(await getInitialData({userId}))
@@ -45,6 +47,7 @@ const HomeScreen = () => {
     const getInitialConfig = async() => {
         const expoToken = await getExpoToken();
         const response = await  dispatch(saveExpoToken({userId, expoToken}))
+        await dispatch(userPreferences(userId))
 
     }
 

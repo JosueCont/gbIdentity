@@ -1,16 +1,25 @@
-import React,{useState,useEffect, useRef} from "react";
+import React,{useState,useEffect, useRef, useDebugValue} from "react";
 import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
+import { Spinner } from "native-base";
 import { getFontSize } from "../../utils/functions";
 import { Colors } from "../../utils/Colors";
 import moment from "moment/moment";
 import Card from "../CardGafete";
 import GafeteItem from "../GafeteItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getLogsUser } from "../../store/ducks/homeDuck";
 
 const {height, width} = Dimensions.get('window');
 
-const InitialPage = ({setQrRoute}) => {
+const InitialPage = ({setQrRoute, showMoreLogs}) => {
+    const dispatch = useDispatch();
     const [currentIndex,setCurrentIndex]=useState(0);
-
+    const accessList = useSelector(state => state.homeDuck.accessList)
+    const userId = useSelector(state => state.authDuck?.dataUser?.id)
+    const dataUser = useSelector(state => state.authDuck.dataUser)
+    const pageSize = useSelector(state => state.homeDuck.pageSize)
+    const infoList = useSelector(state => state.homeDuck.infoList)
+    const loader = useSelector(state => state.homeDuck.loading)
     
     const data = [
         {
@@ -51,18 +60,18 @@ const InitialPage = ({setQrRoute}) => {
 
     ]
     const getRegisters = () => {
-        return data.map((item,index) => (
+        return accessList.map((item,index) => (
             <View style={styles.cardItem} key={index}>
-                <View style={[styles.contImgItem, {backgroundColor:item.color}]}>
+                <View style={[styles.contImgItem, {backgroundColor: Colors.white/*item.color*/}]}>
                     <Image source={require('../../../assets/logoBimbo.png')} style={styles.imgItem}/>
                 </View>
                 <View style={styles.contDesc}>
-                    <Text style={styles.txtDate}>{moment(item.date,'DD/MM/YYYY').format('DD MMMM YYYY')}</Text>
-                    <Text style={styles.txtDesc}>{item.time}</Text>
-                    <Text style={styles.txtDesc}>{item.ubication}</Text>
+                    <Text style={styles.txtDate}>{moment(item.accessDateTime,).format('DD MMMM YYYY')}</Text>
+                    <Text style={styles.txtDesc}>{moment(item.accessDateTime).format('hh:mm A')}</Text>
+                    <Text style={styles.txtDesc}>{item.locationName}</Text>
                 </View>
             </View>
-        )).slice(0,4)
+        ))
     }
 
     const getIndicators = (item) => {
@@ -120,9 +129,10 @@ const InitialPage = ({setQrRoute}) => {
                 <Text style={styles.titleChecks}>Última actividad</Text>
                 <View style={styles.cardChecks}>
                     <View style={styles.contReg}>{getRegisters()}</View>
-                    <TouchableOpacity>
-                        <Text style={styles.showMore}>Ver más registros</Text>
-                    </TouchableOpacity>
+                    {accessList.length > 1 && accessList.length != infoList?.totalItems && (
+                        <TouchableOpacity onPress={() => dispatch(getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: pageSize + 5}))} style={{marginTop:60}}>
+                            {loader ? <Spinner size={'sm'} color={Colors.grayDark} /> : <Text style={styles.showMore}>Ver más registros</Text>}
+                        </TouchableOpacity>)}
                 </View>
             </View>
         </View>
@@ -202,7 +212,7 @@ const styles = StyleSheet.create({
     },
     contReg:{
         paddingHorizontal:19, 
-        marginBottom:60
+        //marginBottom:60
     },
     showMore:{
         alignSelf:'center', 

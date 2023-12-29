@@ -21,7 +21,6 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
 
 
 
-
     useEffect(() => {
         verifyNotify()
         

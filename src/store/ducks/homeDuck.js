@@ -1,6 +1,6 @@
 import { 
     getDinamicCode, validateQrCode, createAccessLocation, getAccesLocationActives, 
-    getNotificationsCollaborator, getBadgetCollaborator, postReadNotifications 
+    getNotificationsCollaborator, getBadgetCollaborator, postReadNotifications, postAccessLogList 
 } from "../../utils/ApiApp";
 import moment from "moment";
 
@@ -14,6 +14,9 @@ const CANCEL_RUNNING = 'cancel_running'
 const ACTIVATE_AUTO_RUNNING = 'activate_auto_running'
 const OPEN_MODAL = 'open_modal'
 const CLOSE_MODAL = 'close_modal'
+const ACCESS_DATA_SUCCESS = 'access_data_success'
+
+
 /*const SUCCESS_BADGE = 'success_badge';
 const SET_NOTIFICATIONS = 'set_notifications';
 const FAILED_NOTIFICATIONS = 'failed_notifications'
@@ -29,6 +32,10 @@ const initialState = {
     modalConfirm:false,
     message:'',
     isCloseSession:false,
+    accessList:[],
+    pageNumber:1,
+    pageSize:5,
+    infoList: null,
     /*notifications:[],
     badgeNotification:0,
     totalNotifications:0,
@@ -57,6 +64,8 @@ const homeDuck = (state = initialState, action) => {
             return{...state, [action.payload.prop]:action.payload.value, message: action.payload.message, isCloseSession: action.payload.close}
         case CLOSE_MODAL:
             return{...state, [action.payload.prop]:action.payload.value, message:''}
+        case ACCESS_DATA_SUCCESS:
+            return{ ...state, accessList: action.payload.list, infoList: action.payload.info, pageSize: action.payload.pageSize, loading: false }
         /*case SUCCESS_BADGE:
             return{ ...state, badgeNotification: action.payload}
         case SET_NOTIFICATIONS:
@@ -147,13 +156,16 @@ export const closeModalHome = ({prop, value, message=''}) => {
 
 export const getLogsUser = (data) => async(dispatch) => {
     try {
+        dispatch({type: LOADING})
         let dataSend = {
             ...data,
-            "pageNumber": 0,
-            "pageSize": 0,
+            pageNumber: 1,
             "isFile": true
         }
-        console.log('AccessList',dataSend)
+        const response = await postAccessLogList(dataSend)
+        if(response?.data?.items){
+            dispatch({type: ACCESS_DATA_SUCCESS, payload:{list: response?.data?.items, info: response?.data, pageSize: response?.data?.items?.length}})
+        }
     } catch (e) {
         console.log('error logs acces',e)
     }
