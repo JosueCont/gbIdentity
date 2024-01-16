@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image } from "react-native";
 import { Colors } from "../utils/Colors";
 
 const {height, width} = Dimensions.get('window');
@@ -31,7 +31,7 @@ const Card = ({children, background= Colors.white}) => {
 const styles = StyleSheet.create({
     card:{ 
         width: width/1.1, 
-        height: height/3.4, 
+        //height: height/3.4, 
         borderRadius:20,
         padding:15,
     },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
     contChild:{
         width: width/1.2, 
-        height: height/4,
+        //height: height/4,
     }
 })
 

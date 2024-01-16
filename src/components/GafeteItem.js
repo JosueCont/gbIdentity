@@ -3,34 +3,85 @@ import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from "rea
 import { getFontSize } from "../utils/functions";
 import { Colors } from "../utils/Colors";
 import Card from "./CardGafete";
+import moment from "moment";
 
 const {height, width} = Dimensions.get('window');
 
-const GafeteItem = ({item,setQrRoute}) => {
+const GafeteItem = ({item,setQrRoute, rules}) => {
     return(
-        <Card background={item.color}>
-            <View style={{marginTop:20, flexDirection:'row'}}>
-                <Image source={item.image} style={{width:108, height:115, resizeMode:'contain'}}/>
+        <Card background={item?.color}>
+            <View style={styles.contInfo}>
+                <Image source={require('../../assets/profileFake.png')} style={styles.imgProfile}/>
                 <View style={{ width: width/2,}}>
-                    <Text style={{fontSize: getFontSize(20), fontWeight:'700'}}>{item?.firstName}</Text>
-                    <Text style={{fontSize: getFontSize(20), fontWeight:'700'}}>{item?.lastName}</Text>
-                    <View style={{width: width/2.5, height:5, backgroundColor:Colors.black, marginTop:6}}/>
-                    <Text style={{marginTop:6, width: width/2.4, paddingRight:4}}>{item.code} - {item.branch}</Text>
+                    <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
+                    <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
+                    <View style={styles.line}/>
+                    <Text style={styles.lblBranch}>{item?.code} - {item?.branch}</Text>
+                    {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
+                    {rules?.showCurp && <Text>{item?.curp || 'CURP'}</Text>}
+                    {rules?.showNss && <Text>{item?.nss || 'NSS'}</Text>}
                 </View>
-                <Image source={require('../../assets/logoBimbo.png')} style={{width:50, height:22, resizeMode:'contain',  position:'absolute', right:10, top:-10}}/>
+                <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
             </View>
-            <View style={{alignSelf:'flex-end', marginRight:20}}>
+            <View style={styles.contBtn}>
                 <TouchableOpacity onPress={setQrRoute}>
-                    <Image source={require('../../assets/qr1.png')} style={{width:30, height:30, resizeMode:'contain',}}/>
+                    <Image source={require('../../assets/qr1.png')} style={styles.imgQr}/>
                 </TouchableOpacity>
-                <Image source={require('../../assets/pointer.png')} style={{width:20, height:20, position:'absolute', top:20, right:0}}/>
+                <Image source={require('../../assets/pointer.png')} style={styles.imgPointer}/>
             </View>
         </Card>
     )
 }
 
 const styles = StyleSheet.create({
-
+    contInfo:{
+        marginTop:20, 
+        flexDirection:'row',
+    },
+    imgProfile:{
+        width:108, 
+        height:115, 
+        resizeMode:'contain'
+    },
+    lblName:{
+        fontSize: getFontSize(20), 
+        fontWeight:'700'
+    },
+    line:{
+        width: width/2.5, 
+        height:5, 
+        backgroundColor:Colors.black, 
+        marginTop:6
+    },
+    lblBranch:{
+        marginTop:6, 
+        width: width/2.4, 
+        paddingRight:4
+    },
+    logoBimbo:{
+        width:50, 
+        height:22, 
+        resizeMode:'contain',  
+        position:'absolute', 
+        right:10, 
+        top:-10
+    },
+    contBtn:{
+        alignSelf:'flex-end', 
+        marginRight:20
+    },
+    imgQr:{
+        width:30, 
+        height:30, 
+        resizeMode:'contain',
+    },
+    imgPointer:{
+        width:20, 
+        height:20, 
+        position:'absolute', 
+        top:20, 
+        right:0
+    }
 })
 
 export default GafeteItem;

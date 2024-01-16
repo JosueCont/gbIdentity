@@ -20,6 +20,11 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const pageSize = useSelector(state => state.homeDuck.pageSize)
     const infoList = useSelector(state => state.homeDuck.infoList)
     const loader = useSelector(state => state.homeDuck.loading)
+    const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
+
+    useEffect(() => {
+        console.log('credenciales',dataUser)
+    },[])
     
     const data = [
         {
@@ -92,10 +97,20 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
         }
     })
     
+    const item = {
+        firstName: dataUser?.firstName,
+        lastName: dataUser?.lastName,
+        code:'',
+        branch:'',
+        curp: dataUser?.curp,
+        nss: dataUser?.nss,
+        birthDate: moment(dataUser?.birthDate).format('DD-MM-YYYY'),
+        branch: dataUser?.ouWorkCenter
+    }
     return(
         <View style={styles.container}>
             <View style={styles.contCards}>
-                <FlatList 
+               {/* <FlatList 
                     data={gafetes}
                     pagingEnabled
                     keyExtractor={(item,index) => index.toString()}
@@ -112,7 +127,11 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 />
                 <View style={styles.indicatorCont}>
                     {getIndicators(gafetes.length)}
-                </View>
+                    </View>*/}
+                {credentials?.bimboCredential && (
+                    <GafeteItem item={item} setQrRoute={setQrRoute} rules={credentials?.bcConfiguration}/>
+                )}
+                
             </View>
             <View style={styles.contStreak}>
                 <View style={{justifyContent:'center'}}>
@@ -125,6 +144,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 </View>
             </View>
 
+            {accessList.length > 1 && (
             <View style={styles.contChecks}>
                 <Text style={styles.titleChecks}>Última actividad</Text>
                 <View style={styles.cardChecks}>
@@ -134,7 +154,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                             {loader ? <Spinner size={'sm'} color={Colors.grayDark} /> : <Text style={styles.showMore}>Ver más registros</Text>}
                         </TouchableOpacity>)}
                 </View>
-            </View>
+            </View>)}
         </View>
     )
 }

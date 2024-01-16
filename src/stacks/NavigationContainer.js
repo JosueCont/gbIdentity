@@ -7,6 +7,9 @@ import LoggedStack from "./LoggedStack";
 import { Colors } from "../utils/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { createSession } from "../store/ducks/authDuck";
+import { injectStore } from "../utils/axiosApi";
+import { store } from "../store/store";
+injectStore(store)
 
 
 const NavigationContainerConfig = () => {

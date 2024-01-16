@@ -144,7 +144,7 @@ export const loginAction = (data) => async(dispatch) => {
             await saveTokens(login?.data?.accessToken, login?.data?.user)
             dispatch({type: LOGIN_SUCCESS, payload: login.data.user})
         }else{
-            dispatch({type: LOGIN_FAILED, message:'El correo o la contraseña son incorrectos'})
+            dispatch({type: LOGIN_FAILED, message:'El ID del colaborador o la contraseña son incorrectos'})
         }
 
     } catch (e) {
@@ -212,12 +212,12 @@ export const onValidateCollaborator = (data) => async(dispatch) => {
                 else dispatch({type: RECOVER_PASSWORD_SUCCESS, payload: response?.data?.id})
             },500)
         }else{
-            dispatch({type: RECOVER_PASSWORD_FAILED, message: 'Los datos ingresados no son validos'})
+            dispatch({type: RECOVER_PASSWORD_FAILED, message: 'Los datos ingresados no son válidos'})
         }
         console.log()
     } catch (error) {
         console.log('error validar colaboratot',error)
-        dispatch({type: RECOVER_PASSWORD_FAILED, message: 'Algo salio mal, intentalo de nuevo'})
+        dispatch({type: RECOVER_PASSWORD_FAILED, message: 'Algo salió mal. Inténtalo de nuevo'})
 
     }
 }

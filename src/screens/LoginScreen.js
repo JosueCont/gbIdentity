@@ -100,7 +100,7 @@ const LoginScreen = () => {
             <TouchableOpacity style={styles.center} onPress={() => navigation.navigate('RecoverPassword')}>
                 <>
                     <Text style={styles.lblRecover}>¿No recuerdas tus credenciales?</Text>
-                    <Text style={styles.lblRecover}>Recuperalas aqui</Text>
+                    <Text style={styles.lblRecover}>Recupéralas aqui</Text>
                 </>
             </TouchableOpacity>
             <ModalErrorLogin visible={modalActive} onClose={() => dispatch(closeModal({prop:'modalErrorLogin',value:false})) }/>
@@ -150,7 +150,10 @@ const styles = StyleSheet.create({
     lblRecover:{
         color:Colors.white, 
         fontSize:getFontSize(14), 
-        fontWeight:'400'
+        fontWeight:'400',
+        textDecorationLine:'underline',
+        textDecorationStyle:'solid',
+        textShadowColor: Colors.white
     },
     lblAcep:{
         color:Colors.white,

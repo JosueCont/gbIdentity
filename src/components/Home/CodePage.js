@@ -26,10 +26,10 @@ const CodePage = ({backHome}) => {
     //const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if(isRunning != true && seg === 0){
+        if(isRunning != true && seg === 0 && minutes === 0){
             dispatch(getCodeQR({isRunning, userId}))
         }
-    },[isRunning, seg])
+    },[isRunning, seg, minutes])
 
     /*const getCode = () => {
         const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -68,7 +68,7 @@ const CodePage = ({backHome}) => {
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={false} goBack={backHome} title="Notificaciones (20)"/>
             <Card>
-                <View style={{alignSelf:'center'}}>
+                <View style={{alignSelf:'center', marginBottom:10}}>
                     {code != '' && !loader ? (
                         <QRCode
                             value={code}
@@ -80,7 +80,7 @@ const CodePage = ({backHome}) => {
                         />
 
                     ): (
-                        <View style={{flex:1,justifyContent:'center', alignItems:'center'}}>
+                        <View style={{height:height/4.5,justifyContent:'center', alignItems:'center'}}>
                             <Spinner size={'sm'} color={Colors.blue} />
                         </View>
                         

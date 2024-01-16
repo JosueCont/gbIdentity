@@ -24,7 +24,7 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
     useEffect(() => {
         verifyNotify()
         
-    })
+    },[])
     
     const verifyNotify = async() => {
         
@@ -58,14 +58,14 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
     return(
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={true} goBack={backHome} title={`Notificaciones (${total})`}/>
-            {notifications.map((item,index) => (
+            {!!notifications && notifications.map((item,index) => (
                 <View style={styles.card} key={index}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.date}>{moment(item?.createdAt,).format('DD MMMM YYYY HH:mm')}</Text>
                     <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item?.body}</Text>
                 </View>
             ))}
-            {notifications.length > 0  ? (
+            {!!notifications && notifications.length > 0  ? (
                 <View style={{flexDirection:'row'}}>{getIndicators(totalPages)}</View>
             ): null}
         </View>

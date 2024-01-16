@@ -30,7 +30,7 @@ const CreateUserScreen = () => {
 
 
     return(
-        <ScreenBaseAuth title="Verificaremos sus datos, por favor ingrese la siguiente información">
+        <ScreenBaseAuth title="Ingrese la siguiente información para crear su cuenta">
             {isValidCollaborator ? !isCreatedUser ? (
                 <FormConfirmPassword isNewUser={true} title='Agregar'/>
             ):(
