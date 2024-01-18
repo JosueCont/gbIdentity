@@ -1,12 +1,30 @@
-import React from "react";
-import { TextInput, StyleSheet, Dimensions } from "react-native";
+import React, {useState} from "react";
+import { TextInput, StyleSheet, Dimensions, View, TouchableOpacity } from "react-native";
 import { Colors } from "../utils/Colors";
+import { Feather } from '@expo/vector-icons';
+
 
 const {height, width} = Dimensions.get('window');
 
-const Input = ({value, setValue, background = Colors.whiteInput, ...props}) => {
+const Input = ({value, setValue, showEye=false ,background = Colors.whiteInput, ...props}) => {
+    const [showPassword, setShowPassword] = useState(false)
+
     return(
-        <TextInput onChangeText={setValue} value={value} style={[styles.input,{backgroundColor: background,}]} {...props}/>
+        <View>
+            <TextInput 
+                onChangeText={setValue} 
+                value={value} 
+                style={[styles.input,{backgroundColor: background,}]} 
+                {...props}
+                secureTextEntry={showEye ? !showPassword : false}
+            />
+            {showEye &&<View style={{position:'absolute', right:5, top:10}}>
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                    <Feather name={showPassword ? 'eye-off' :"eye"} size={24} color={Colors.darkBlue} />
+                </TouchableOpacity>
+            </View>}
+        
+        </View>
     )
 }
 

@@ -17,8 +17,6 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
     const user = useSelector(state => state.authDuck.dataUser)
     const badge = useSelector(state => state.notifyDuck.badgeNotification)
 
-    console.log('badge', badge, typeof badge)
-
     return(
         <View style={styles.container}>
             <StatusBar
@@ -37,22 +35,22 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                         <Entypo name="bell" size={16} color="black" />
                         {badge >0  ? (
                             <View style={styles.contlblIcon}>
-                                <Text style={{fontSize:getFontSize(12), color:Colors.white,}} >{badge.toString()}+</Text>
+                                <Text style={styles.lblBadge} >{badge <= 10 ? badge.toString() : '10+'}</Text>
                             </View>
                         ):null}
                     </>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', paddingHorizontal:12}}>
                     <TouchableOpacity onPress={showProfile}>
-                        <Image source={require('../../../assets/profileFake.png')} style={{width:119, height:140, resizeMode:'contain'}}/>
+                        <Image source={require('../../../assets/profileFake.png')} style={styles.imgProfile}/>
 
                     </TouchableOpacity>
                     <View style={{flexDirection:'column', marginLeft:12}}>
-                        <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Bienvenido de nuevo</Text>
-                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.firstName?.split(' ')[0]}</Text>
-                        <Text style={{fontSize:getFontSize(32), fontWeight:700, color:Colors.white, textTransform:'capitalize'}}>{user?.lastName?.split(' ')[0]}</Text>
-                        <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white}}>Miembro desde:</Text>
-                        <Text style={{fontSize:getFontSize(16), fontWeight:400, color:Colors.white, textTransform:'capitalize'}}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>
+                        <Text style={styles.lblDesc}>Bienvenido de nuevo</Text>
+                        <Text style={styles.lblName}>{user?.firstName?.split(' ')[0]}</Text>
+                        <Text style={styles.lblName}>{user?.lastName?.split(' ')[0]}</Text>
+                        <Text style={styles.lblDesc}>Miembro desde:</Text>
+                        <Text style={[styles.lblDesc,{textTransform:'capitalize'}]}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>
                     </View>
                 </View>
 
@@ -107,6 +105,26 @@ const styles = StyleSheet.create({
         alignItems:'center', 
         position:'absolute', 
         left:20, top:0
+    },
+    lblBadge:{
+        fontSize:getFontSize(12), 
+        color:Colors.white,
+    },
+    lblDesc:{
+        fontSize:getFontSize(16), 
+        fontWeight:'400', 
+        color:Colors.white
+    },
+    lblName:{
+        fontSize:getFontSize(32), 
+        fontWeight:'700', 
+        color:Colors.white, 
+        textTransform:'capitalize'
+    },
+    imgProfile:{
+        width:119, 
+        height:140, 
+        resizeMode:'contain'
     }
 })
 

@@ -30,6 +30,7 @@ const VALIDATE_COLABORATOR_NEW_USER = 'validate_colaborator_new_user';
 const EXPIRED_PASSWORD = 'expired_password';
 const CHANGE_EXPIRED_PASSWORD_SUCCES = 'change_expired_password_succes'
 const CHANGE_EXPIRED_PASSWORD_FAILED = 'change_expired_password_failed'
+const RESET_DATA_RECOVER = 'reset_data'
 
 const initialState = {
     email:'',
@@ -82,7 +83,7 @@ const authDuck = (state = initialState, action) => {
         case NO_SIMILAR_PASSWORD:
             return{ ...state, message: action.message, modalRecover: true, loading:false, repeatPassword:''}
         case PASSWORD_CHANGED_SUCESS:
-            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:''}
+            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:'', birthdayDate:'', ingress:''}
         case CREATED_USER_SUCCESS:
             return{ ...state, isCreatedUser:true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:''}
         case PASSWORD_CHANGED_FAILED:
@@ -95,6 +96,8 @@ const authDuck = (state = initialState, action) => {
             return{ ...state, loading: false, isExpiredPassword:false, tokenProvitional:'', repeatPassword:'', password:'',isChangedPassword:true}
         case CHANGE_EXPIRED_PASSWORD_FAILED:
             return{ ...state, loading: false, modalRecover:true, message: action.payload, repeatPassword:'', password:''}
+        case RESET_DATA_RECOVER:
+            return{ ...state, isChangedPassword:false, isValidCollaborator: false}
         default:
             return state;
     }
@@ -292,6 +295,12 @@ export const saveExpoToken = (data) => async(dispatch) => {
         console.log('responseExpoToken', response.data)
     } catch (e) {
         console.log('error save expoToken',e)
+    }
+}
+
+export const onResetRecover = () => {
+    return{
+        type: RESET_DATA_RECOVER
     }
 }
 

@@ -58,9 +58,10 @@ const FormValidateUser = ({isNewUser}) => {
             }
             //setShowDatePicker(false);
 
-        }else{
+        }else if(type === 'dismissed'){
             //onShowDatepicker()
             console.log('entro aqui')
+            setShowDatePicker(false)
         }
     };
 
@@ -76,9 +77,10 @@ const FormValidateUser = ({isNewUser}) => {
             }
             //setShowDatePicker(false);
 
-        }else{
+        }else if(type === 'dismissed'){
             //onShowDatepicker()
             console.log('entro aqui')
+            setShowDatePickerBirthdat(false)
         }
     };
 

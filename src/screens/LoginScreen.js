@@ -8,10 +8,11 @@ import { Checkbox, Icon, useToast, Toast, Alert, VStack, HStack, } from "native-
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
-import { setValueEmail, setValuePAssword, setValueCheckbox, loginAction } from "../store/ducks/authDuck";
+import { setValueEmail, setValuePAssword, setValueCheckbox, loginAction, onResetRecover } from "../store/ducks/authDuck";
 import { Spinner } from "native-base";
 import ModalErrorLogin from "../components/modals/ModalErrorLogin";
 import { closeModal } from "../store/ducks/authDuck";
+import CheckBoxCustom from "../components/CheckboxCustom";
 
 
 const {height, width} = Dimensions.get('window');
@@ -72,17 +73,14 @@ const LoginScreen = () => {
                 <Text style={styles.lblInput}>ID Colaborador</Text>
                 <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
                 <Text style={styles.lblInput}>Contraseña</Text>
-                <Input value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry/>
+                <Input value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry showEye={true}/>
             </View>
             <View style={styles.row}>
-                <Checkbox 
-                    colorScheme={'green'} 
-                    aria-label="" 
-                    color={'green'} 
-                    //icon={<Icon as={<AntDesign name="check"  color="black" />}/>}
-                    value={isChecked}
-                    onChange={(val) => dispatch(setValueCheckbox(val))}
+                <CheckBoxCustom 
+                    isChecked={isChecked}
+                    setChecked={() => dispatch(setValueCheckbox(!isChecked))}
                 />
+                
                 <Text style={styles.lblAcep}>Acepto los <Text style={styles.termsCond} onPress={() => navigation.navigate('ModalTerms')}>términos y condiciones</Text></Text>
             </View>
             <TouchableOpacity 
@@ -97,7 +95,12 @@ const LoginScreen = () => {
                 onPress={() => navigation.navigate('CreateUser')}>
                 <Text style={styles.lblIn}>Crear cuenta</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.center} onPress={() => navigation.navigate('RecoverPassword')}>
+            <TouchableOpacity 
+                style={styles.center} 
+                onPress={() => {
+                    dispatch(onResetRecover())
+                    navigation.navigate('RecoverPassword')
+                }}>
                 <>
                     <Text style={styles.lblRecover}>¿No recuerdas tus credenciales?</Text>
                     <Text style={styles.lblRecover}>Recupéralas aqui</Text>

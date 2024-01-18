@@ -61,7 +61,7 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
             {!!notifications && notifications.map((item,index) => (
                 <View style={styles.card} key={index}>
                     <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.date}>{moment(item?.createdAt,).format('DD MMMM YYYY HH:mm')}</Text>
+                    <Text style={styles.date}>{moment.utc(item?.createdAt,).local().format('DD MMMM YYYY HH:mm')}</Text>
                     <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item?.body}</Text>
                 </View>
             ))}
