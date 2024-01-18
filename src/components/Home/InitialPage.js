@@ -23,7 +23,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
 
     useEffect(() => {
-        console.log('credenciales',dataUser)
+        console.log('accessList',accessList)
     },[])
     
     const data = [
@@ -72,7 +72,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 </View>
                 <View style={styles.contDesc}>
                     <Text style={styles.txtDate}>{moment(item.accessDateTime,).format('DD MMMM YYYY')}</Text>
-                    <Text style={styles.txtDesc}>{moment(item.accessDateTime).format('hh:mm A')}</Text>
+                    <Text style={styles.txtDesc}>{moment.utc(item.accessDateTime).local().format('hh:mm A')}</Text>
                     <Text style={styles.txtDesc}>{item.locationName}</Text>
                 </View>
             </View>
@@ -140,7 +140,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 </View>
                 <View style={styles.contDescStreak}>
                     <Text style={styles.titleDesStreak}>¡Sigue así!</Text>
-                    <Text style={styles.subtitleStreak}>Al día de hoy haz acumulado 4 insignias que te reconocen tu gran trayectoria como conductor oficial de Grupo Bimbo.</Text>
+                    <Text style={styles.subtitleStreak}>Al día de hoy has acumulado 4 insignias que te reconocen tu gran trayectoria como conductor oficial de Grupo Bimbo.</Text>
                 </View>
             </View>
 

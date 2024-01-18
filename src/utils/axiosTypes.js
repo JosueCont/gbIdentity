@@ -16,5 +16,6 @@ export const axiosTypes = {
     CHANGE_EXPIRED_PASSWORD: '/Auth/ConfirmRecoveryPasswordCollaborator',
     ACCESS_LOG_COLLABORATOR:'/AccessLog/Collaborator',
     USER_PREFERENCES: '/UserConfiguration/preferences/',
-    UPDATE_USER_PREFERENCES: '/UserConfiguration/Preferences'
+    UPDATE_USER_PREFERENCES: '/UserConfiguration/Preferences',
+    DELETE_PROFILE: '/DeletionRequests/Create/'
 }

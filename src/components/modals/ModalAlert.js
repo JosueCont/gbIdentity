@@ -7,8 +7,7 @@ import { getFontSize } from "../../utils/functions";
 
 const {height, width} = Dimensions.get('window');
 
-const ModalAlertConfirm = ({visible, setConfirm, onClose}) => {
-    const message = useSelector(state => state.homeDuck.message)
+const ModalAlertConfirm = ({visible, setConfirm, onClose, message}) => {
     return(
         <Modal visible={visible} animationType='slide' transparent>
             <View style={styles.container}>
@@ -20,7 +19,7 @@ const ModalAlertConfirm = ({visible, setConfirm, onClose}) => {
                             <Text style={styles.lblBtn}>No</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={setConfirm} style={[styles.btn, { backgroundColor: Colors.darkBlue, }]}>
-                            <Text style={styles.lblBtn}>Si</Text>
+                            <Text style={styles.lblBtn}>Sí</Text>
                         </TouchableOpacity>
 
                     </View>

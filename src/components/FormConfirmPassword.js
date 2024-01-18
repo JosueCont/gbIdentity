@@ -24,7 +24,8 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
                 <Input 
                     value={password} 
                     setValue={(val) => dispatch(setValuePAssword(val)) }
-                    secureTextEntry/>
+                    secureTextEntry
+                    showEye={true}/>
 
             </View>
             <View style={{marginBottom:20}}>
@@ -32,7 +33,8 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
                 <Input 
                     value={repeatPassword} 
                     setValue={(val) => dispatch(setRepeatPassword(val)) }
-                    secureTextEntry/>
+                    secureTextEntry
+                    showEye={true}/>
 
             </View>
             <CustomButtom 

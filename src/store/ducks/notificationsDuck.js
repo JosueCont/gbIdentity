@@ -58,7 +58,6 @@ const getBadge = (userId) => async(dispatch) => {
     try {
         const response = await getBadgetCollaborator({userId})
         dispatch({type: SUCCESS_BADGE, payload: response?.data?.badgeNumber })
-        console.log('badge response',response?.data)
     } catch (e) {
         console.log('error al obtener badge',e)
     }

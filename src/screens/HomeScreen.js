@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, BackHandler } from "react-native";
 import ScreenBaseLogged from "../components/screensBase/ScreenBaseLogged";
 import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
-import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser } from "../store/ducks/homeDuck";
+import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute } from "../store/ducks/homeDuck";
 import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
@@ -38,6 +38,18 @@ const HomeScreen = () => {
         (async() => {
             if(userId && userId != undefined ) dispatch(await getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
         })();
+    },[])
+
+    useEffect(() => {
+        const handleBackButton = () => {
+            setSelectedSection('initial')
+            return true
+        }
+        BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+        return () => {
+          BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
     },[])
 
     const getInfoNotifcationInit = async() => {

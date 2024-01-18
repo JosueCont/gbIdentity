@@ -31,3 +31,6 @@ export const getBadgetCollaborator = async(data) => await axiosPost(axiosTypes.G
 export const postReadNotifications = async(data) => await axiosPost(axiosTypes.READ_NOTIFICATIONS, data)
 export const getPreferences = async(id) => await axiosGet(`${axiosTypes.USER_PREFERENCES}${id}`)
 export const putReceiveNotifications = async(data) => await axiosPut(axiosTypes.UPDATE_USER_PREFERENCES, data)
+
+//preferences
+export const getDeleteProfile = async(id) => await axiosGet(`${axiosTypes.DELETE_PROFILE}${id}`) 

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity, Switch } from "react-native";
-//import { Switch } from "native-base";
+import { Spinner } from "native-base";
 import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import HeaderContent from "../HeaderContent";
@@ -9,7 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAction, setValuePAssword, setRepeatPassword } from "../../store/ducks/authDuck";
 import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
 import ModalAlertConfirm from "../modals/ModalAlert";
-import { updatePreferences } from "../../store/ducks/preferencesDuck";
+import { onChageModalPreferences, onChangePasswordLogged, onChangeText, onDeleteProfile, updatePreferences } from "../../store/ducks/preferencesDuck";
+import ModalAlertFailed from "../modals/ModalFailed";
+import ModalAlertSuccess from "../modals/ModalSucess";
 
 const {height, width} = Dimensions.get('window');
 
@@ -17,8 +19,8 @@ const {height, width} = Dimensions.get('window');
 const ProfilePage = ({backHome}) => {
     const dispatch = useDispatch();
     const [disableBtn, setDisable] = useState(true)
-    const password = useSelector(state => state.authDuck.password)
-    const repeatPassword = useSelector(state => state.authDuck.repeatPassword)
+    const password = useSelector(state => state.preferencesDuck.password)
+    const repeatPassword = useSelector(state => state.preferencesDuck.repeatPassword)
     const user = useSelector(state => state.authDuck.dataUser)
     const modalConfirm = useSelector(state => state.homeDuck.modalConfirm)
     const isCloseSession = useSelector(state => state.homeDuck.isCloseSession)
@@ -26,6 +28,12 @@ const ProfilePage = ({backHome}) => {
     const receiveNotifications = useSelector(state => state.preferencesDuck.receiveNotifications)
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const isDisabled = useSelector(state => state.preferencesDuck.loading)
+    const modalDelete = useSelector(state => state.preferencesDuck.modalDeleteProfile)
+    const message = useSelector(state => state.homeDuck.message)
+    const messagePreferences = useSelector(state => state.preferencesDuck.message)
+    const modalFailed = useSelector(state => state.preferencesDuck.modalFailed)
+    const modalSuccess = useSelector(state => state.preferencesDuck.modalSucess)
+    const loader = useSelector(state => state.preferencesDuck.loading)
 
     useEffect(() => {
         if(password != '' && repeatPassword != '') setDisable(false)
@@ -38,6 +46,18 @@ const ProfilePage = ({backHome}) => {
 
     const onChangeSwitch = async(val) => {
         await dispatch(updatePreferences({userId, receiveNotifications: val}))
+    }
+
+    const onDelete = async() => {
+        await dispatch(onDeleteProfile(userId))
+    }
+
+    const onChangePassword = () => {
+        if(password.localeCompare(repeatPassword) === 0){
+            dispatch(openModalHome({prop:'modalConfirm', value: true,message:'¿Desea cambiar de contraseña?'}))
+        }else{
+            dispatch(onChageModalPreferences({prop:'modalFailed', value: true, message:'Las contraseñas no son iguales'}))
+        }
     }
 
     return(
@@ -61,16 +81,28 @@ const ProfilePage = ({backHome}) => {
             <View style={[styles.card,{height: height/2.1, marginBottom:30}]}>
                 <Text style={styles.title}>Cambiar mi contraseña</Text>
                 <View style={{marginTop:21, marginBottom:14}}>
-                    <Text style={[styles.txtPref,{marginBottom:10}]}>Ingresar su nueva contraseña</Text>
-                    <Input background={Colors.inputV2} value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry/>
-                    <Text style={[styles.txtPref,{marginBottom:10, marginTop:13}]}>Repita de nuevo su contraseña</Text>
-                    <Input background={Colors.inputV2} value={repeatPassword} setValue={(val) => dispatch(setRepeatPassword(val))} secureTextEntry/>
+                    <Text style={[styles.txtPref,{marginBottom:10}]}>Ingrese su nueva contraseña</Text>
+                    <Input 
+                        background={Colors.inputV2} 
+                        showEye={true}
+                        value={password} 
+                        setValue={(value) => dispatch(onChangeText({prop: 'password',value}))} 
+                        secureTextEntry
+                    />
+                    <Text style={[styles.txtPref,{marginBottom:10, marginTop:13}]}>Confirme su nueva contraseña</Text>
+                    <Input 
+                        background={Colors.inputV2} 
+                        showEye={true}
+                        value={repeatPassword} 
+                        setValue={(value) => dispatch(onChangeText({prop:'repeatPassword', value}))} 
+                        secureTextEntry
+                    />
                 </View>
                 <TouchableOpacity 
                     style={[styles.btn,{backgroundColor: disableBtn ? Colors.grayDark : Colors.blueText,}]} 
                     disabled={disableBtn} 
-                    onPress={() => dispatch(openModalHome({prop:'modalConfirm', value: true,message:'¿Desea cambiar de contraseña?'}))}>
-                    <Text style={styles.lblBtn}>Cambiar contraseña</Text>
+                    onPress={() => onChangePassword()}>
+                    {loader ? <Spinner size={'sm'} color={Colors.white} />: <Text style={styles.lblBtn}>Cambiar contraseña</Text>}
                 </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() =>{
@@ -83,7 +115,13 @@ const ProfilePage = ({backHome}) => {
             }}>
                 <Text style={styles.lblOptions}>Cerrar sesión</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity 
+                onPress={() => {
+                    dispatch(onChageModalPreferences({
+                        prop:'modalDeleteProfile', value: true,
+                        message:'¿Está seguro de querer eliminar su cuenta?'
+                    }))
+                }}>
                 <Text style={styles.lblOptions}>Solicitar eliminación de mis datos</Text>
             </TouchableOpacity>
 
@@ -95,11 +133,36 @@ const ProfilePage = ({backHome}) => {
                 setConfirm={() => {
                     dispatch(closeModalHome({prop:'modalConfirm', value:false, }))
                     setTimeout(() => {
-                        isCloseSession ? dispatch(logoutAction()) : console.log('Cambiar de contraseña')
+                        isCloseSession ? dispatch(logoutAction()) : dispatch(onChangePasswordLogged({userId, password}))
+                    },500)
+                }}
+                message={message}
+            />
+            <ModalAlertConfirm 
+                visible={modalDelete}
+                message={messagePreferences}
+                onClose={() => dispatch(onChageModalPreferences({prop:'modalDeleteProfile', value: false,}))}
+                setConfirm={() => {
+                    dispatch(onChageModalPreferences({prop:'modalDeleteProfile', value: false,}))
+                    setTimeout(() => {
+                       onDelete()
                     },500)
                 }}
             />
-
+            <ModalAlertFailed 
+                visible={modalFailed}
+                message={messagePreferences}
+                setVisible={() => {
+                    dispatch(onChageModalPreferences({prop:'modalFailed', value: false}))
+                }}
+            />
+            <ModalAlertSuccess 
+                visible={modalSuccess}
+                message={messagePreferences}
+                setVisible={() => {
+                    dispatch(onChageModalPreferences({prop:'modalSucess', value: false}))
+                }}
+            />
         </View>
     )
 }

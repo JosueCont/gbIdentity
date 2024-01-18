@@ -15,6 +15,7 @@ const ACTIVATE_AUTO_RUNNING = 'activate_auto_running'
 const OPEN_MODAL = 'open_modal'
 const CLOSE_MODAL = 'close_modal'
 const ACCESS_DATA_SUCCESS = 'access_data_success'
+const SET_ROUTE = 'set_route'
 
 
 /*const SUCCESS_BADGE = 'success_badge';
@@ -36,10 +37,7 @@ const initialState = {
     pageNumber:1,
     pageSize:5,
     infoList: null,
-    /*notifications:[],
-    badgeNotification:0,
-    totalNotifications:0,
-    isReadNotify:false*/
+    route:'initial'
 }
 
 const homeDuck = (state = initialState, action) => {
@@ -66,14 +64,8 @@ const homeDuck = (state = initialState, action) => {
             return{...state, [action.payload.prop]:action.payload.value, message:''}
         case ACCESS_DATA_SUCCESS:
             return{ ...state, accessList: action.payload.list, infoList: action.payload.info, pageSize: action.payload.pageSize, loading: false }
-        /*case SUCCESS_BADGE:
-            return{ ...state, badgeNotification: action.payload}
-        case SET_NOTIFICATIONS:
-            return{ ...state, notifications: action.notifications, totalNotifications: action.total}
-        case READ_NOTIFICATIONS:
-            return{ ...state, isReadNotify: true}
-        case CANCEL_READ_NOTIFICATIONS:
-            return{ ...state, isReadNotify:false}*/
+        case SET_ROUTE:
+            return{ ...state, route: action.payload}
         default:
             return state
     }
@@ -171,66 +163,11 @@ export const getLogsUser = (data) => async(dispatch) => {
     }
 }
 
-/*export const getInitialData = (data) => async(dispatch) => {
-    try {
-        dispatch({type: LOADING})
-        await Promise.all([
-            dispatch(getNotifications(data?.userId)),
-            dispatch(getBadge(data?.userId))
-        ])
-
-        setTimeout(() => {
-            dispatch({type: CANCEL_LOADING})
-        },200)
-    } catch (e) {
-        console.log('error en data',e)
-        dispatch({type: CANCEL_LOADING})
-    }
-}
-
-const getBadge = (userId) => async(dispatch) => {
-    try {
-        const response = await getBadgetCollaborator({userId})
-        if(response?.data?.badgeNumber) dispatch({type: SUCCESS_BADGE, payload: response?.data?.badgeNumber })
-        console.log('badge',response?.data)
-    } catch (e) {
-        console.log('error al obtener badge',e)
-    }
-}
-
-const getNotifications = (userId) => async(dispatch) => {
-    try {
-        let dataSend = {
-            "userId": userId,
-            "pageNumber": 1,
-            "pageSize": 10
-        }
-        const response = await getNotificationsCollaborator(dataSend)
-        dispatch({type: SET_NOTIFICATIONS, notifications: response?.data?.items, total: response?.data?.totalItems })
-        console.log('response notifications',response?.data)
-    } catch (e) {
-        console.log('error notificaciones',e)
-    }
-}
-
-export const getReadNotification = (data) => async(dispatch) => {
-    try {
-        let dataSend = {
-            "userId": data.userId,
-            "lastRead": data.date
-        }
-        const response = await postReadNotifications(dataSend)
-        dispatch({type: READ_NOTIFICATIONS})
-        console.log('response read', dataSend)
-    } catch (e) {
-        console.log('error read notify',e)
-    }
-}
-
-export const cancelReadNotify = () => {
+export const onSetRoute = (route) => {
     return{
-        type: CANCEL_READ_NOTIFICATIONS
+        type: SET_ROUTE,
+        payload: route
     }
-}*/
+}
 
 export default homeDuck;
