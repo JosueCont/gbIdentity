@@ -3,6 +3,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { logoutUser, refreshToken } from "./ApiApp";
 import { logoutAction } from "../store/ducks/authDuck";
 import { useDispatch, useStore } from "react-redux";
+import { Platform } from "react-native";
+import * as Device from 'expo-device';
+
 
 
 export const baseURL = 'https://gbwallet.hiumanlab.com'//'http://192.168.1.108:5213';
@@ -27,11 +30,17 @@ export const injectStore = _store => {
   store = _store
 }
 
+const getTypeDevice = () => {
+    return Device.osName === 'Android' ? Device.osName : Device.osName ==='iOS' ? 'iPhone' : 'iPad' ;
+}
 
 APIKit.interceptors.request.use(async(config) => {
     try {
         let token = await AsyncStorage.getItem('accessToken');
-        if (token) config.headers.Authorization =`Bearer ${JSON.parse(token)}`;
+        if (token){
+            config.headers.Authorization =`Bearer ${JSON.parse(token)}`;
+            config.headers['User-Agent'] = getTypeDevice()
+        } 
     } catch (e) {
         console.log('APIKit.interceptors.request error =>',e.toString())
 

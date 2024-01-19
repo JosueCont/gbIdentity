@@ -40,21 +40,23 @@ const FormValidateUser = ({isNewUser}) => {
 
     const onShowDatepicker = () => {
         setShowDatePicker(!showDatePicker);
+        if(showDatePickerBirthday) setShowDatePickerBirthdat(false)
     };
 
     const onShowDatePickerBirthDay = () => {
         setShowDatePickerBirthdat(!showDatePickerBirthday)
+        if(showDatePicker) setShowDatePicker(false)
     }
 
     const handleDateChange = ({type}, selectedDate) => {
         console.log('event',type)
         if(type === 'set'){
+            onShowDatepicker()
             const currentDate = selectedDate || date;
             setIngressDate(currentDate);
             if(Platform.OS === 'android'){
                 dispatch(changeInput({prop:'ingress',value:(moment(currentDate.toDateString()).format('DD MMMM YYYY'))}))
                 //setIngress(moment(currentDate.toDateString()).format('DD MMMM YYYY'))
-                onShowDatepicker()
             }
             //setShowDatePicker(false);
 
@@ -68,12 +70,12 @@ const FormValidateUser = ({isNewUser}) => {
     const handleDateChangeBirthDay = ({type}, selectedDate) => {
         console.log('event',type)
         if(type === 'set'){
+            onShowDatePickerBirthDay()
             const currentDate = selectedDate || date;
             setDate(currentDate);
             if(Platform.OS === 'android'){
                 dispatch(changeInput({prop:'birthdayDate', value:moment(currentDate.toDateString()).format('DD MMMM YYYY')}))
                 //setBirthdayDate(moment(currentDate.toDateString()).format('DD MMMM YYYY'))
-                onShowDatePickerBirthDay()
             }
             //setShowDatePicker(false);
 

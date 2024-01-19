@@ -72,6 +72,7 @@ export const getNotifications = (userId, page =1, size=10,) => async(dispatch) =
         }
         //console.log('dataSend notifications',dataSend)
         const response = await getNotificationsCollaborator(dataSend)
+        console.log('notificaciones',response)
         dispatch({
             type: SET_NOTIFICATIONS, 
             notifications: response?.data?.items, 

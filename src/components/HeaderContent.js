@@ -2,6 +2,8 @@ import React,{useState,useEffect} from "react";
 import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
 import { Colors } from "../utils/Colors";
 import { getFontSize } from "../utils/functions";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const {height, width} = Dimensions.get('window');
 
@@ -10,7 +12,8 @@ const HeaderContent = ({title='', isVisibleTitle, goBack}) => {
     return(
         <View style={styles.contHeader}>
             <TouchableOpacity onPress={goBack} >
-                <Image source={require('../../assets/back.png')} style={styles.img}/>
+                {/*<Image source={require('../../assets/back.png')} style={styles.img}/>*/}
+                <MaterialIcons name="arrow-back-ios" size={24} color={Colors.white} />
 
             </TouchableOpacity>
             {isVisibleTitle ? <Text style={styles.txt} >{title}</Text> : null}

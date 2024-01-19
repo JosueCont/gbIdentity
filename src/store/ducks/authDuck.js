@@ -75,7 +75,7 @@ const authDuck = (state = initialState, action) => {
         case CLOSE_MODAL:
             return{ ...state, [action.payload.prop]:action.payload.value}
         case RECOVER_PASSWORD_SUCCESS:
-            return {...state, isValidCollaborator:true, loading: false, userId: action.payload }
+            return {...state, isValidCollaborator:true, loading: false, userId: action.payload, ingress:'', birthdayDate:'', email:''}
         case VALIDATE_COLABORATOR_NEW_USER:
             return{ ...state, isValidateToNewUser: true, loading: false, userId: action.payload }
         case RECOVER_PASSWORD_FAILED:
