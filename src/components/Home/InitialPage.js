@@ -144,7 +144,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 </View>
             </View>
 
-            {accessList.length > 1 && (
+            {accessList.length > 0 && (
             <View style={styles.contChecks}>
                 <Text style={styles.titleChecks}>Última actividad</Text>
                 <View style={styles.cardChecks}>
