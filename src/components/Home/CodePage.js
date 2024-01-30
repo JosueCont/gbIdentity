@@ -26,8 +26,10 @@ const CodePage = ({backHome}) => {
     //const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if(isRunning != true && seg === 0 && minutes === 0){
-            dispatch(getCodeQR({isRunning, userId}))
+        if(userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b'){
+            if(isRunning != true && seg === 0 && minutes === 0){
+                dispatch(getCodeQR({isRunning, userId}))
+            }
         }
     },[isRunning, seg, minutes])
 
@@ -69,31 +71,36 @@ const CodePage = ({backHome}) => {
             <HeaderContent isVisibleTitle={false} goBack={backHome} title="Notificaciones (20)"/>
             <Card>
                 <View style={{alignSelf:'center', marginBottom:10}}>
-                    {code != '' && !loader ? (
-                        <QRCode
-                            value={code}
-                            logo={require('../../../assets/logoBimbo.png')}
-                            logoSize={20}
-                            color={Colors.blueText}
-                            logoBackgroundColor='transparent'
-                            size={height/4.5}
-                        />
+                    {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (
+                        code != '' && !loader ? (
+                            <QRCode
+                                value={code}
+                                logo={require('../../../assets/logoBimbo.png')}
+                                logoSize={20}
+                                color={Colors.blueText}
+                                logoBackgroundColor='transparent'
+                                size={height/4.5}
+                            />
+    
+                        ): (
+                            <View style={{height:height/4.5,justifyContent:'center', alignItems:'center'}}>
+                                <Spinner size={'sm'} color={Colors.blue} />
+                            </View>
+                            
+                        )
 
-                    ): (
-                        <View style={{height:height/4.5,justifyContent:'center', alignItems:'center'}}>
-                            <Spinner size={'sm'} color={Colors.blue} />
-                        </View>
-                        
+                    ) : (
+                        <Image source={require('../../../assets/qrTest.png')} style={{width:170, height:170, resizeMode:'contain'}}/>
                     )}
 
                 </View>
                 {/*<Image source={require('../../../assets/qr2.png')} style={styles.img}/>*/}
             </Card>
-            <View style={styles.contDesc}>
+            {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' &&<View style={styles.contDesc}>
                 <Text style={styles.title}>QR dinámico</Text>
                 <Text style={styles.desc}>Presente este código QR en la zona de acceso </Text>
                 <Text style={styles.hour}>Válido por {minutes < 10 ? `0${minutes}` : minutes}:{seg < 10 ? `0${seg}` : seg} {minutes <= 0 ? 'sec' : 'min'}.</Text>
-            </View>
+            </View>}
         </View>
     )
 }   

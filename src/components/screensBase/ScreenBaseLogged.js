@@ -41,8 +41,8 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                     </>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', paddingHorizontal:12}}>
-                    <TouchableOpacity onPress={showProfile}>
-                        <Image source={require('../../../assets/profileFake.png')} style={styles.imgProfile}/>
+                    <TouchableOpacity onPress={showProfile} style={styles.contShadow} >
+                        <Image source={require('../../../assets/profile.png')} style={styles.imgProfile}/>
 
                     </TouchableOpacity>
                     <View style={{flexDirection:'column', marginLeft:12}}>
@@ -124,7 +124,18 @@ const styles = StyleSheet.create({
     imgProfile:{
         width:119, 
         height:140, 
-        resizeMode:'contain'
+        resizeMode:'cover',
+        borderRadius:15,
+    },
+    contShadow:{
+        elevation:4,
+        shadowColor: '#000', // Color de la sombra
+        shadowOffset: {
+          width: 4,  
+          height: 4,
+        },
+        shadowOpacity: 0.2, 
+        shadowRadius: 4, 
     }
 })
 

@@ -11,7 +11,7 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
     return(
         <Card background={item?.color}>
             <View style={styles.contInfo}>
-                <Image source={require('../../assets/profileFake.png')} style={styles.imgProfile}/>
+                <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
                 <View style={{ width: width/2,}}>
                     <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
                     <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
@@ -41,7 +41,17 @@ const styles = StyleSheet.create({
     imgProfile:{
         width:108, 
         height:115, 
-        resizeMode:'contain'
+        resizeMode:'contain',
+        borderRadius:15,
+        marginRight:6,
+        //elevation:4,
+        //shadowColor: '#000', // Color de la sombra
+        //shadowOffset: {
+        //  width: 4,  
+        //  height: 4,
+        //},
+        //shadowOpacity: 0.2, 
+        //shadowRadius: 4, 
     },
     lblName:{
         fontSize: getFontSize(20), 

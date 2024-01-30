@@ -21,49 +21,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const infoList = useSelector(state => state.homeDuck.infoList)
     const loader = useSelector(state => state.homeDuck.loading)
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
-
-    useEffect(() => {
-        console.log('accessList',accessList)
-    },[])
     
-    const data = [
-        {
-            image:'',
-            date:'06/11/2023',
-            time:'11:00 am',
-            ubication:'Oficina central',
-            color: Colors.white
-        },
-        {
-            image:'',
-            date:'06/11/2023',
-            time:'9:00 am',
-            ubication:'Oficina central',
-            color: Colors.white
-        },
-        {
-            image:'',
-            date:'07/11/2023',
-            time:'10:00 am',
-            ubication:'Oficina central',
-            color: Colors.white
-        },
-        {
-            image:'',
-            date:'07/11/2023',
-            time:'9:00 am',
-            ubication:'Oficina central',
-            color: Colors.orange
-        }
-    ]
-
-    const gafetes = [
-        {image:require('../../../assets/profileFake.png'), firstName:'Braulio', lastName:'Rodriguez', code:'99283', branch:'Suc. Mérida', color:Colors.white},
-        {image:require('../../../assets/profileFake.png'), firstName:'Braulio', lastName:'Rodriguez', code:'99123', branch:'Suc. Bacalar', color:Colors.purple},
-        {image:require('../../../assets/profileFake.png'), firstName:'Braulio', lastName:'Rodriguez', code:'99028', branch:'Suc. Cancún', color:Colors.orange},
-
-
-    ]
     const getRegisters = () => {
         return accessList.map((item,index) => (
             <View style={styles.cardItem} key={index}>
