@@ -4,14 +4,20 @@ import { getFontSize } from "../utils/functions";
 import { Colors } from "../utils/Colors";
 import Card from "./CardGafete";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 
 const {height, width} = Dimensions.get('window');
 
 const GafeteItem = ({item,setQrRoute, rules}) => {
+    const userId = useSelector(state => state.authDuck?.dataUser?.id)
+
     return(
         <Card background={item?.color}>
             <View style={styles.contInfo}>
-                <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
+                {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (
+                    <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
+
+                ): <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/>}
                 <View style={{ width: width/2,}}>
                     <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
                     <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
