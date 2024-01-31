@@ -16,10 +16,10 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                     <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
                     <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
                     <View style={styles.line}/>
-                    <Text style={styles.lblBranch}>{item?.code} - {item?.branch}</Text>
+                    <Text style={styles.lblBranch}>{item?.code}{item?.branch}</Text>
                     {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
-                    {rules?.showCurp && <Text>{item?.curp || 'CURP'}</Text>}
-                    {rules?.showNss && <Text>{item?.nss || 'NSS'}</Text>}
+                    {rules?.showCurp && <Text>{item?.curp}</Text>}
+                    {rules?.showNss && <Text>{item?.nss}</Text>}
                 </View>
                 <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
             </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     imgProfile:{
-        width:108, 
+        width:100, 
         height:115, 
         resizeMode:'contain',
         borderRadius:15,

@@ -91,7 +91,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 )}
                 
             </View>
-            <View style={styles.contStreak}>
+            {/*<View style={styles.contStreak}>
                 <View style={{justifyContent:'center'}}>
                     <Image source={require('../../../assets/containerNum.png')} style={styles.imgStreak}/>
                     <Text style={styles.lblStreak}>4</Text>
@@ -100,7 +100,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                     <Text style={styles.titleDesStreak}>¡Sigue así!</Text>
                     <Text style={styles.subtitleStreak}>Al día de hoy has acumulado 4 insignias que te reconocen tu gran trayectoria como conductor oficial de Grupo Bimbo.</Text>
                 </View>
-            </View>
+                </View>*/}
 
             {accessList.length > 0 && (
             <View style={styles.contChecks}>
