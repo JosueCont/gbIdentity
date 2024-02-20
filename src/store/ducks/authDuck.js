@@ -3,9 +3,11 @@ import {
     postLogin, postRecoverPassword, postValidateDataCollaborator, postChangeCollaboratorPassword,
     postSaveExpoToken,
     logoutUser,
-    postChangeExpiredPassword
+    postChangeExpiredPassword,
+    getRegexPassword,
+    getPasswordConfiguration
  } from "../../utils/ApiApp";
-import { saveTokens } from "../../utils/functions";
+import { getValidators, saveTokens } from "../../utils/functions";
 import moment from "moment";
 
 const CHANGE_EMAIL = 'change_email';
@@ -32,6 +34,10 @@ const CHANGE_EXPIRED_PASSWORD_SUCCES = 'change_expired_password_succes'
 const CHANGE_EXPIRED_PASSWORD_FAILED = 'change_expired_password_failed'
 const RESET_DATA_RECOVER = 'reset_data'
 
+const SET_REGEX_PASSWORD = 'set_regex_password'
+const VALIDATE_PASSWORD_SUCESS = 'validate_password'
+const VALIDATE_PASSWORD_FAIL = 'validate_password_fail'
+
 const initialState = {
     email:'',
     password:'',
@@ -51,7 +57,11 @@ const initialState = {
     isCreatedUser:false,
     isValidateToNewUser:false,
     isExpiredPassword:false,
-    tokenProvitional:''
+    tokenProvitional:'',
+    regexPassword:'',
+    passwordConfig:null,
+    rules:[],
+    isValidatePassword:false
 }
 
 const authDuck = (state = initialState, action) => {
@@ -83,9 +93,9 @@ const authDuck = (state = initialState, action) => {
         case NO_SIMILAR_PASSWORD:
             return{ ...state, message: action.message, modalRecover: true, loading:false, repeatPassword:''}
         case PASSWORD_CHANGED_SUCESS:
-            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:'', birthdayDate:'', ingress:''}
+            return{ ...state, isChangedPassword: true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:'', birthdayDate:'', ingress:'', isValidatePassword:false}
         case CREATED_USER_SUCCESS:
-            return{ ...state, isCreatedUser:true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:''}
+            return{ ...state, isCreatedUser:true, password:'',isChecked:false, userId:'', loading:false, repeatPassword:'', isValidatePassword: false}
         case PASSWORD_CHANGED_FAILED:
             return{ ...state, isChangedPassword:false, modalRecover:true, message: action.message, loading:false, repeatPassword:'',password:'', isCreatedUser:false}
         case CHANGE_INPUT:
@@ -93,11 +103,17 @@ const authDuck = (state = initialState, action) => {
         case EXPIRED_PASSWORD:
             return{ ...state,  loading: false, message: action.message, isLogged: false,  password:'',isChecked:false, isExpiredPassword:true, tokenProvitional: action.payload }
         case CHANGE_EXPIRED_PASSWORD_SUCCES:
-            return{ ...state, loading: false, isExpiredPassword:false, tokenProvitional:'', repeatPassword:'', password:'',isChangedPassword:true}
+            return{ ...state, loading: false, isExpiredPassword:false, tokenProvitional:'', repeatPassword:'', password:'',isChangedPassword:true, isValidatePassword:false}
         case CHANGE_EXPIRED_PASSWORD_FAILED:
             return{ ...state, loading: false, modalRecover:true, message: action.payload, repeatPassword:'', password:''}
         case RESET_DATA_RECOVER:
             return{ ...state, isChangedPassword:false, isValidCollaborator: false}
+        case SET_REGEX_PASSWORD:
+            return{ ...state, regexPassword: action.payload, passwordConfig: action.config }
+        case VALIDATE_PASSWORD_SUCESS:
+            return{ ...state, isValidatePassword: true}
+        case VALIDATE_PASSWORD_FAIL:
+            return{ ...state, rules: action.payload, isValidatePassword: false}
         default:
             return state;
     }
@@ -304,6 +320,31 @@ export const onResetRecover = () => {
     }
 }
 
+export const getRegexToPassword = () => async(dispatch) => {
+    try {
+        const response = await getRegexPassword()
+        if(response?.data){
+            const config = await getPasswordConfiguration();
+            dispatch({
+                type: SET_REGEX_PASSWORD, 
+                payload: response?.data?.regex, 
+                config: config?.data
+            })
+        }
+    } catch (e) {
+        console.log('error',e)
+    }
+}
 
+
+export const onValidatePassword = (password, regex, requirements) => dispatch => {
+    const missingParams = getValidators(password, regex, requirements);
+
+    if(missingParams.length > 0){
+        dispatch({type: VALIDATE_PASSWORD_FAIL, payload: missingParams})
+    }else{
+        dispatch({type: VALIDATE_PASSWORD_SUCESS})
+    }
+}
 
 export default authDuck;

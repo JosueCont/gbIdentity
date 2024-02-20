@@ -8,6 +8,7 @@ import Card from "../CardGafete";
 import GafeteItem from "../GafeteItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getLogsUser } from "../../store/ducks/homeDuck";
+import CommunicateList from "./CommunicatesList";
 
 const {height, width} = Dimensions.get('window');
 
@@ -21,6 +22,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const infoList = useSelector(state => state.homeDuck.infoList)
     const loader = useSelector(state => state.homeDuck.loading)
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
+    const communicates = useSelector(state => state.homeDuck.communicates)
     
     const getRegisters = () => {
         return accessList.map((item,index) => (
@@ -91,6 +93,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 )}
                 
             </View>
+            <CommunicateList communicates={communicates}/>
             {/*<View style={styles.contStreak}>
                 <View style={{justifyContent:'center'}}>
                     <Image source={require('../../../assets/containerNum.png')} style={styles.imgStreak}/>

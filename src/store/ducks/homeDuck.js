@@ -1,6 +1,6 @@
 import { 
     getDinamicCode, validateQrCode, createAccessLocation, getAccesLocationActives, 
-    getNotificationsCollaborator, getBadgetCollaborator, postReadNotifications, postAccessLogList 
+    getNotificationsCollaborator, getBadgetCollaborator, postReadNotifications, postAccessLogList, getColorDay, postCommunications 
 } from "../../utils/ApiApp";
 import moment from "moment";
 
@@ -16,6 +16,8 @@ const OPEN_MODAL = 'open_modal'
 const CLOSE_MODAL = 'close_modal'
 const ACCESS_DATA_SUCCESS = 'access_data_success'
 const SET_ROUTE = 'set_route'
+const SET_COLOR_DAY = 'set_color_day'
+const SET_COMMUNICATES = 'set_communicates'
 
 
 /*const SUCCESS_BADGE = 'success_badge';
@@ -37,7 +39,9 @@ const initialState = {
     pageNumber:1,
     pageSize:5,
     infoList: null,
-    route:'initial'
+    route:'initial',
+    colorDay:'',
+    communicates:[]
 }
 
 const homeDuck = (state = initialState, action) => {
@@ -66,6 +70,10 @@ const homeDuck = (state = initialState, action) => {
             return{ ...state, accessList: action.payload.list, infoList: action.payload.info, pageSize: action.payload.pageSize, loading: false }
         case SET_ROUTE:
             return{ ...state, route: action.payload}
+        case SET_COLOR_DAY:
+            return{ ...state, colorDay: action.payload}
+        case SET_COMMUNICATES:
+            return{ ...state, communicates: action.payload}
         default:
             return state
     }
@@ -167,6 +175,26 @@ export const onSetRoute = (route) => {
     return{
         type: SET_ROUTE,
         payload: route
+    }
+}
+
+export const onGetColorDay = () => async(dispatch) => {
+    try {
+        const response = await getColorDay()
+        console.log('response color', response?.data)
+        dispatch({type: SET_COLOR_DAY, payload: response?.data?.color})
+    } catch (e) {
+        console.log('error color',e)
+    }
+}
+
+export const getCommunicates = (data) => async(dispatch) => {
+    try {
+        const response = await postCommunications(data)
+        console.log('response comunications', response?.data)
+        dispatch({type: SET_COMMUNICATES, payload: response?.data?.items})
+    } catch (e) {
+        console.log('error',e)
     }
 }
 

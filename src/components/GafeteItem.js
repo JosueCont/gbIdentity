@@ -10,6 +10,7 @@ const {height, width} = Dimensions.get('window');
 
 const GafeteItem = ({item,setQrRoute, rules}) => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
+    const colorDay = useSelector(state => state.homeDuck.colorDay)
 
     return(
         <Card background={item?.color}>
@@ -19,8 +20,12 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
 
                 ): <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/>}
                 <View style={{ width: width/2,}}>
-                    <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
-                    <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
+                    <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
+                        <View>
+                            <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
+                            <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
+                        </View>
+                    </View>
                     <View style={styles.line}/>
                     <Text style={styles.lblBranch}>{item?.code}{item?.branch}</Text>
                     {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
