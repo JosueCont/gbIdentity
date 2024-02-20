@@ -1,14 +1,17 @@
 import React,{useState, useRef} from "react";
 import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
+import { Skeleton } from "native-base";
 import { getFontSize } from "../../utils/functions";
 import { Colors } from "../../utils/Colors";
 import CommunicatesItem from "./CommunicatesItem";
+import { useSelector } from "react-redux";
 
 const {height, width} = Dimensions.get('window');
 
 
 const CommunicateList = ({communicates}) => {
     const [currentIndex,setCurrentIndex]= useState(0);
+    const loader = useSelector(state => state.homeDuck.loading)
 
 
     const getIndicators = (item) => {
@@ -30,8 +33,8 @@ const CommunicateList = ({communicates}) => {
     })
     return(
         <View style={{ flex:1}}>
-            {communicates?.length > 0 && 
-                <View style={{alignSelf:'flex-start', marginLeft:20, marginVertical:20}}>
+            {!loader && communicates?.length > 0 ? (
+                <View style={styles.container}>
                     <Text style={{color: Colors.white, fontSize: getFontSize(16), fontWeight:'400', marginBottom:15}}>Comunicados BIMBO</Text>
                     <FlatList 
                         data={communicates}
@@ -51,7 +54,12 @@ const CommunicateList = ({communicates}) => {
                         {getIndicators(communicates.length)}
                     </View>
                 </View>
-            }
+
+            ):(
+                <View style={styles.container}>
+                    <Skeleton  lines={1} width={width * 0.9} mt={5} mr={4} borderRadius={20} height={height/2.2} mb={2} />
+                </View>
+            )}
         
         </View>
     )
@@ -78,6 +86,11 @@ const styles = StyleSheet.create({
       marginTop:20,
       marginRight:20
     },
+    container:{
+        alignSelf:'flex-start', 
+        marginLeft:20, 
+        marginVertical:20
+    }
 })
 
 export default CommunicateList;

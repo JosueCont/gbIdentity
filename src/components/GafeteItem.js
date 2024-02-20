@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { Skeleton } from "native-base";
 import { getFontSize } from "../utils/functions";
 import { Colors } from "../utils/Colors";
 import Card from "./CardGafete";
@@ -11,6 +12,7 @@ const {height, width} = Dimensions.get('window');
 const GafeteItem = ({item,setQrRoute, rules}) => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const colorDay = useSelector(state => state.homeDuck.colorDay)
+    const loader = useSelector(state => state.homeDuck.loading)
 
     return(
         <Card background={item?.color}>
@@ -21,13 +23,19 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                 ): <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/>}
                 <View style={{ width: width/2,}}>
                     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
-                        <View>
-                            <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
-                            <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
-                        </View>
+                        {loader ? (
+                            <View>
+                                <Skeleton.Text px="10" lines={2} mb={2} mt={2} backgroundColor={'gray.100'}/>
+                            </View>
+                        ):(
+                            <View>
+                                <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
+                                <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
+                            </View>
+                        )}
                     </View>
                     <View style={styles.line}/>
-                    <Text style={styles.lblBranch}>{item?.code}{item?.branch}</Text>
+                    {loader ? <Skeleton.Text px="2" lines={1} mb={2} mt={2} backgroundColor={'gray.100'} borderRadius={8}/> :<Text style={styles.lblBranch}>{item?.code}{item?.branch}</Text>}
                     {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
                     {rules?.showCurp && <Text>{item?.curp}</Text>}
                     {rules?.showNss && <Text>{item?.nss}</Text>}
@@ -35,10 +43,15 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                 <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
             </View>
             <View style={styles.contBtn}>
-                <TouchableOpacity onPress={setQrRoute}>
-                    <Image source={require('../../assets/qr1.png')} style={styles.imgQr}/>
-                </TouchableOpacity>
-                <Image source={require('../../assets/pointer.png')} style={styles.imgPointer}/>
+                {loader ? (
+                    <Skeleton lines={1} width={30} height={30} borderRadius={5} backgroundColor={'gray.100'}/>
+
+                ):(
+                    <TouchableOpacity onPress={setQrRoute}>
+                        <Image source={require('../../assets/qr-icon.png')} style={styles.imgQr}/>
+                    </TouchableOpacity>
+                )}
+                {/*<Image source={require('../../assets/pointer.png')} style={styles.imgPointer}/>*/}
             </View>
         </Card>
     )

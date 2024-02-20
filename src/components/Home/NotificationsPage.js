@@ -8,6 +8,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { getReadNotification, cancelReadNotify } from "../../store/ducks/notificationsDuck";
 import { getNotifications } from "../../store/ducks/notificationsDuck";
 import data from '../../utils/notificationsMockData.json'
+import { Skeleton } from "native-base";
 
 const {height, width} = Dimensions.get('window');
 
@@ -18,6 +19,7 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
     const badge = useSelector(state => state.notifyDuck.badgeNotification)
     const current = useSelector(state => state.notifyDuck.current)
     const totalPages = useSelector(state => state.notifyDuck.totalPages)
+    const loader = useSelector(state => state.notifyDuck.loading)
 
 
 
@@ -58,13 +60,19 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
     return(
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={true} goBack={backHome} title={`Notificaciones (${total})`}/>
-            {!!notifications && notifications.map((item,index) => (
-                <View style={styles.card} key={index}>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.date}>{moment.utc(item?.createdAt,).local().format('DD MMMM YYYY HH:mm')}</Text>
-                    <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item?.body}</Text>
-                </View>
-            ))}
+            {!loader && notifications?.length > 0 ? 
+                !!notifications && notifications.map((item,index) => (
+                    <View style={styles.card} key={index}>
+                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.date}>{moment.utc(item?.createdAt,).local().format('DD MMMM YYYY HH:mm')}</Text>
+                        <Text style={styles.description} ellipsizeMode='tail' numberOfLines={4}>{item?.body}</Text>
+                    </View>
+                )) :(
+                    <View>
+                        <Skeleton lines={1} width={width/1.1}borderRadius={20} height={height/4.5} mb={2}/>
+                        <Skeleton lines={1} width={width/1.1}borderRadius={20} height={height/4.5} mb={2}/>
+                    </View>
+                )}
             {!!notifications && notifications.length > 0  ? (
                 <View style={{flexDirection:'row'}}>{getIndicators(totalPages)}</View>
             ): null}

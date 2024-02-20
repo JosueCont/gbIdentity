@@ -18,6 +18,7 @@ const ACCESS_DATA_SUCCESS = 'access_data_success'
 const SET_ROUTE = 'set_route'
 const SET_COLOR_DAY = 'set_color_day'
 const SET_COMMUNICATES = 'set_communicates'
+const SET_REFRESH = 'refresh'
 
 
 /*const SUCCESS_BADGE = 'success_badge';
@@ -41,7 +42,8 @@ const initialState = {
     infoList: null,
     route:'initial',
     colorDay:'',
-    communicates:[]
+    communicates:[],
+    refresh:false
 }
 
 const homeDuck = (state = initialState, action) => {
@@ -73,7 +75,9 @@ const homeDuck = (state = initialState, action) => {
         case SET_COLOR_DAY:
             return{ ...state, colorDay: action.payload}
         case SET_COMMUNICATES:
-            return{ ...state, communicates: action.payload}
+            return{ ...state, communicates: action.payload, refresh: false }
+        case SET_REFRESH:
+            return{ ...state, refresh: true}
         default:
             return state
     }
@@ -195,6 +199,12 @@ export const getCommunicates = (data) => async(dispatch) => {
         dispatch({type: SET_COMMUNICATES, payload: response?.data?.items})
     } catch (e) {
         console.log('error',e)
+    }
+}
+
+export const onRefreshAction = () => {
+    return{
+        type: SET_REFRESH
     }
 }
 

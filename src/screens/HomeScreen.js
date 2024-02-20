@@ -5,7 +5,7 @@ import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
-import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute, onGetColorDay, getCommunicates } from "../store/ducks/homeDuck";
+import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute, onGetColorDay, getCommunicates, onRefreshAction } from "../store/ducks/homeDuck";
 import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
@@ -19,6 +19,7 @@ const HomeScreen = () => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const isReadNotify = useSelector(state => state.notifyDuck.isReadNotify)
     const dataUser = useSelector(state => state.authDuck.dataUser)
+    const refresh = useSelector(state => state.homeDuck.refresh)
     const scrollViewRef = useRef();
 
 
@@ -81,10 +82,25 @@ const HomeScreen = () => {
           }
     }
 
+    const onRefresh = async() => {
+        dispatch(onRefreshAction())
+        setTimeout(() => {
+            dispatch(userPreferences(userId))
+            dispatch(onGetColorDay())
+            dispatch(getCommunicates({pageNumber: 1, pageSize: 1000}))
+            dispatch(getInitialData({userId}))
+            dispatch(getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
+        },500)
+        console.log('refresh')
+    }
+
     return(
         <ScreenBaseLogged 
             showNotifications={() => getSelectedRoute('notifications')}
-            showProfile={() => getSelectedRoute('profile')} scrollViewRef={scrollViewRef} >
+            showProfile={() => getSelectedRoute('profile')} 
+            scrollViewRef={scrollViewRef} 
+            refresh={refresh}
+            onRefresh={() => onRefresh()}>
             {selectedSection === 'initial' ? (
                 <InitialPage setQrRoute={() => {getSelectedRoute('code'); dispatch(activateAutoGenerate()) }}/>
             ) : selectedSection === 'notifications' ? (

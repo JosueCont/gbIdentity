@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { View, Text, Image, TouchableOpacity, Dimensions, SafeAreaView, StyleSheet, ScrollView, } from "react-native";
+import { View, Text, Image, TouchableOpacity, Dimensions, SafeAreaView, StyleSheet, ScrollView, RefreshControl, } from "react-native";
 import { getFontSize } from "../../utils/functions";
 import { Colors } from "../../utils/Colors";
 import { Entypo } from '@expo/vector-icons'; 
@@ -13,7 +13,7 @@ import 'moment/locale/es';
 
 const {height, width} = Dimensions.get('window');
 
-const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRef}) => {
+const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRef, refresh=false, onRefresh}) => {
     const user = useSelector(state => state.authDuck.dataUser)
     const badge = useSelector(state => state.notifyDuck.badgeNotification)
 
@@ -60,6 +60,7 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
             </View>
             <ScrollView
                 ref={scrollViewRef}
+                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} tintColor={Colors.white}/>}
                 keyboardShouldPersistTaps='handled'
                 automaticallyAdjustKeyboardInsets
                 nestedScrollEnabled={true}
