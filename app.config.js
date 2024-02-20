@@ -41,6 +41,14 @@ const commonConfig = {
               //  "./local/assets/notification-sound-other.wav"
               //]
             }
+        ],
+        [
+            "expo-media-library",
+            {
+              "photosPermission": "Allow BimboWallet to access your photos.",
+              "savePhotosPermission": "Allow BimboWallet to save photos.",
+              "isAccessMediaLocationEnabled": true
+            }
           ]
     ]
 }
@@ -54,7 +62,8 @@ const android = {
         "INTERNET",
         "ACCESS_MEDIA_LOCATION",
         "RECEIVE_BOOT_COMPLETED",
-        "SCHEDULE_EXACT_ALARM"
+        "SCHEDULE_EXACT_ALARM",
+        "READ_EXTERNAL_STORAGE"
     ]
 }
 

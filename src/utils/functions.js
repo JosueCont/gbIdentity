@@ -53,3 +53,33 @@ export const getExpoToken = async() => {
         console.log("registerForPushNotificationsAsync error =>", e.toString())
     }
 }
+
+export const getValidators = (password, regex, polities) => {
+    const requirements = {
+        minLength: new RegExp(`.{${polities?.passwordLength},}`),
+    };
+
+    const messages = {
+        number: 'Un número',
+        specialChar:'Un caracter especial',
+        uppercase:'Una letra mayúscula',
+        lowercase:'Una letra minúscula',
+        minLength:`Al menos ${polities?.passwordLength} dígitos`
+    }
+
+    if(polities.withSymbols) requirements.specialChar = /(?=.*[!@#$%^&*()_+\-=\[\]{};\\\'":\\\\|,.<>/?])/
+    if(polities.withCapitalLetters) requirements.uppercase = /(?=.*[A-Z])/
+    if(polities.withNumbers) requirements.number = /(?=.*[0-9])/
+    if(polities.withLowercase) requirements.lowercase = /(?=.*[a-z])/
+
+    const missingParams = [];
+
+    Object.keys(requirements).forEach((key) => {
+      if (!requirements[key].test(password)) {
+        missingParams.push({key, message:messages[key]});
+      }
+    });
+
+    return missingParams;
+    
+}

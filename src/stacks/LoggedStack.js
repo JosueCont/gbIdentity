@@ -6,6 +6,7 @@ import * as Notifications from 'expo-notifications';
 import { getExpoToken } from "../utils/functions";
 import { useSelector, useDispatch } from "react-redux";
 import { getInitialData } from "../store/ducks/notificationsDuck";
+import ModalInfoCommunicate from "../components/modals/ModalInfoCommunicate";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,9 @@ const LoggedStack = () => {
 
             })}>
                 <Stack.Screen  name='Home' component={HomeScreen} options={{headerShown: false}}/>
+                <Stack.Group screenOptions={{presentation:'transparentModal', headerShown:false, animation:'slide_from_bottom', gestureDirection:'vertical', gestureEnabled:true,  }} >
+                    <Stack.Screen name="ModalCommunicate" component={ModalInfoCommunicate}/>
+                </Stack.Group>
         </Stack.Navigator>
     )
 }

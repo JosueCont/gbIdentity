@@ -6,7 +6,7 @@ import { getFontSize } from "../../utils/functions";
 import HeaderContent from "../HeaderContent";
 import Input from "../CustomInput";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction, setValuePAssword, setRepeatPassword } from "../../store/ducks/authDuck";
+import { logoutAction, setValuePAssword, setRepeatPassword, onValidatePassword } from "../../store/ducks/authDuck";
 import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
 import ModalAlertConfirm from "../modals/ModalAlert";
 import { onChageModalPreferences, onChangePasswordLogged, onChangeText, onDeleteProfile, updatePreferences } from "../../store/ducks/preferencesDuck";
@@ -34,9 +34,13 @@ const ProfilePage = ({backHome}) => {
     const modalFailed = useSelector(state => state.preferencesDuck.modalFailed)
     const modalSuccess = useSelector(state => state.preferencesDuck.modalSucess)
     const loader = useSelector(state => state.preferencesDuck.loading)
+    const regex = useSelector(state => state.authDuck.regexPassword)
+    const passwordConfig = useSelector(state => state.authDuck.passwordConfig)
+    const isValidatePassword = useSelector(state => state.authDuck.isValidatePassword)
+    const rules = useSelector(state => state.authDuck.rules)
 
     useEffect(() => {
-        if(password != '' && repeatPassword != '') setDisable(false)
+        if(password != '' && repeatPassword != '' && isValidatePassword) setDisable(false)
         else setDisable(true)
     },[password, repeatPassword])
 
@@ -78,7 +82,7 @@ const ProfilePage = ({backHome}) => {
                         onValueChange={(val) => onChangeSwitch(val)}/>
                 </View>
             </View>
-            <View style={[styles.card,{height: height/2.1, marginBottom:30}]}>
+            <View style={[styles.card,{paddingVertical:14, marginBottom:30}]}>
                 <Text style={styles.title}>Cambiar mi contraseña</Text>
                 <View style={{marginTop:21, marginBottom:14}}>
                     <Text style={[styles.txtPref,{marginBottom:10}]}>Ingrese su nueva contraseña</Text>
@@ -86,9 +90,23 @@ const ProfilePage = ({backHome}) => {
                         background={Colors.inputV2} 
                         showEye={true}
                         value={password} 
-                        setValue={(value) => dispatch(onChangeText({prop: 'password',value}))} 
+                        setValue={(value) => {
+                            dispatch(onChangeText({prop: 'password',value}))
+                            dispatch(onValidatePassword(value, regex, passwordConfig))
+                        }} 
                         secureTextEntry
                     />
+
+                    {!isValidatePassword && rules.length > 0 && 
+                        <View style={{marginVertical:10, }}>
+                            <Text style={{color: Colors.black, fontSize: getFontSize(15), fontWeight: '700'}}>La contraseña debe tener:</Text>
+                            {rules.map((item,index) => (
+                                <View style={{marginBottom:5,}} key={index}>
+                                    <Text style={{color: Colors.red, fontSize: getFontSize(13)}}>- {item?.message}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    }
                     <Text style={[styles.txtPref,{marginBottom:10, marginTop:13}]}>Confirme su nueva contraseña</Text>
                     <Input 
                         background={Colors.inputV2} 

@@ -17,5 +17,9 @@ export const axiosTypes = {
     ACCESS_LOG_COLLABORATOR:'/AccessLog/Collaborator',
     USER_PREFERENCES: '/UserConfiguration/preferences/',
     UPDATE_USER_PREFERENCES: '/UserConfiguration/Preferences',
-    DELETE_PROFILE: '/DeletionRequests/Create/'
+    DELETE_PROFILE: '/DeletionRequests/Create/',
+    GET_COLOR_DAY: '/SecurityConfiguration/GetTodayColor',
+    GET_REGEX_PASSWORD: '/SecurityConfiguration/GetPasswordRegex',
+    GET_PASSWORD_CONFIG:'/SecurityConfiguration/GetPasswordConfiguration',
+    GET_COMMUNICATIONS: '/Communications/App'
 }

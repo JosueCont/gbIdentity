@@ -5,7 +5,7 @@ import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
-import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute } from "../store/ducks/homeDuck";
+import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute, onGetColorDay, getCommunicates } from "../store/ducks/homeDuck";
 import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
@@ -60,6 +60,9 @@ const HomeScreen = () => {
         const expoToken = await getExpoToken();
         const response = await  dispatch(saveExpoToken({userId, expoToken}))
         await dispatch(userPreferences(userId))
+        await dispatch(onGetColorDay())
+        dispatch(getCommunicates({pageNumber: 1, pageSize: 1000}))
+
 
     }
 
