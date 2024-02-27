@@ -102,7 +102,7 @@ const HomeScreen = () => {
             refresh={refresh}
             onRefresh={() => onRefresh()}>
             {selectedSection === 'initial' ? (
-                <InitialPage setQrRoute={() => {getSelectedRoute('code'); dispatch(activateAutoGenerate()) }}/>
+                <InitialPage setQrRoute={() => {getSelectedRoute('code'); /*dispatch(activateAutoGenerate())*/ }}/>
             ) : selectedSection === 'notifications' ? (
                 <NotificationsPage backHome={() => getSelectedRoute('initial')} userId={userId} moveOnTop={() => onMoveScroll()}/>
             ) : selectedSection === 'profile' ? (

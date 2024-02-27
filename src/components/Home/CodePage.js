@@ -27,7 +27,7 @@ const CodePage = ({backHome}) => {
 
     useEffect(() => {
         if(userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b'){
-            if(isRunning != true && seg === 0 && minutes === 0){
+            if(!isRunning && seg === 0 && minutes === 0){
                 dispatch(getCodeQR({isRunning, userId}))
             }
         }

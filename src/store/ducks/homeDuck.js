@@ -19,6 +19,7 @@ const SET_ROUTE = 'set_route'
 const SET_COLOR_DAY = 'set_color_day'
 const SET_COMMUNICATES = 'set_communicates'
 const SET_REFRESH = 'refresh'
+const ERROR_COMMUNICATES = 'error_communicates'
 
 
 /*const SUCCESS_BADGE = 'success_badge';
@@ -61,7 +62,7 @@ const homeDuck = (state = initialState, action) => {
         case NEW_CODE:
             return{...state, isRunning:false}
         case CANCEL_RUNNING:
-            return{...state, isRunning:false}
+            return{...state, isRunning:true}
         case ACTIVATE_AUTO_RUNNING:
             return{...state, isRunning: false}
         case OPEN_MODAL:
@@ -78,6 +79,8 @@ const homeDuck = (state = initialState, action) => {
             return{ ...state, communicates: action.payload, refresh: false }
         case SET_REFRESH:
             return{ ...state, refresh: true}
+        case ERROR_COMMUNICATES:
+            return{ ...state, refresh: false, }
         default:
             return state
     }
@@ -89,6 +92,7 @@ export const getCodeQR = ({isRunning, userId}) => async(dispatch) => {
         dispatch({type: LOADING})
         if(isRunning != true){
             const code = await getDinamicCode(userId)
+            console.log('code',code?.data?.code)
             if(code?.data?.code != ''){
                 //await createAccessLocation({name:code?.data?.code})
                 //const locationsActives = (await getAccesLocationActives())?.data || [];
@@ -194,10 +198,12 @@ export const onGetColorDay = () => async(dispatch) => {
 
 export const getCommunicates = (data) => async(dispatch) => {
     try {
+        //console.log('dataSend',data)
         const response = await postCommunications(data)
-        console.log('response comunications', response?.data)
+        //console.log('response comunications', response?.data)
         dispatch({type: SET_COMMUNICATES, payload: response?.data?.items})
     } catch (e) {
+        dispatch({type: ERROR_COMMUNICATES})
         console.log('error',e)
     }
 }

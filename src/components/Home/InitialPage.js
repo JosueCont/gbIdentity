@@ -23,6 +23,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const loader = useSelector(state => state.homeDuck.loading)
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
     const communicates = useSelector(state => state.homeDuck.communicates)
+    const [modalCard, setModalCard] = useState(false)
     
     const getRegisters = () => {
         return accessList.map((item,index) => (
@@ -70,26 +71,8 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     return(
         <View style={styles.container}>
             <View style={styles.contCards}>
-               {/* <FlatList 
-                    data={gafetes}
-                    pagingEnabled
-                    keyExtractor={(item,index) => index.toString()}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    snapToOffsets={[...Array(gafetes.length)].map((x, i) =>  width * i + width/1.1)}
-                    decelerationRate={0}
-                    snapToAlignment="center"
-                    renderItem={({item,index}) => (
-                        <GafeteItem item={item} setQrRoute={setQrRoute}/>
-                    )}
-                    viewabilityConfig={{viewAreaCoveragePercentThreshold: 50,}}
-                    onViewableItemsChanged={ change.current }
-                />
-                <View style={styles.indicatorCont}>
-                    {getIndicators(gafetes.length)}
-                    </View>*/}
                 {credentials?.bimboCredential && (
-                    <GafeteItem item={item} setQrRoute={setQrRoute} rules={credentials?.bcConfiguration}/>
+                    <GafeteItem item={item} setQrRoute={setQrRoute} rules={credentials?.bcConfiguration} />
                 )}
                 
             </View>

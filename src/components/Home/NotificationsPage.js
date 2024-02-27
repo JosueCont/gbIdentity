@@ -60,7 +60,7 @@ const NotificationsPage = ({backHome, userId,moveOnTop}) => {
     return(
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={true} goBack={backHome} title={`Notificaciones (${total})`}/>
-            {!loader && notifications?.length > 0 ? 
+            {!loader ? notifications?.length > 0 &&
                 !!notifications && notifications.map((item,index) => (
                     <View style={styles.card} key={index}>
                         <Text style={styles.title}>{item.title}</Text>
