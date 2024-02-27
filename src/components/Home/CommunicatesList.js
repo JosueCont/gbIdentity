@@ -33,7 +33,7 @@ const CommunicateList = ({communicates}) => {
     })
     return(
         <View style={{ flex:1}}>
-            {!loader && communicates?.length > 0 ? (
+            {!loader ? communicates?.length > 0 && (
                 <View style={styles.container}>
                     <Text style={{color: Colors.white, fontSize: getFontSize(16), fontWeight:'400', marginBottom:15}}>Comunicados BIMBO</Text>
                     <FlatList 

@@ -6,16 +6,18 @@ import { Colors } from "../utils/Colors";
 import Card from "./CardGafete";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window');
 
 const GafeteItem = ({item,setQrRoute, rules}) => {
+    const navigation = useNavigation()
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     const loader = useSelector(state => state.homeDuck.loading)
 
     return(
-        <Card background={item?.color}>
+        <Card background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
             <View style={styles.contInfo}>
                 {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (
                     <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
@@ -41,17 +43,6 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                     {rules?.showNss && <Text>{item?.nss}</Text>}
                 </View>
                 <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
-            </View>
-            <View style={styles.contBtn}>
-                {loader ? (
-                    <Skeleton lines={1} width={30} height={30} borderRadius={5} backgroundColor={'gray.100'}/>
-
-                ):(
-                    <TouchableOpacity onPress={setQrRoute}>
-                        <Image source={require('../../assets/qr-icon.png')} style={styles.imgQr}/>
-                    </TouchableOpacity>
-                )}
-                {/*<Image source={require('../../assets/pointer.png')} style={styles.imgPointer}/>*/}
             </View>
         </Card>
     )
