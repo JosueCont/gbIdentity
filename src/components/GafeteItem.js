@@ -19,7 +19,10 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
     return(
         <Card background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
             <View style={styles.contInfo}>
-                {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (
+                {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (item?.image !=null || item?.image !='') ? (
+                    <Image source={{uri: item?.image}} style={styles.imgProfile}/>
+                    
+                ):(
                     <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
 
                 ): <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/>}
@@ -37,7 +40,14 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                         )}
                     </View>
                     <View style={styles.line}/>
-                    {loader ? <Skeleton.Text px="2" lines={1} mb={2} mt={2} backgroundColor={'gray.100'} borderRadius={8}/> :<Text style={styles.lblBranch}>{item?.code}{item?.branch}</Text>}
+                    {loader ? 
+                        <Skeleton.Text px="2" lines={1} mb={2} mt={2} backgroundColor={'gray.100'} borderRadius={8}/> 
+                    :(
+                        <View>
+                            <Text style={[styles.lblBranch,{marginTop:6}]}>{item?.branch}</Text>
+                            <Text style={styles.lblBranch}>{item?.code}</Text>
+                        </View>
+                    )}
                     {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
                     {rules?.showCurp && <Text>{item?.curp}</Text>}
                     {rules?.showNss && <Text>{item?.nss}</Text>}
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
         marginTop:6
     },
     lblBranch:{
-        marginTop:6, 
+        //marginTop:6, 
         width: width/2.4, 
         paddingRight:4
     },

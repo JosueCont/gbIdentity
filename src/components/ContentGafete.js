@@ -25,7 +25,12 @@ const ContentGafete = ({item, rules,}) => {
     const loader = useSelector(state => state.homeDuck.loading)
   return (
     <View style={styles.contInfo}>
-      {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? (
+      {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? item?.image != null || item?.image !='' ? (
+        <Image
+          source={{uri: item?.image}}
+          style={styles.imgProfile}
+        />
+      ):(
         <Image
           source={require("../../assets/profile.png")}
           style={styles.imgProfile}

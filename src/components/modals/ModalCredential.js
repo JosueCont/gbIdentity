@@ -43,7 +43,7 @@ const ModalCredential = ({visible, setVisible}) => {
     return(
         <SafeAreaView style={styles.card}>
             {Platform.OS === 'ios' ? (
-                <View style={{flex:1, position:'absolute', top: height/3.5, right:0,transform:[{rotateZ:'90deg'}],}}>
+                <View style={{flex:1, position:'absolute', top: height*.35, width: width, right:0,transform:[{rotateZ:'90deg'}],}}>
                     <Card 
                         isHorizontal={true} 
                         isFront={!showQr} 

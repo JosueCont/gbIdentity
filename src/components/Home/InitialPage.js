@@ -61,12 +61,13 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const item = {
         firstName: dataUser?.firstName,
         lastName: dataUser?.lastName,
-        code:'',
+        code: dataUser?.collaboratorId,
         branch:'',
         curp: dataUser?.curp,
         nss: dataUser?.nss,
         birthDate: moment(dataUser?.birthDate).format('DD-MM-YYYY'),
-        branch: dataUser?.ouWorkCenter
+        branch: dataUser?.ouWorkCenter,
+        image: dataUser?.profileImage
     }
     return(
         <View style={styles.container}>
