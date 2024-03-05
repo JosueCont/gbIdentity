@@ -20,6 +20,7 @@
     "expo-media-library": "~15.4.1",
     "expo-notifications": "~0.20.1",
     "expo-screen-capture": "~5.3.0",
+    "expo-screen-orientation": "~6.0.6",
     "expo-status-bar": "~1.6.0",
     "expo-updates": "~0.18.17",
     "moment": "^2.29.4",

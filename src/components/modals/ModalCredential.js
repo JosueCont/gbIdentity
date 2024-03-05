@@ -10,6 +10,7 @@ import Card from "../CardGafete";
 import ContentGafete from "../ContentGafete";
 import { getCodeQR, activateAutoGenerate, cancelAutoGenerateCode } from "../../store/ducks/homeDuck";
 import ContentQr from "../ContentQr";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const {height, width} = Dimensions.get('window');
 
@@ -35,6 +36,25 @@ const ModalCredential = ({visible, setVisible}) => {
             }
         }
     },[isRunning, seg, minutes,showQr])
+
+    useEffect(() => {
+        (async() => {
+            if (Platform.OS === 'ios') {
+                //await ScreenOrientation.unlockAsync();
+               //await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+               //const orientation = await ScreenOrientation.getOrientationLockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+                //console.log('orientation',orientation)
+            }
+        
+            
+                
+        })()
+        return async() => {
+            if(Platform.OS === 'ios'){
+                //await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+            }
+        };
+      }, []);
 
     useEffect(() => {
         console.log('showqr',showQr)
