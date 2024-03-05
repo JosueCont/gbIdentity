@@ -42,6 +42,12 @@ const commonConfig = {
               //]
             }
         ],
+        //[
+        //    "expo-screen-orientation",
+        //    {
+        //      "initialOrientation": "DEFAULT"
+        //    }
+        //],
         [
             "expo-media-library",
             {
