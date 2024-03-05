@@ -19,7 +19,7 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
     return(
         <Card background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
             <View style={styles.contInfo}>
-                {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (item?.image !=null || item?.image !='') ? (
+                {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (item?.image !=null && item?.image !='') ? (
                     <Image source={{uri: item?.image}} style={styles.imgProfile}/>
                     
                 ):(
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     imgProfile:{
         width:100, 
         height:115, 
-        resizeMode:'contain',
+        resizeMode:'cover',
         borderRadius:15,
         marginRight:6,
         //elevation:4,

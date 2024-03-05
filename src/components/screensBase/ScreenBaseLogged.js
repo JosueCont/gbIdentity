@@ -42,7 +42,7 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', paddingHorizontal:12}}>
                     <TouchableOpacity onPress={showProfile} style={styles.contShadow} >
-                        {user?.id != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (user?.profileImage !=null || user?.profileImage !='') ? (
+                        {user?.id != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (user?.profileImage !=null && user?.profileImage !='') ? (
                             <Image source={{uri: user?.profileImage}} style={styles.imgProfile}/>
                         ):(
                             <Image source={require('../../../assets/profile.png')} style={styles.imgProfile}/>
