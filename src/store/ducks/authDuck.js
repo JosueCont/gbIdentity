@@ -307,6 +307,7 @@ export const saveExpoToken = (data) => async(dispatch) => {
             "userId": data.userId,
             "expoToken": data.expoToken
         }
+        console.log('dataSendExpoToken', dataSend)
         const response = await postSaveExpoToken(dataSend)
         console.log('responseExpoToken', response.data)
     } catch (e) {

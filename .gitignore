@@ -52,4 +52,9 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+.expo
+.vscode
+yarn.lock
+.env
+.env.local
 

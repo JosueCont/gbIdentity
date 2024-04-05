@@ -33,7 +33,8 @@ export const getExpoToken = async() => {
                 console.log('Failed to get push token for push notification!');
                 return;
             }
-            token = (await Notifications.getExpoPushTokenAsync({'projectId': Constants.expoConfig.extra.eas.projectId,})).data;
+            console.log(process.env.EXPO_PUBLIC_PROJECT_ID)
+            token = (await Notifications.getExpoPushTokenAsync({ projectId: process.env.EXPO_PUBLIC_PROJECT_ID })).data;
             //console.log(token);
         } else {
             console.log('Must use physical device for Push Notifications');
