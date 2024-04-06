@@ -35,3 +35,36 @@ Para levantar el proyecto
   APP_ENV=expo expo start
 ```
 *expo puede ser cambiado por android o ios dependiendo lo que se requiera
+
+
+
+### Requisitos para publicar la app ###
+
+- eas login
+- eas update:configure
+
+APP_ENV=expo eas submit
+
+
+yarn expo install --fix
+npx expo-doctor@latest
+
+
+como se usa svg para expo 50 se modifico metro.config.js
+y se instalo lo siguiente: 
+yarn add --dev @react-native/js-polyfills metro-config @react-native/metro-babel-transformer metro-runtime @react-native/metro-config
+
+
+yarn expo start --go
+
+
+APP_ENV=expo eas channel:list
+APP_ENV=expo eas channel:create
+
+
+APP_ENV=expo eas update --branch develop
+
+
+eas build --profile preview
+
+eas build --profile android

@@ -14,7 +14,7 @@ const Input = ({value, setValue, showEye=false ,background = Colors.whiteInput, 
             <TextInput 
                 onChangeText={setValue} 
                 value={value} 
-                style={[styles.input,{backgroundColor: background,}]} 
+                style={[styles.input,{backgroundColor: background, }]} 
                 {...props}
                 secureTextEntry={showEye ? !showPassword : false}
             />
@@ -33,7 +33,15 @@ const styles = StyleSheet.create({
         width:width/1.27, 
         height: 50,  
         borderRadius:8, 
-        padding:7
+        padding:7,
+        elevation:2,
+        shadowColor: '#000', // Color de la sombra
+        shadowOffset: {
+          width: 0,  
+          height: 4,
+        },
+        shadowOpacity: 0.25, 
+        shadowRadius: 4, 
     }
 })
 

@@ -36,7 +36,7 @@ const ScreenBaseAuth = ({children, title='Hola'}) => {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:Colors.blue,
+        backgroundColor:Colors.white,
         flex:1,
     },
     contHeader:{
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         height:118, width:200, resizeMode:'contain'
     },
     title:{
-        color: Colors.white, 
+        color: Colors.blue, 
         textAlign:'center', 
         width:width/1.7, 
         fontSize:getFontSize(18),

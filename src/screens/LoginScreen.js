@@ -113,10 +113,19 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     lblInput:{
-        color:Colors.white, 
+        color:Colors.blue, 
         fontSize:getFontSize(16), 
         marginBottom:6,
         marginTop:10
+    },
+    homeInputs:{
+        shadowColor: '#000', // Color de la sombra
+        shadowOffset: {
+          width: 0,  
+          height: 4,
+        },
+        shadowOpacity: 0.25, 
+        shadowRadius: 4, 
     },
     contInputs:{
         marginTop:30, 
@@ -151,7 +160,7 @@ const styles = StyleSheet.create({
         fontSize:getFontSize(20)
     },
     lblRecover:{
-        color:Colors.white, 
+        color:Colors.blue, 
         fontSize:getFontSize(14), 
         fontWeight:'400',
         textDecorationLine:'underline',
@@ -159,14 +168,14 @@ const styles = StyleSheet.create({
         textShadowColor: Colors.white
     },
     lblAcep:{
-        color:Colors.white,
+        color:Colors.blue,
         fontSize:getFontSize(14), 
         fontWeight:'400',
         marginLeft:10, 
     },
     termsCond:{
         textDecorationLine:'underline', 
-        textDecorationColor:Colors.white
+        textDecorationColor:Colors.blue
     }
 })
 
