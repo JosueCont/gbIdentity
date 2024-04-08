@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 
 const {height, width} = Dimensions.get('window');
 
-const Input = ({value, setValue, showEye=false ,background = Colors.whiteInput, ...props}) => {
+const Input = ({value, setValue, showEye=false ,background = Colors.gray, ...props}) => {
     const [showPassword, setShowPassword] = useState(false)
 
     return(
