@@ -67,7 +67,7 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
 
 const styles = StyleSheet.create({
     lbl:{
-        color:Colors.white, 
+        color:Colors.blue, 
         fontSize:getFontSize(16), 
         marginBottom:6,
         //marginTop:100
