@@ -1,10 +1,10 @@
 const commonConfig = {
-    "name": "bimboWallet",
-    "scheme":'bimbowallet',
-    "slug": "bimboWallet",
+    "name": "GB Identity",
+    "scheme":'gbidentity',
+    "slug": "gbidentity",
     "version": "1.0.0",
     "orientation": "portrait",
-    //"icon": "./assets/icon.png",
+    "icon": "./assets/icon_app.png",
     "userInterfaceStyle": "light",
     "splash": {
         //"image": "./assets/icon.png",
@@ -15,7 +15,7 @@ const commonConfig = {
       "**/*"
     ],
     "updates": {
-        "url": "https://u.expo.dev/01ba6eee-26b8-4d4c-94e6-e90a2a73a05b"
+        "url": "https://u.expo.dev/6e19e3e5-05fc-4dfd-b63d-d55eb7a6a633"
     },
     "runtimeVersion": {
         "policy": "sdkVersion"
@@ -25,16 +25,16 @@ const commonConfig = {
     },
     "extra": {
         "eas": {
-          "projectId": "01ba6eee-26b8-4d4c-94e6-e90a2a73a05b"
+          "projectId": "6e19e3e5-05fc-4dfd-b63d-d55eb7a6a633"
         }
-    },
+      },
     //"assets": ["./assets/fonts/"],
     "owner": "appshuman",
     "plugins":[
         [
             "expo-notifications",
             {
-              "icon": "./assets/icon.png",
+              "icon": "./assets/icon_app.png",
               "color": "#284ED4",
               //"sounds": [
               //  "./local/assets/notification-sound.wav",
@@ -64,6 +64,7 @@ const android = {
         //"foregroundImage": "./assets/icon.png",
         "backgroundColor": "#284ED4"
     },
+    package: "com.hiumanlab.gbidentity",
     "permissions": [
         "INTERNET",
         "ACCESS_MEDIA_LOCATION",
@@ -75,18 +76,20 @@ const android = {
 
 const ios = {
     "supportsTablet": false,
-    "usesAppleSignIn": true,
+    bundleIdentifier: "com.hiumanlab.gbidentity",
+    resourceClass: "large",
 }
 
-const version = "1.0.0"
-const versionBuildApp = 1;
-const versionAndroidApp = 1;
+const version = "1.0.1"
+const versionBuildApp = 3;
+const versionAndroidApp = 3;
 
 module.exports = () => {
     if(process.env.APP_ENV === "ios") {
         return {
             ...commonConfig,
             "version": version,
+            "image": "latest",
             ios: {...ios,'buildNumber':versionBuildApp.toString()},
         };
     }else if(process.env.APP_ENV === "android") {
