@@ -201,7 +201,7 @@ const FormValidateUser = ({isNewUser}) => {
 
 const styles = StyleSheet.create({
     lbl:{
-        color:Colors.white, 
+        color:Colors.blue, 
         fontSize:getFontSize(16), 
         marginBottom:6,
         //marginTop:100
