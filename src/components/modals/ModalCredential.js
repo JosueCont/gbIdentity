@@ -49,7 +49,7 @@ const ModalCredential = ({visible, setVisible}) => {
                 setCode(response.data.code);
                 setLoading(false);
                 // Inicia el contador aquí solo si es necesario
-                startCounter(response.data.seconds - 3);
+                startCounter(response.data.seconds - 1);
             }
         } catch (error) {
             console.log('Error al obtener el código QR:', error);
