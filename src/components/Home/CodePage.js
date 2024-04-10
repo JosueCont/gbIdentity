@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, useRef} from "react";
 import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
 import { Spinner } from "native-base";
 import { Colors } from "../../utils/Colors";
@@ -9,29 +9,79 @@ import Card from "../CardGafete";
 import QRCode from "react-native-qrcode-svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getCodeQR } from "../../store/ducks/homeDuck";
-
+import { getDinamicCode } from "../../utils/ApiApp";
 const {height, width} = Dimensions.get('window');
 
 const CodePage = ({backHome}) => {
     const dispatch = useDispatch();
-    const minutes = useSelector(state => state.homeDuck.minutes);
-    const seg = useSelector(state => state.homeDuck.seconds)
-    const code = useSelector(state => state.homeDuck.code)
-    const loader = useSelector(state => state.homeDuck.loading)
-    const isRunning = useSelector(state => state.homeDuck.isRunning)
+    //const minutes = useSelector(state => state.homeDuck.minutes);
+    //const seg = useSelector(state => state.homeDuck.seconds)
+    //const code = useSelector(state => state.homeDuck.code)
+    //const loader = useSelector(state => state.homeDuck.loading)
+    //const isRunning = useSelector(state => state.homeDuck.isRunning)
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
-    //const [minutes, setMinutes] = useState(0);
-    //const [seg, setSeg] = useState(0)
-    //const [code, setCode] = useState('')
-    //const [loading, setLoading] = useState(false)
+    const [code, setCode] = useState(false)
+    const [loader, setLoading] = useState(false)
+    const [isRunning, setIsRunning] = useState(true)
+    const [minutes, setMinutes] = useState(0)
+    const [seg, setSeconds] = useState(0)
+    
+    
+
+    const countdownInterval = useRef(null); // Cambio aquí
+
+    const getCodeQR = async ({ isRunning, userId }) => {
+        setLoading(true);
+        // Lógica para obtener el código QR...
+        try {
+            const response = await getDinamicCode(userId);
+            if (response?.data?.code) {
+                setCode(response.data.code);
+                setLoading(false);
+                // Inicia el contador aquí solo si es necesario
+                startCounter(response.data.seconds - 3);
+            }
+        } catch (error) {
+            console.log('Error al obtener el código QR:', error);
+            setLoading(false);
+        }
+    };
+
+    const startCounter = (totalSeconds) => {
+        if (countdownInterval.current !== null) {
+            clearInterval(countdownInterval.current); // Usa .current aquí
+            console.log("clear")
+        }
+        let counter = totalSeconds;
+        console.log("setInterval")
+        countdownInterval.current = setInterval(() => { // Cambio aquí
+            if (counter >= 0) {
+                setMinutes(Math.floor(counter / 60));
+                setSeconds(counter % 60);
+                counter--;
+            } else {
+                clearInterval(countdownInterval.current); // Usa .current aquí
+                console.log('Tiempo terminado');
+                setIsRunning(true);
+                // Considera si necesitas llamar a getCodeQR aquí
+            }
+        }, 1000);
+    };
 
     useEffect(() => {
         if(userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b'){
-            if(!isRunning && seg === 0 && minutes === 0){
-                dispatch(getCodeQR({isRunning, userId}))
+            if(isRunning && seg === 0 && minutes === 0){
+                if (countdownInterval.current !== null) {
+                    clearInterval(countdownInterval.current); // Limpieza usando .current
+                }
+                getCodeQR({isRunning, userId})
+                setIsRunning(false);
+                
             }
         }
+        console.log("codePage",isRunning, seg, minutes)
     },[isRunning, seg, minutes])
+
 
     /*const getCode = () => {
         const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
