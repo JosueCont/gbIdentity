@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Dimensions, StyleSheet, TouchableOpacity, Linking } from "react-native";
 import ScreenBaseAuth from "../components/screensBase/ScreenBaseAuth";
 import { Colors } from "../utils/Colors";
 import { getFontSize } from "../utils/functions";
@@ -81,7 +81,8 @@ const LoginScreen = () => {
                     setChecked={() => dispatch(setValueCheckbox(!isChecked))}
                 />
                 
-                <Text style={styles.lblAcep}>Acepto los <Text style={styles.termsCond} onPress={() => navigation.navigate('ModalTerms')}>términos y condiciones</Text></Text>
+                {/* <Text style={styles.lblAcep}>Acepto los <Text style={styles.termsCond} onPress={() => navigation.navigate('ModalTerms')}>términos y condiciones</Text></Text> */}
+                <Text style={styles.lblAcep}>Acepto los <Text style={styles.termsCond} onPress={() => Linking.openURL('https://www.gbidentity.com/docs/terms-conditions/').catch(err => console.error('No se pudo abrir la URL', err))}>términos y condiciones</Text></Text>
             </View>
             <TouchableOpacity 
                 style={[styles.btnIn,{backgroundColor: disableBtn ? Colors.grayDark : Colors.darkBlue,}]} 
