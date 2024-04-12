@@ -13,6 +13,7 @@ import { Spinner } from "native-base";
 import ModalErrorLogin from "../components/modals/ModalErrorLogin";
 import { closeModal } from "../store/ducks/authDuck";
 import CheckBoxCustom from "../components/CheckboxCustom";
+import InfoModal from "./InfoModal";
 
 
 const {height, width} = Dimensions.get('window');
@@ -67,10 +68,18 @@ const LoginScreen = () => {
         }
     },[isExpiredPassword])
 
+
+
+
     return(
         <ScreenBaseAuth title="Bienvenido a nuestra era de digitalización">
             <View style={styles.contInputs}>
-                <Text style={styles.lblInput}>ID Colaborador</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.lblInput}>Código de identificación  </Text>
+                    {/* <TouchableOpacity onPress={openModal}>
+                        <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
+                    </TouchableOpacity> */}
+                </View>
                 <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
                 <Text style={styles.lblInput}>Contraseña</Text>
                 <Input value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry showEye={true}/>
@@ -108,6 +117,7 @@ const LoginScreen = () => {
                 </>
             </TouchableOpacity>
             <ModalErrorLogin visible={modalActive} onClose={() => dispatch(closeModal({prop:'modalErrorLogin',value:false})) }/>
+            
         </ScreenBaseAuth>
     )
 }

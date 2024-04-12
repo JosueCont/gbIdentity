@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import { useDispatch, useSelector } from "react-redux";
-import Card from "../CardGafete";
+import CardGafete from "../CardGafete";
 import ContentGafete from "../ContentGafete";
 import { getCodeQR, activateAutoGenerate, cancelAutoGenerateCode } from "../../store/ducks/homeDuck";
 import ContentQr from "../ContentQr";
@@ -125,7 +125,7 @@ const ModalCredential = ({visible, setVisible}) => {
         <SafeAreaView style={styles.card}>
             {Platform.OS === 'ios' ? (
                 <View style={{flex:1, position:'absolute', top: height*.35, width: width, right:0,transform:[{rotateZ:'90deg'}],}}>
-                    <Card 
+                    <CardGafete 
                         isHorizontal={true} 
                         isFront={!showQr} 
                         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}}
@@ -140,13 +140,13 @@ const ModalCredential = ({visible, setVisible}) => {
                         {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
                             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
                         </TouchableOpacity>}
-                    </Card>
+                    </CardGafete>
 
                 </View>
 
             ):(
                 <View style={{ flex:1, justifyContent:'center', alignItems:'center'}}>
-                    <Card 
+                    <CardGafete 
                         isHorizontal={true} 
                         isFront={!showQr} 
                         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}} 
@@ -161,7 +161,7 @@ const ModalCredential = ({visible, setVisible}) => {
                         {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
                             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
                         </TouchableOpacity>}
-                    </Card>
+                    </CardGafete>
                 </View>
             )}
         </SafeAreaView>

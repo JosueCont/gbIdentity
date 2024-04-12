@@ -4,14 +4,16 @@ import { Skeleton } from "native-base";
 import { Colors } from "../utils/Colors";
 import { useSelector } from "react-redux";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
+import ModalCredential from "./modals/ModalCredential";
 
 
 const {height, width} = Dimensions.get('window');
 
-const Card = ({children, background= Colors.white, setQrRoute, isFront=false, showHorizontal, isHorizontal=false}) => {
+const CardGafete = ({children, background= Colors.white, setQrRoute, isFront=false, showHorizontal, isHorizontal=false}) => {
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     const loader = useSelector(state => state.homeDuck.loading)
 
+    
 
     return(
         <View style={[styles.card,{backgroundColor: background}, isHorizontal && {transform:[{scale: Platform.OS === 'ios' ? 1.5 : 1.5}]}]}>
@@ -56,6 +58,7 @@ const Card = ({children, background= Colors.white, setQrRoute, isFront=false, sh
                     <View style={{width:12, height:12, borderRadius:6, backgroundColor: colorDay != '' ? colorDay : Colors.white, marginTop:0, marginHorizontal:10}}/>
                 </View>
             </View>
+            
         </View>
     )
 }
@@ -94,4 +97,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Card;
+export default CardGafete;

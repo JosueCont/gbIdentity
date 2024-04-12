@@ -11,6 +11,7 @@ import { onRecoveryPassword, setValueEmail, changeInput,closeModal, onValidateCo
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from "moment";
 import { AntDesign } from '@expo/vector-icons';
+import InfoModal from "../screens/InfoModal";
 
 const {height, width} = Dimensions.get('window');
 
@@ -101,9 +102,24 @@ const FormValidateUser = ({isNewUser}) => {
         }
     }
 
+    const [isModalVisible, setModalVisible] = useState(false);
+
+        const openModal = () => {
+            setModalVisible(true);
+        };
+
+        const closeModal = () => {
+            setModalVisible(false);
+        };
+
     return(
         <View style={{marginTop:40}}>
-            <Text style={styles.lbl}>ID colaborador</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.lbl}>Código de identificación  </Text>
+                    <TouchableOpacity onPress={openModal}>
+                        <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
+                    </TouchableOpacity>
+                </View>
             <Input 
                 value={email} 
                 setValue={(val) => dispatch(setValueEmail(val)) }/>
@@ -194,6 +210,12 @@ const FormValidateUser = ({isNewUser}) => {
                 loading={loader} 
                 isDisabled={disabledButon}
             />
+            <InfoModal isVisible={isModalVisible} onClose={closeModal} />
+            <TouchableOpacity 
+                style={{marginTop: 10, alignSelf: 'center'}}
+                onPress={() => navigation.navigate('Login')}>
+                <Text style={{color: Colors.blue}}>Regresar al inicio de sesión</Text>
+            </TouchableOpacity>
         </View>
     )
 

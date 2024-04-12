@@ -5,7 +5,7 @@ import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import moment from "moment/moment";
 import HeaderContent from "../HeaderContent";
-import Card from "../CardGafete";
+import CardGafete from "../CardGafete";
 import QRCode from "react-native-qrcode-svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getCodeQR } from "../../store/ducks/homeDuck";
@@ -79,7 +79,7 @@ const CodePage = ({backHome}) => {
                 
             }
         }
-        console.log("codePage",isRunning, seg, minutes)
+        // console.log("codePage",isRunning, seg, minutes)
     },[isRunning, seg, minutes])
 
 
@@ -119,13 +119,13 @@ const CodePage = ({backHome}) => {
     return(
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={false} goBack={backHome} title="Notificaciones (20)"/>
-            <Card>
+            <CardGafete>
                 <View style={{alignSelf:'center', marginBottom:10}}>
                     {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (
                         code != '' && !loader ? (
                             <QRCode
                                 value={code}
-                                logo={require('../../../assets/logoBimbo.png')}
+                                // logo={require('../../../assets/logoBimbo.png')}
                                 logoSize={20}
                                 color={Colors.blueText}
                                 logoBackgroundColor='transparent'
@@ -145,7 +145,7 @@ const CodePage = ({backHome}) => {
 
                 </View>
                 {/*<Image source={require('../../../assets/qr2.png')} style={styles.img}/>*/}
-            </Card>
+            </CardGafete>
             {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' &&<View style={styles.contDesc}>
                 <Text style={styles.title}>QR dinámico</Text>
                 <Text style={styles.desc}>Presente este código QR en la zona de acceso </Text>

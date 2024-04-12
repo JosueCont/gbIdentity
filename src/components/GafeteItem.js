@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from "rea
 import { Skeleton } from "native-base";
 import { getFontSize } from "../utils/functions";
 import { Colors } from "../utils/Colors";
-import Card from "./CardGafete";
+import CardGafete from "./CardGafete";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +17,7 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
     const loader = useSelector(state => state.homeDuck.loading)
 
     return(
-        <Card background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
+        <CardGafete background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
             <View style={styles.contInfo}>
                 {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (item?.image !=null && item?.image !='') ? (
                     <Image source={{uri: item?.image}} style={styles.imgProfile}/>
@@ -54,7 +54,7 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                 </View>
                 <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
             </View>
-        </Card>
+        </CardGafete>
     )
 }
 

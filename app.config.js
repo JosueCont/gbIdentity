@@ -34,28 +34,10 @@ const commonConfig = {
         [
             "expo-notifications",
             {
-              "icon": "./assets/icon_app.png",
-              "color": "#284ED4",
-              //"sounds": [
-              //  "./local/assets/notification-sound.wav",
-              //  "./local/assets/notification-sound-other.wav"
-              //]
+              "icon": "./assets/icon.png",
+              "color": "#284ED4"
             }
-        ],
-        //[
-        //    "expo-screen-orientation",
-        //    {
-        //      "initialOrientation": "DEFAULT"
-        //    }
-        //],
-        [
-            "expo-media-library",
-            {
-              "photosPermission": "Allow BimboWallet to access your photos.",
-              "savePhotosPermission": "Allow BimboWallet to save photos.",
-              "isAccessMediaLocationEnabled": true
-            }
-          ]
+        ]
     ]
 }
 
@@ -66,16 +48,14 @@ const android = {
     },
     package: "com.hiumanlab.gbidentity",
     "permissions": [
-        "INTERNET",
-        "ACCESS_MEDIA_LOCATION",
+        "INTERNET", 
         "RECEIVE_BOOT_COMPLETED",
-        "SCHEDULE_EXACT_ALARM",
-        "READ_EXTERNAL_STORAGE"
+        "SCHEDULE_EXACT_ALARM"
     ]
 }
 
 const ios = {
-    "supportsTablet": false,
+    supportsTablet: false,
     bundleIdentifier: "com.hiumanlab.gbidentity",
     resourceClass: "large",
 }

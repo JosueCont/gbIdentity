@@ -30,7 +30,7 @@ const ContentQr = ({code, loader, userId}) => {
                 code != '' && !loader ? (
                     <QRCode
                         value={code}
-                        logo={require('../../assets/logoBimbo.png')}
+                        // logo={require('../../assets/logoBimbo.png')}
                         logoSize={20}
                         color={Colors.blueText}
                         logoBackgroundColor='transparent'
