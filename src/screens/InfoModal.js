@@ -33,10 +33,10 @@ const InfoModal = ({ isVisible, onClose }) => {
                         El código es generado como medio de identificación para acceder a nuestras instalaciones. Este sistema está diseñado para garantizar la seguridad y la gestión eficiente del acceso.
                     </Text>
                     <Text style={styles.modalContent}>
-                        Para empleados en instalaciones de Grupo Bimbo, es necesario proporcionar tres datos asignados durante su contratación. Esto asegura que solo el personal autorizado pueda acceder a áreas restringidas.
+                        Para colaboradores en instalaciones es necesario proporcionar tres datos asignados durante su contratación. Esto asegura que solo el personal autorizado pueda acceder a áreas restringidas.
                     </Text>
                     <Text style={styles.modalContent}>
-                        Para visitas, es posible otorgar accesos independientes, permitiendo un control adecuado sobre quién puede entrar a las instalaciones. Estos accesos son temporales y se ajustan a la duración de la visita.
+                        Para visitas como escuelas, universidades y proveedores es necesario ingresar estos datos que han sido previamente enviados a su correo para poder registrarse a esta app y utilizar su credencial digital de acceso. Estos accesos son temporales y se ajustan a la duración de la visita sin embargo la app es la misma para cada una de sus visitas a nuestras instalaciones.
                     </Text>
                     <Text style={styles.modalContent}>
                         Los accesos son válidos solo para un dispositivo al mismo tiempo, reforzando la seguridad y evitando el uso compartido de credenciales.
