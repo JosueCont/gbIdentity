@@ -17,7 +17,6 @@
     "expo": "~50.0.14",
     "expo-constants": "~15.4.5",
     "expo-device": "~5.9.3",
-    "expo-media-library": "~15.9.1",
     "expo-notifications": "~0.27.6",
     "expo-screen-capture": "~5.8.1",
     "expo-screen-orientation": "~6.4.1",

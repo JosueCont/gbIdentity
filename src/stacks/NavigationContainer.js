@@ -10,7 +10,7 @@ import { createSession, getRegexToPassword } from "../store/ducks/authDuck";
 import { injectStore } from "../utils/axiosApi";
 import { store } from "../store/store";
 import * as ScreenCapture from 'expo-screen-capture';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
 import ModalScreenShot from "../components/modals/ModalScreenShot";
 
 injectStore(store)
@@ -36,19 +36,19 @@ const NavigationContainerConfig = () => {
     },[status])
 
     useEffect(() => {
-        if(hasPermissions()){
+        // if(hasPermissions()){
             const subscription = ScreenCapture.addScreenshotListener(() => {
                 setModal(true)
             });
             return () => subscription.remove();
 
-        }
+        // }
     },[])
 
-    const hasPermissions = async () => {
-        const { status } = await MediaLibrary.requestPermissionsAsync();
-        return status === 'granted';
-    };
+    // const hasPermissions = async () => {
+    //     const { status } = await MediaLibrary.requestPermissionsAsync();
+    //     return status === 'granted';
+    // };
 
     const getSession = async() => {
         dispatch(await createSession())
