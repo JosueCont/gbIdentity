@@ -5,7 +5,8 @@ import {
     logoutUser,
     postChangeExpiredPassword,
     getRegexPassword,
-    getPasswordConfiguration
+    getPasswordConfiguration,
+    getGeneralConfiguration
  } from "../../utils/ApiApp";
 import { getValidators, saveTokens } from "../../utils/functions";
 import moment from "moment";
@@ -220,8 +221,8 @@ export const onValidateCollaborator = (data) => async(dispatch) => {
         dispatch({type:LOADER})
         let dataSend = {
             "collaboratorId": data.email,
-            "entryDate": moment(data.ingress,'YYYY-MM-DD').toISOString(),
-            "birthDate": moment(data.birthdayDate,'YYYY-MM-DD').toISOString()
+            "entryDate": data.ingress != "" ? moment(data.ingress,'YYYY-MM-DD').toISOString() : null,
+            "birthDate": data.birthdayDate != "" ? moment(data.birthdayDate,'YYYY-MM-DD').toISOString() : null
         }
         const response = await postValidateDataCollaborator(dataSend)
         console.log('response',response?.data)
@@ -346,6 +347,15 @@ export const onValidatePassword = (password, regex, requirements) => dispatch =>
     }else{
         dispatch({type: VALIDATE_PASSWORD_SUCESS})
     }
+}
+
+export const getGeneralConfigurationData = async() => {
+    const response = await getGeneralConfiguration();
+    console.log('response', response?.data)
+    if(response?.data){
+        return response.data;
+    }
+    return null;
 }
 
 export default authDuck;
