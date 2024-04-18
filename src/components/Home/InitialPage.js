@@ -24,7 +24,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
     const communicates = useSelector(state => state.homeDuck.communicates)
     const [modalCard, setModalCard] = useState(false)
-    console.log('dataUser',dataUser)
+    
     const getRegisters = () => {
         return accessList.map((item,index) => (
             <View style={styles.cardItem} key={index}>
@@ -70,17 +70,6 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
         image: dataUser?.profileImage
     }
 
-    const itemFake = {
-        firstName: 'Josue Francisco',
-        lastName: 'Contreras Flores',
-        code: '11111111',
-        branch:'',
-        curp: 'COFJ980221HDFNLS00',
-        nss: dataUser?.nss,
-        birthDate: moment(dataUser?.birthDate).format('DD-MM-YYYY'),
-        branch: dataUser?.ouWorkCenter,
-        image: dataUser?.profileImage
-    }
     return(
         <View style={styles.container}>
             <View style={styles.contCards}>

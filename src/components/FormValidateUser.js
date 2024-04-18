@@ -187,6 +187,7 @@ const FormValidateUser = ({ isNewUser }) => {
                     </TouchableOpacity>
                 </View>
             <Input 
+                keyboardType="numeric"
                 value={email} 
                 setValue={(val) => dispatch(setValueEmail(val)) }/>
             <View style={{marginTop:20}}>

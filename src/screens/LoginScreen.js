@@ -8,7 +8,7 @@ import { Checkbox, Icon, useToast, Toast, Alert, VStack, HStack, } from "native-
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
-import { setValueEmail, setValuePAssword, setValueCheckbox, loginAction, onResetRecover } from "../store/ducks/authDuck";
+import { setValueEmail, setValuePAssword, setValueCheckbox, loginAction, onResetRecover, onResetCreateUser } from "../store/ducks/authDuck";
 import { Spinner } from "native-base";
 import ModalErrorLogin from "../components/modals/ModalErrorLogin";
 import { closeModal } from "../store/ducks/authDuck";
@@ -80,7 +80,7 @@ const LoginScreen = () => {
                         <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
                     </TouchableOpacity> */}
                 </View>
-                <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) }/>
+                <Input value={email} setValue={(val) => dispatch(setValueEmail(val)) } keyboardType="numeric"/>
                 <Text style={styles.lblInput}>Contraseña</Text>
                 <Input value={password} setValue={(val) => dispatch(setValuePAssword(val))} secureTextEntry showEye={true}/>
             </View>
@@ -102,7 +102,10 @@ const LoginScreen = () => {
             <TouchableOpacity 
                 style={[styles.btnIn,{backgroundColor: Colors.darkBlue,}]} 
                 //disabled={disableBtn}
-                onPress={() => navigation.navigate('CreateUser')}>
+                onPress={() => {
+                    dispatch(onResetCreateUser())
+                    navigation.navigate('CreateUser')
+                }}>
                 <Text style={styles.lblIn}>Crear cuenta</Text>
             </TouchableOpacity>
             <TouchableOpacity 
