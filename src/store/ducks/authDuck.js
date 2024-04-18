@@ -5,7 +5,8 @@ import {
     logoutUser,
     postChangeExpiredPassword,
     getRegexPassword,
-    getPasswordConfiguration
+    getPasswordConfiguration,
+    getGeneralConfiguration
  } from "../../utils/ApiApp";
 import { getValidators, saveTokens } from "../../utils/functions";
 import moment from "moment";
@@ -347,6 +348,15 @@ export const onValidatePassword = (password, regex, requirements) => dispatch =>
     }else{
         dispatch({type: VALIDATE_PASSWORD_SUCESS})
     }
+}
+
+export const getGeneralConfigurationData = async() => {
+    const response = await getGeneralConfiguration();
+    console.log('response', response?.data)
+    if(response?.data){
+        return response.data;
+    }
+    return null;
 }
 
 export default authDuck;

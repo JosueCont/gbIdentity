@@ -33,10 +33,10 @@ const InfoModal = ({ isVisible, onClose }) => {
                         El código es generado como medio de identificación para acceder a nuestras instalaciones. Este sistema está diseñado para garantizar la seguridad y la gestión eficiente del acceso.
                     </Text>
                     <Text style={styles.modalContent}>
-                        Para colaboradores en instalaciones es necesario proporcionar tres datos asignados durante su contratación. Esto asegura que solo el personal autorizado pueda acceder a áreas restringidas.
+                        Para visitas como escuelas, universidades y proveedores es necesario ingresar este dato que ha sido previamente enviado a su correo para poder registrarse a esta app y utilizar su credencial digital de acceso. Estos accesos son temporales y se ajustan a la duración de la visita sin embargo la app es la misma para cada una de sus visitas a nuestras instalaciones.
                     </Text>
                     <Text style={styles.modalContent}>
-                        Para visitas como escuelas, universidades y proveedores es necesario ingresar estos datos que han sido previamente enviados a su correo para poder registrarse a esta app y utilizar su credencial digital de acceso. Estos accesos son temporales y se ajustan a la duración de la visita sin embargo la app es la misma para cada una de sus visitas a nuestras instalaciones.
+                        Para colaboradores en instalaciones es necesario proporcionar tres datos asignados durante su contratación. Esto asegura que solo el personal autorizado pueda acceder a áreas restringidas.
                     </Text>
                     <Text style={styles.modalContent}>
                         Los accesos son válidos solo para un dispositivo al mismo tiempo, reforzando la seguridad y evitando el uso compartido de credenciales.

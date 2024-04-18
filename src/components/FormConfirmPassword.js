@@ -1,11 +1,18 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Spinner } from "native-base";
 import Input from "./CustomInput";
 import CustomButtom from "./CustomBtn";
 import { Colors } from "../utils/Colors";
 import { getFontSize } from "../utils/functions";
-import { validatePassword, setValuePAssword,setRepeatPassword, resetPassword, onValidatePassword } from "../store/ducks/authDuck";
+import {
+  validatePassword,
+  setValuePAssword,
+  setRepeatPassword,
+  resetPassword,
+  onValidatePassword,
+} from "../store/ducks/authDuck";
+import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
 
 const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
@@ -66,12 +73,12 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
 }
 
 const styles = StyleSheet.create({
-    lbl:{
-        color:Colors.blue, 
-        fontSize:getFontSize(16), 
-        marginBottom:6,
-        //marginTop:100
-    },
-})
+  lbl: {
+    color: Colors.blue,
+    fontSize: getFontSize(16),
+    marginBottom: 6,
+    //marginTop:100
+  },
+});
 
 export default FormConfirmPassword;
