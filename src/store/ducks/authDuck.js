@@ -38,6 +38,7 @@ const RESET_DATA_RECOVER = 'reset_data'
 const SET_REGEX_PASSWORD = 'set_regex_password'
 const VALIDATE_PASSWORD_SUCESS = 'validate_password'
 const VALIDATE_PASSWORD_FAIL = 'validate_password_fail'
+const RESET_CREATE = 'reset_create_user'
 
 const initialState = {
     email:'',
@@ -88,7 +89,7 @@ const authDuck = (state = initialState, action) => {
         case RECOVER_PASSWORD_SUCCESS:
             return {...state, isValidCollaborator:true, loading: false, userId: action.payload, ingress:'', birthdayDate:'', email:''}
         case VALIDATE_COLABORATOR_NEW_USER:
-            return{ ...state, isValidateToNewUser: true, loading: false, userId: action.payload }
+            return{ ...state, isValidateToNewUser: true, loading: false, userId: action.payload, ingress:'', birthdayDate:'', email:'' }
         case RECOVER_PASSWORD_FAILED:
             return{ ...state, isValidCollaborator: false, message: action.message, modalRecover: true, loading: false, email:'', ingress:'', birthdayDate:''}
         case NO_SIMILAR_PASSWORD:
@@ -115,6 +116,8 @@ const authDuck = (state = initialState, action) => {
             return{ ...state, isValidatePassword: true}
         case VALIDATE_PASSWORD_FAIL:
             return{ ...state, rules: action.payload, isValidatePassword: false}
+        case RESET_CREATE:
+            return{ ...state, isCreatedUser: false, isValidateToNewUser: false }
         default:
             return state;
     }
@@ -320,6 +323,12 @@ export const saveExpoToken = (data) => async(dispatch) => {
 export const onResetRecover = () => {
     return{
         type: RESET_DATA_RECOVER
+    }
+}
+
+export const onResetCreateUser = () => {
+    return{
+        type: RESET_CREATE
     }
 }
 

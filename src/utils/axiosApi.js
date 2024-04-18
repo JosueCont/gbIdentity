@@ -8,7 +8,7 @@ import * as Device from 'expo-device';
 
 
 
-export const baseURL = 'https://gbwallet.hiumanlab.com'//process.env.EXPO_PUBLIC_API_URL//'https://gbwallet.hiumanlab.com'//'http://192.168.1.108:5213';
+export const baseURL = process.env.EXPO_PUBLIC_API_URL//'https://gbwallet.hiumanlab.com'//'http://192.168.1.108:5213';
 
 
 let config = {
