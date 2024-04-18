@@ -153,139 +153,156 @@ const FormValidateUser = ({ isNewUser }) => {
     setModalVisible(true);
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+        const closeModal = () => {
+            setModalVisible(false);
+        };
+    
+    const formatText = (val, prop) => {
+        let cleaned = ('' + val).replace(/\D/g, '');
 
+        // Aplicar el formato dd/mm/yyyy
+        let formatted = cleaned;
 
-  return (
-    <View style={{ marginTop: 40 }}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={styles.lbl}>Código de identificación </Text>
-        <TouchableOpacity onPress={openModal}>
-          <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
-        </TouchableOpacity>
-      </View>
-      <Input value={email} setValue={(val) => dispatch(setValueEmail(val))} />
-      <View style={{ marginTop: 20 }}>
-        {(Platform.OS=== "ios" &&
-        configuration?.requireRegisterBirths == false)  ? (
-          <Text style={styles.lbl}>Fecha de ingreso (opcional)</Text>
-        ) : (
-          <Text style={styles.lbl}>Fecha de ingreso</Text>
-        )}
-        {showDatePicker && (
-          <DateTimePicker
-            style={{ width: width / 1.27 }}
-            locale="es-ES"
-            value={date}
-            mode="date"
-            display="spinner"
-            onChange={handleDateChange}
-            //maximumDate={new Date().getDate()}
-          />
-        )}
-        {showDatePicker && Platform.OS === "ios" && (
-          <View style={styles.contIosPicker}>
-            <TouchableOpacity
-              onPress={onShowDatepicker}
-              style={styles.btnCancel}
-            >
-              <Text>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => confirmIOSDate("ingress")}
-              style={styles.btnOk}
-            >
-              <Text>Confirmar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        {!showDatePicker && configuration != null && (
-          <Pressable onPress={onShowDatepicker}>
-            <Input
-              placeholder="DD MMMM YYYY"
-              editable={false}
-              onPressIn={onShowDatepicker}
-              value={ingress}
-              //setValue={(val) => dispatch(setValueEmail(val)) }
+        if (cleaned.length <= 2) {
+          // Formatear para el día (dd)
+          formatted = cleaned;
+        } else if (cleaned.length <= 4) {
+          // Formatear para el mes (dd/mm)
+          formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+        } else {
+          // Formatear para el año (dd/mm/yyyy)
+          formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4, 8)}`;
+        }
+        formatted = formatted.slice(0, 10);
+
+        dispatch(changeInput({prop, value: formatted}))
+    }
+
+    return(
+        <View style={{marginTop:40}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.lbl}>Código de identificación  </Text>
+                    <TouchableOpacity onPress={openModal}>
+                        <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
+                    </TouchableOpacity>
+                </View>
+            <Input 
+                value={email} 
+                setValue={(val) => dispatch(setValueEmail(val)) }/>
+            <View style={{marginTop:20}}>
+                <Text style={styles.lbl}>Fecha de ingreso</Text>
+                <Input 
+                    keyboardType="numeric"
+                    placeholder="dd/mm/yyyy"
+                    maxLength={10}
+                    value={ingress}
+                    setValue={(val) => {
+                        formatText(val,'ingress')
+                        //dispatch(changeInput({prop:'birthdayDate', value:moment(date.toDateString()).format('DD MMMM YYYY')}))
+                    }}
+                />
+                {/*showDatePicker && (
+                    <DateTimePicker
+                        style={{width:width/1.27,}}
+                        locale="es-ES"
+                        value={date}
+                        mode="date"
+                        display="spinner"
+                        onChange={handleDateChange}
+                        //maximumDate={new Date().getDate()}
+                    />
+                )*/}
+                {/*showDatePicker && Platform.OS === 'ios' && (
+                    <View style={styles.contIosPicker}>
+                        <TouchableOpacity onPress={onShowDatepicker} style={styles.btnCancel}>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => confirmIOSDate('ingress')} style={styles.btnOk}>
+                            <Text>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
+                )*/}
+                {/*!showDatePicker  && (
+                    <Pressable onPress={onShowDatepicker}>
+                        <Input 
+                            placeholder='DD MMMM YYYY' 
+                            editable={false} 
+                            onPressIn={onShowDatepicker}
+                            value={ingress} 
+                            //setValue={(val) => dispatch(setValueEmail(val)) }
+                        />
+
+                    </Pressable>
+                )*/}
+
+            </View>
+            <View style={{marginTop:20}}>
+                <Text style={styles.lbl}>Fecha de nacimiento</Text>
+                <Input 
+                    keyboardType="numeric"
+                    placeholder="dd/mm/yyyy"
+                    maxLength={10}
+                    value={birthdayDate}
+                    setValue={(val) => formatText(val, 'birthdayDate')}
+                />
+                {/*showDatePickerBirthday && (
+                    <DateTimePicker
+                        style={{width:width/1.27,}}
+                        locale="es-ES"
+                        value={date}
+                        mode="date"
+                        display="spinner"
+                        onChange={handleDateChangeBirthDay}
+                        //maximumDate={new Date().getDate()}
+                    />
+                )*/}
+                {/*showDatePickerBirthday && Platform.OS === 'ios' && (
+                    <View style={styles.contIosPicker}>
+                        <TouchableOpacity onPress={onShowDatePickerBirthDay} style={styles.btnCancel}>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => confirmIOSDate('birth')} style={styles.btnOk}>
+                            <Text>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
+                )*/}
+                {/*!showDatePickerBirthday  && (
+                    <Pressable onPress={onShowDatePickerBirthDay}>
+                        <Input 
+                            placeholder='DD MMMM YYYY' 
+                            editable={false} 
+                            onPressIn={onShowDatePickerBirthDay}
+                            value={birthdayDate} 
+                            //setValue={(val) => dispatch(setValueEmail(val)) }
+                        />
+
+                    </Pressable>
+                )*/}
+
+            </View>
+            <CustomButtom 
+                title='Siguiente'  
+                onPressed={() => {
+                    dispatch(onValidateCollaborator({
+                        email,
+                        ingress: moment(ingress, 'DD/MM/YYYY').format('YYYY-MM-DD'), 
+                        birthdayDate: moment(birthdayDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), 
+                        isNewUser 
+                    }))
+                }} 
+                loading={loader} 
+                isDisabled={disabledButon}
             />
-          </Pressable>
-        )}
-      </View>
-      <View style={{ marginTop: 20 }}>
-        {Platform.OS === "ios" &&
-        configuration?.requireRegisterBirths == false ? (
-          <Text style={styles.lbl}>Fecha de nacimiento (opcional)</Text>
-        ) : (
-          <Text style={styles.lbl}>Fecha de nacimiento </Text>
-        )}
-        {showDatePickerBirthday && (
-          <DateTimePicker
-            style={{ width: width / 1.27 }}
-            locale="es-ES"
-            value={date}
-            mode="date"
-            display="spinner"
-            onChange={handleDateChangeBirthDay}
-            //maximumDate={new Date().getDate()}
-          />
-        )}
-        {showDatePickerBirthday && Platform.OS === "ios" && (
-          <View style={styles.contIosPicker}>
-            <TouchableOpacity
-              onPress={onShowDatePickerBirthDay}
-              style={styles.btnCancel}
-            >
-              <Text>Cancelar</Text>
+            <InfoModal isVisible={isModalVisible} onClose={closeModal} />
+            <TouchableOpacity 
+                style={{marginTop: 10, alignSelf: 'center'}}
+                onPress={() => navigation.navigate('Login')}>
+                <Text style={{color: Colors.blue}}>Regresar al inicio de sesión</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => confirmIOSDate("birth")}
-              style={styles.btnOk}
-            >
-              <Text>Confirmar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        {!showDatePickerBirthday && configuration != null && (
-          <Pressable onPress={onShowDatePickerBirthDay}>
-            <Input
-              placeholder="DD MMMM YYYY"
-              editable={false}
-              onPressIn={onShowDatePickerBirthDay}
-              value={birthdayDate}
-              //setValue={(val) => dispatch(setValueEmail(val)) }
-            />
-          </Pressable>
-        )}
-      </View>
-      <CustomButtom
-        title="Siguiente"
-        onPressed={() => {
-          dispatch(
-            onValidateCollaborator({
-              email,
-              ingress: ingress != "" ? moment(ingress, "DD MMMM YYYY").format("YYYY-MM-DD") : ingress,
-              birthdayDate: birthdayDate != "" ? moment(birthdayDate, "DD MMMM YYYY").format(
-                "YYYY-MM-DD"
-              ) : birthdayDate,
-              isNewUser,
-            })
-          );
-        }}
-        loading={loader}
-        isDisabled={disabledButon}
-      />
-      <InfoModal isVisible={isModalVisible} onClose={closeModal} />
-      <TouchableOpacity
-        style={{ marginTop: 10, alignSelf: "center" }}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={{ color: Colors.blue }}>Regresar al inicio de sesión</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+        </View>
+    )
+
+}
 
 const styles = StyleSheet.create({
   lbl: {

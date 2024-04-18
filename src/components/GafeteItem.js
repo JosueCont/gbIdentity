@@ -15,6 +15,7 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     const loader = useSelector(state => state.homeDuck.loading)
+    const dataUser = useSelector(state => state.authDuck.dataUser)
 
     return(
         <CardGafete background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
@@ -34,8 +35,8 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                             </View>
                         ):(
                             <View>
-                                <Text style={styles.lblName}>{item?.firstName.split(' ')[0]}</Text>
-                                <Text style={styles.lblName}>{item?.lastName.split(' ')[0]}</Text>
+                                <Text style={styles.lblName}>{item?.firstName}</Text>
+                                <Text style={styles.lblName}>{item?.lastName}</Text>
                             </View>
                         )}
                     </View>
@@ -52,7 +53,11 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                     {rules?.showCurp && <Text>{item?.curp}</Text>}
                     {rules?.showNss && <Text>{item?.nss}</Text>}
                 </View>
-                <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
+                {dataUser?.nodeImage != null && dataUser?.nodeImage != '' ? (
+                    <Image source={{uri: dataUser?.nodeImage}} style={styles.logoBimbo}/>
+                ):(
+                    <Image source={require('../../assets/logoBimbo.png')} style={styles.logoBimbo}/>
+                )}
             </View>
         </CardGafete>
     )
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
         //shadowRadius: 4, 
     },
     lblName:{
-        fontSize: getFontSize(20), 
+        fontSize: getFontSize(17), 
         fontWeight:'700'
     },
     line:{

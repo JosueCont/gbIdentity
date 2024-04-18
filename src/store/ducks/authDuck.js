@@ -221,11 +221,12 @@ export const onValidateCollaborator = (data) => async(dispatch) => {
         dispatch({type:LOADER})
         let dataSend = {
             "collaboratorId": data.email,
-            "entryDate": data.ingress != "" ? moment(data.ingress,'YYYY-MM-DD').toISOString() : null,
-            "birthDate": data.birthdayDate != "" ? moment(data.birthdayDate,'YYYY-MM-DD').toISOString() : null
+            "entryDate": moment(data.ingress,'YYYY-MM-DD').utc().startOf('day').toISOString(),
+            "birthDate": moment(data.birthdayDate,'YYYY-MM-DD').utc().startOf('day').toISOString()
         }
+        console.log('dataSned',dataSend)
         const response = await postValidateDataCollaborator(dataSend)
-        console.log('response',response?.data)
+        console.log('response',response)
         if(response?.data?.id){
             setTimeout(() =>{
                 if(data.isNewUser) dispatch({type: VALIDATE_COLABORATOR_NEW_USER, payload: response?.data?.id})

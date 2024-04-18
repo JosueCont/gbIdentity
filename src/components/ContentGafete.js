@@ -62,9 +62,9 @@ const ContentGafete = ({item, rules,}) => {
           ) : (
             <View>
               <Text style={styles.lblName}>
-                {item?.firstName.split(" ")[0]}
+                {item?.firstName}
               </Text>
-              <Text style={styles.lblName}>{item?.lastName.split(" ")[0]}</Text>
+              <Text style={styles.lblName}>{item?.lastName}</Text>
             </View>
           )}
         </View>
@@ -79,10 +79,12 @@ const ContentGafete = ({item, rules,}) => {
             borderRadius={8}
           />
         ) : (
-          <Text style={styles.lblBranch}>
+          <>
+          <Text style={styles.lblBranch}>{item?.branch}</Text>
+          <Text>
             {item?.code}
-            {item?.branch}
           </Text>
+          </>
         )}
         {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
         {rules?.showCurp && <Text>{item?.curp}</Text>}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
         //shadowRadius: 4, 
     },
     lblName:{
-        fontSize: getFontSize(20), 
+        fontSize: getFontSize(17), 
         fontWeight:'700'
     },
     line:{
