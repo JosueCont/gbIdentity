@@ -12,6 +12,7 @@ import { getCodeQR, activateAutoGenerate, cancelAutoGenerateCode } from "../../s
 import ContentQr from "../ContentQr";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getDinamicCode } from "../../utils/ApiApp";
+import GafeteItem from "../GafeteItem";
 
 const {height, width} = Dimensions.get('window');
 
@@ -33,6 +34,7 @@ const ModalCredential = ({visible, setVisible}) => {
     const [isRunning, setIsRunning] = useState(true)
     const [minutes, setMinutes] = useState(0)
     const [seg, setSeconds] = useState(0)
+    const [typeOrientation, setTypeOrientation] = useState(1)
 
     const {item, rules} = route.params
 
@@ -101,12 +103,16 @@ const ModalCredential = ({visible, setVisible}) => {
                 //console.log('orientation',orientation)
             }
         
-            
+            await ScreenOrientation.addOrientationChangeListener((item) => {
+                setTypeOrientation(item?.orientationInfo.orientation)
+            })
                 
         })()
         return async() => {
             if(Platform.OS === 'ios'){
                 //await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+                await ScreenOrientation.removeOrientationChangeListener();
+                await ScreenOrientation.unlockAsync();
             }
         };
       }, []);
@@ -123,10 +129,12 @@ const ModalCredential = ({visible, setVisible}) => {
 
     return(
         <SafeAreaView style={styles.card}>
-            {Platform.OS === 'ios' ? (
-                <View style={{flex:1, position:'absolute', top: height*.35, width: width, right:0,transform:[{rotateZ:'90deg'}],}}>
-                    <CardGafete 
-                        isHorizontal={true} 
+            {
+                
+                typeOrientation === 1 || typeOrientation === 2 ? (
+                    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                       <CardGafete 
+                        isHorizontal={false} 
                         isFront={!showQr} 
                         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}}
                         setQrRoute={() => {
@@ -141,11 +149,9 @@ const ModalCredential = ({visible, setVisible}) => {
                             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
                         </TouchableOpacity>}
                     </CardGafete>
-
-                </View>
-
-            ):(
-                <View style={{ flex:1, justifyContent:'center', alignItems:'center'}}>
+                    </View>
+                ):(
+                    <View style={{ flex:1, justifyContent:'center', alignItems:'center'}}>
                     <CardGafete 
                         isHorizontal={true} 
                         isFront={!showQr} 
@@ -163,7 +169,10 @@ const ModalCredential = ({visible, setVisible}) => {
                         </TouchableOpacity>}
                     </CardGafete>
                 </View>
-            )}
+
+                )
+
+            }
         </SafeAreaView>
     )
 }

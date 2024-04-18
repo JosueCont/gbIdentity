@@ -52,8 +52,8 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                     </TouchableOpacity>
                     <View style={{flexDirection:'column', marginLeft:12}}>
                         <Text style={styles.lblDesc}>Bienvenido de nuevo</Text>
-                        <Text style={styles.lblName}>{user?.firstName?.split(' ')[0]}</Text>
-                        <Text style={styles.lblName}>{user?.lastName?.split(' ')[0]}</Text>
+                        <Text style={styles.lblName}>{user?.firstName}</Text>
+                        <Text style={styles.lblName}>{user?.lastName}</Text>
                         <Text style={styles.lblDesc}>Miembro desde:</Text>
                         <Text style={[styles.lblDesc,{textTransform:'capitalize'}]}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>
                     </View>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         color:Colors.white
     },
     lblName:{
-        fontSize:getFontSize(32), 
+        fontSize:getFontSize(27), 
         fontWeight:'700', 
         color:Colors.white, 
         textTransform:'capitalize'

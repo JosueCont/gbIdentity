@@ -11,6 +11,7 @@ import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken } from "../store/ducks/authDuck";
 import { useDispatch, useSelector } from "react-redux";
 import { getExpoToken } from "../utils/functions";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const HomeScreen = () => {
     const dataUser = useSelector(state => state.authDuck.dataUser)
     const refresh = useSelector(state => state.homeDuck.refresh)
     const scrollViewRef = useRef();
-
+const navigation = useNavigation();
 
     useEffect(() => {
         if(userId && userId != undefined ) getInitialConfig()
@@ -43,6 +44,9 @@ const HomeScreen = () => {
 
     useEffect(() => {
         const handleBackButton = () => {
+            if(navigation.getState().routes.find(item => item?.name === 'ModalCredential') != undefined){
+                navigation.goBack()
+            }
             setSelectedSection('initial')
             return true
         }

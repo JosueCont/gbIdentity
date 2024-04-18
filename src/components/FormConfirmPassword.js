@@ -37,10 +37,10 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
             </View>
             {!isValidatePassword && rules.length > 0 && 
                 <View style={{marginBottom:10, }}>
-                    <Text style={{color: Colors.white, fontSize: getFontSize(15), fontWeight: '700'}}>La contraseña debe tener:</Text>
+                    <Text style={{color: Colors.red, fontSize: getFontSize(15), fontWeight: '700'}}>La contraseña debe tener:</Text>
                     {rules.map((item,index) => (
                         <View style={{marginBottom:5,}} key={index}>
-                            <Text style={{color: Colors.white, fontSize: getFontSize(13)}}>- {item?.message}</Text>
+                            <Text style={{color: Colors.red, fontSize: getFontSize(13)}}>- {item?.message}</Text>
                         </View>
                     ))}
                 </View>

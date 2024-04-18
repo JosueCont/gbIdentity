@@ -111,6 +111,27 @@ const FormValidateUser = ({isNewUser}) => {
         const closeModal = () => {
             setModalVisible(false);
         };
+    
+    const formatText = (val, prop) => {
+        let cleaned = ('' + val).replace(/\D/g, '');
+
+        // Aplicar el formato dd/mm/yyyy
+        let formatted = cleaned;
+
+        if (cleaned.length <= 2) {
+          // Formatear para el día (dd)
+          formatted = cleaned;
+        } else if (cleaned.length <= 4) {
+          // Formatear para el mes (dd/mm)
+          formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+        } else {
+          // Formatear para el año (dd/mm/yyyy)
+          formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4, 8)}`;
+        }
+        formatted = formatted.slice(0, 10);
+
+        dispatch(changeInput({prop, value: formatted}))
+    }
 
     return(
         <View style={{marginTop:40}}>
@@ -125,7 +146,17 @@ const FormValidateUser = ({isNewUser}) => {
                 setValue={(val) => dispatch(setValueEmail(val)) }/>
             <View style={{marginTop:20}}>
                 <Text style={styles.lbl}>Fecha de ingreso</Text>
-                {showDatePicker && (
+                <Input 
+                    keyboardType="numeric"
+                    placeholder="dd/mm/yyyy"
+                    maxLength={10}
+                    value={ingress}
+                    setValue={(val) => {
+                        formatText(val,'ingress')
+                        //dispatch(changeInput({prop:'birthdayDate', value:moment(date.toDateString()).format('DD MMMM YYYY')}))
+                    }}
+                />
+                {/*showDatePicker && (
                     <DateTimePicker
                         style={{width:width/1.27,}}
                         locale="es-ES"
@@ -135,8 +166,8 @@ const FormValidateUser = ({isNewUser}) => {
                         onChange={handleDateChange}
                         //maximumDate={new Date().getDate()}
                     />
-                )}
-                {showDatePicker && Platform.OS === 'ios' && (
+                )*/}
+                {/*showDatePicker && Platform.OS === 'ios' && (
                     <View style={styles.contIosPicker}>
                         <TouchableOpacity onPress={onShowDatepicker} style={styles.btnCancel}>
                             <Text>Cancelar</Text>
@@ -145,8 +176,8 @@ const FormValidateUser = ({isNewUser}) => {
                             <Text>Confirmar</Text>
                         </TouchableOpacity>
                     </View>
-                )}
-                {!showDatePicker  && (
+                )*/}
+                {/*!showDatePicker  && (
                     <Pressable onPress={onShowDatepicker}>
                         <Input 
                             placeholder='DD MMMM YYYY' 
@@ -157,12 +188,19 @@ const FormValidateUser = ({isNewUser}) => {
                         />
 
                     </Pressable>
-                )}
+                )*/}
 
             </View>
             <View style={{marginTop:20}}>
                 <Text style={styles.lbl}>Fecha de nacimiento</Text>
-                {showDatePickerBirthday && (
+                <Input 
+                    keyboardType="numeric"
+                    placeholder="dd/mm/yyyy"
+                    maxLength={10}
+                    value={birthdayDate}
+                    setValue={(val) => formatText(val, 'birthdayDate')}
+                />
+                {/*showDatePickerBirthday && (
                     <DateTimePicker
                         style={{width:width/1.27,}}
                         locale="es-ES"
@@ -172,8 +210,8 @@ const FormValidateUser = ({isNewUser}) => {
                         onChange={handleDateChangeBirthDay}
                         //maximumDate={new Date().getDate()}
                     />
-                )}
-                {showDatePickerBirthday && Platform.OS === 'ios' && (
+                )*/}
+                {/*showDatePickerBirthday && Platform.OS === 'ios' && (
                     <View style={styles.contIosPicker}>
                         <TouchableOpacity onPress={onShowDatePickerBirthDay} style={styles.btnCancel}>
                             <Text>Cancelar</Text>
@@ -182,8 +220,8 @@ const FormValidateUser = ({isNewUser}) => {
                             <Text>Confirmar</Text>
                         </TouchableOpacity>
                     </View>
-                )}
-                {!showDatePickerBirthday  && (
+                )*/}
+                {/*!showDatePickerBirthday  && (
                     <Pressable onPress={onShowDatePickerBirthDay}>
                         <Input 
                             placeholder='DD MMMM YYYY' 
@@ -194,7 +232,7 @@ const FormValidateUser = ({isNewUser}) => {
                         />
 
                     </Pressable>
-                )}
+                )*/}
 
             </View>
             <CustomButtom 
@@ -202,8 +240,8 @@ const FormValidateUser = ({isNewUser}) => {
                 onPressed={() => {
                     dispatch(onValidateCollaborator({
                         email,
-                        ingress: moment(ingress, 'DD MMMM YYYY').format('YYYY-MM-DD'), 
-                        birthdayDate: moment(birthdayDate, 'DD MMMM YYYY').format('YYYY-MM-DD'), 
+                        ingress: moment(ingress, 'DD/MM/YYYY').format('YYYY-MM-DD'), 
+                        birthdayDate: moment(birthdayDate, 'DD/MM/YYYY').format('YYYY-MM-DD'), 
                         isNewUser 
                     }))
                 }} 
