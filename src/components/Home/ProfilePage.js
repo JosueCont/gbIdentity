@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity, Switch } from "react-native";
+import { FlatList, Text, View, StyleSheet, Dimensions, Image, TouchableOpacity, Switch, Linking } from "react-native";
 import { Spinner } from "native-base";
 import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
@@ -67,7 +67,7 @@ const ProfilePage = ({backHome}) => {
     return(
         <View style={styles.container}>
             <HeaderContent isVisibleTitle={true} goBack={backHome} title="Mis preferencias"/>
-            <View style={[styles.card,{ height:height/3.5, marginBottom:14}]}>
+            <View style={[styles.card,{  marginBottom:14}]}>
                 <Text style={styles.title}>Preferencias</Text>
                 <View style={styles.contPref}>
                     <Text style={styles.txtPref}>Recibir notificaciones</Text>
@@ -81,6 +81,8 @@ const ProfilePage = ({backHome}) => {
                         value={receiveNotifications}
                         onValueChange={(val) => onChangeSwitch(val)}/>
                 </View>
+                <Text style={styles.lblAcep} onPress={() => Linking.openURL('https://www.gbidentity.com/docs/terms-conditions/').catch(err => console.error('No se pudo abrir la URL', err))}>Consultar los términos y condiciones</Text>
+
             </View>
             <View style={[styles.card,{paddingVertical:14, marginBottom:30}]}>
                 <Text style={styles.title}>Cambiar mi contraseña</Text>
@@ -194,7 +196,9 @@ const styles = StyleSheet.create({
         width: width/1.1,
         backgroundColor: Colors.white,
         borderRadius:20,
-        padding:25,
+        paddingHorizontal:25,
+        paddingTop:25,
+        paddingBottom:10,
         elevation:4,
         shadowColor: '#000', // Color de la sombra
         shadowOffset: {
@@ -238,6 +242,16 @@ const styles = StyleSheet.create({
         fontWeight:'400',
         textDecorationLine:'underline',
         marginBottom:20
+    },
+    lblAcep:{
+        color:Colors.red,
+        fontSize:getFontSize(14), 
+        fontWeight:'400',
+        marginLeft:10, 
+        textDecorationLine:'underline', 
+        textDecorationColor:Colors.red,
+        textAlign:'center', 
+        marginTop:10
     }
 })
 

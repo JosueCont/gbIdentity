@@ -54,8 +54,8 @@ const ScreenBaseLogged = ({children, showNotifications,showProfile, scrollViewRe
                         <Text style={styles.lblDesc}>Bienvenido de nuevo</Text>
                         <Text style={styles.lblName}>{user?.firstName}</Text>
                         <Text style={styles.lblName}>{user?.lastName}</Text>
-                        <Text style={styles.lblDesc}>Miembro desde:</Text>
-                        <Text style={[styles.lblDesc,{textTransform:'capitalize'}]}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>
+                        {/*<Text style={styles.lblDesc}>Miembro desde:</Text>
+                        <Text style={[styles.lblDesc,{textTransform:'capitalize'}]}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>*/}
                     </View>
                 </View>
 
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius:22
     },
     btnNoti:{
-        marginTop:20, 
+        marginTop:10, 
         alignSelf:'flex-end', 
         backgroundColor:Colors.whiteInput, 
         width:30, 
@@ -128,8 +128,9 @@ const styles = StyleSheet.create({
         textTransform:'capitalize'
     },
     imgProfile:{
-        width:119, 
-        height:140, 
+        marginLeft:3,
+        width:110, 
+        height:120, 
         resizeMode:'cover',
         borderRadius:15,
     },

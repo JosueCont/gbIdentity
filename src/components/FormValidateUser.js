@@ -181,7 +181,7 @@ const FormValidateUser = ({ isNewUser }) => {
     return(
         <View style={{marginTop:40}}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.lbl}>Código de identificación  </Text>
+                    <Text style={styles.lbl}>Número de identificación  </Text>
                     <TouchableOpacity onPress={openModal}>
                         <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
                     </TouchableOpacity>
