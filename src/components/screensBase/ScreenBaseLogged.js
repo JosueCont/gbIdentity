@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     },
     imgProfile:{
         marginLeft:3,
-        width:110, 
-        height:120, 
+        width:80, 
+        height:90, 
         resizeMode:'cover',
         borderRadius:15,
     },
