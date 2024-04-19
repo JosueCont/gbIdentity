@@ -75,7 +75,7 @@ const LoginScreen = () => {
         <ScreenBaseAuth title="Bienvenido a nuestra era de digitalización">
             <View style={styles.contInputs}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.lblInput}>Código de identificación  </Text>
+                    <Text style={styles.lblInput}>Número de identificación  </Text>
                     {/* <TouchableOpacity onPress={openModal}>
                         <AntDesign name="questioncircleo" size={16} color={Colors.darkBlue} />
                     </TouchableOpacity> */}

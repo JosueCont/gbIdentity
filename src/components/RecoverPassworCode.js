@@ -28,7 +28,7 @@ const RecoverPasswordCode = () => {
                 </>
             ):(
                 <View style={{marginTop:100}}>
-                    <Text style={styles.lbl}>Ingrese su código de colaborador</Text>
+                    <Text style={styles.lbl}>Ingrese su número de colaborador</Text>
                     <Input />
                     <CustomButtom title='Recuperar' onPressed={() => onValidateCode()} />
                 </View>

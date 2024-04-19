@@ -23,6 +23,8 @@ const ContentGafete = ({item, rules,}) => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     const loader = useSelector(state => state.homeDuck.loading)
+    const dataUser = useSelector(state => state.authDuck.dataUser)
+
   return (
     <View style={styles.contInfo}>
       {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? item?.image != null || item?.image !='' ? (
@@ -90,10 +92,15 @@ const ContentGafete = ({item, rules,}) => {
         {rules?.showCurp && <Text>{item?.curp}</Text>}
         {rules?.showNss && <Text>{item?.nss}</Text>}
       </View>
-      <Image
-        source={require("../../assets/logoBimbo.png")}
-        style={styles.logoBimbo}
-      />
+      {dataUser?.nodeImage != null && dataUser?.nodeImage != '' ? (
+        <Image source={{uri: dataUser?.nodeImage}} style={styles.logoBimbo}/>
+      ):(
+        <Image
+          source={require("../../assets/logoBimbo.png")}
+          style={styles.logoBimbo}
+        />
+
+      )}
     </View>
   );
 };
