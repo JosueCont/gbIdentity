@@ -32,7 +32,7 @@ Instalar con yarn
 Para levantar el proyecto  
 
 ```bash 
-  APP_ENV=expo expo start
+  APP_ENV=expo npx expo start
 ```
 *expo puede ser cambiado por android o ios dependiendo lo que se requiera
 
