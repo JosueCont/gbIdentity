@@ -58,7 +58,7 @@ const LoggedStack = () => {
                 <Stack.Screen  name='Home' component={HomeScreen} options={{headerShown: false}}/>
                 <Stack.Group screenOptions={{presentation:'transparentModal', headerShown:false, animation:'slide_from_bottom', gestureDirection:'vertical', gestureEnabled:true,  }} >
                     <Stack.Screen name="ModalCommunicate" component={ModalInfoCommunicate}/>
-                    <Stack.Screen name="ModalCredential" component={ModalCredential} options={{ presentation:'card', orientation:'landscape_left',}}/>
+                    <Stack.Screen name="ModalCredential" component={ModalCredential} options={{ presentation:'card', orientation:'landscape',}}/>
                 </Stack.Group>
         </Stack.Navigator>
     )

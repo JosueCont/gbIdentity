@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Skeleton } from "native-base";
 import { getFontSize } from "../utils/functions";
@@ -21,12 +21,22 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
         <CardGafete background={item?.color} setQrRoute={setQrRoute} isFront={true} showHorizontal={() => navigation.navigate('ModalCredential',{item, rules})}>
             <View style={styles.contInfo}>
                 {userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b' ? (item?.image !=null && item?.image !='') ? (
+                    <view>
                     <Image source={{uri: item?.image}} style={styles.imgProfile}/>
-                    
+                    <Text style={styles.lblCode}>ID: {item?.code}</Text>
+                    </view>
                 ):(
+                    <View>
                     <Image source={require('../../assets/profile.png')} style={styles.imgProfile}/>
+                    <Text style={styles.lblCode}>ID: {item?.code}</Text>
+                    </View>
 
-                ): <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/>}
+                ): 
+                <View>
+                <Image source={require('../../assets/user.jpg')} style={styles.imgProfile}/> 
+                <Text style={styles.lblCode}>ID: {item?.code}</Text>
+                </View>
+                }
                 <View style={{ width: width/2,}}>
                     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between' }}>
                         {loader ? (
@@ -45,8 +55,8 @@ const GafeteItem = ({item,setQrRoute, rules}) => {
                         <Skeleton.Text px="2" lines={1} mb={2} mt={2} backgroundColor={'gray.100'} borderRadius={8}/> 
                     :(
                         <View>
-                            <Text style={[styles.lblBranch,{marginTop:6}]}>{item?.branch}</Text>
-                            <Text style={styles.lblBranch}>{item?.code}</Text>
+                            <Text style={[styles.lblBranch,{marginTop:6}]}>{item?.department}</Text>
+                            
                         </View>
                     )}
                     {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
@@ -69,8 +79,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     imgProfile:{
-        width:100, 
-        height:115, 
+        marginTop:-20, 
+        marginLeft:-8, 
+        width:110, 
+        height:125, 
         resizeMode:'cover',
         borderRadius:15,
         marginRight:6,
@@ -88,7 +100,7 @@ const styles = StyleSheet.create({
         fontWeight:'700'
     },
     line:{
-        width: width/2.5, 
+        width: width/2.0, 
         height:5, 
         backgroundColor:Colors.black, 
         marginTop:6
@@ -96,15 +108,23 @@ const styles = StyleSheet.create({
     lblBranch:{
         //marginTop:6, 
         width: width/2.4, 
-        paddingRight:4
+        paddingRight:4, 
+    },
+    lblCode:{
+        textAlign: "center",      
+        marginTop:8, 
+        // width: width/2.4, 
+        fontSize: 16,
+        paddingRight:11,
+        fontWeight:'700'
     },
     logoBimbo:{
         width:50, 
         height:22, 
         resizeMode:'contain',  
         position:'absolute', 
-        right:10, 
-        top:-10
+        right:2, 
+        top:-20
     },
     contBtn:{
         alignSelf:'flex-end', 

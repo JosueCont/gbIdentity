@@ -9,7 +9,7 @@ import ModalCredential from "./modals/ModalCredential";
 
 const {height, width} = Dimensions.get('window');
 
-const CardGafete = ({children, background= Colors.white, setQrRoute, isFront=false, showHorizontal, isHorizontal=false}) => {
+const CardGafete = ({children, background= Colors.white, setQrRoute, isFront=false, showHorizontal, isHorizontal=false, hideMaxContent=false}) => {
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     const loader = useSelector(state => state.homeDuck.loading)
 
@@ -30,8 +30,8 @@ const CardGafete = ({children, background= Colors.white, setQrRoute, isFront=fal
                     <View style={[styles.itemColor,{backgroundColor:Colors.grayV2}]}/>*/}
                 </View>
             </View>
-            <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-                <Image source={require('../../assets/horizontalBar.gif')} style={{ width:200, height:20,}}/>
+            <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginTop:-1}}>
+                <Image source={require('../../assets/horizontalBar.gif')} style={{ width:200, height:20, marginLeft:-16}}/>
                 
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                     {isFront ? isHorizontal ? (
@@ -44,7 +44,7 @@ const CardGafete = ({children, background= Colors.white, setQrRoute, isFront=fal
                         </TouchableOpacity>
 
                     ): null}
-                    {isFront && 
+                    {isFront && !hideMaxContent &&
                         <View style={styles.contBtn}>
                             {loader ? (
                                 <Skeleton lines={1} width={30} height={30} borderRadius={5} backgroundColor={'gray.100'}/>
