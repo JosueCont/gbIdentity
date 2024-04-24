@@ -161,10 +161,13 @@ const CodePage = ({ backHome }) => {
               </View>
             )
           ) : (
-            <Image
-              source={require("../../../assets/qrTest.png")}
-              style={{ width: 170, height: 170, resizeMode: "contain" }}
-            />
+            <View style={{width: 170, height: 190,}}>
+                <Image
+                  source={{uri: dataUser?.fixedQr }}
+                  style={{ flex:1, resizeMode: "cover" }}
+                />
+
+            </View>
           )}
           <View style={{ width: width / 2, marginLeft: 8  }}>
                   <View
@@ -286,6 +289,7 @@ const styles = StyleSheet.create({
   lblCompany: {
     fontSize: getFontSize(18),
     fontWeight: "700",
+    width: width*.35,
   },
   lblUserConfig: {
     fontSize: getFontSize(14),
