@@ -134,7 +134,7 @@ const CodePage = ({ backHome }) => {
         title="Notificaciones (20)"
       />
       <CardGafete>
-        <View style={{ alignSelf: "flex-start", marginBottom: 5, flexDirection: "row", alignItems: "center" }}>
+        <View style={{ alignSelf: "flex-start", marginBottom: 5, flexDirection: "row"}}>
           {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? (
             code != "" && !loader ? (
               <View style={styles.contInfo}>
@@ -238,7 +238,7 @@ const CodePage = ({ backHome }) => {
 
 const styles = StyleSheet.create({
   contInfo: {
-    marginTop: -10,
+    marginTop: 10,
     flexDirection: "row",
   },
   container: {

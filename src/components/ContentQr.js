@@ -93,7 +93,7 @@ const ContentQr = ({ code, loader, userId }) => {
           ) : (
             <View>
               <Text style={styles.lblCompany}>{dataUser?.ouCompany}</Text>
-              { dataUser?.rfc && dataUser?.rfc !="" && <View
+              { dataUser?.rfc && <View
                 style={{ flexDirection: "column", alignItems: "flex-start" }}
               >
                 <Text style={styles.lblUserConfig}>RFC:</Text>
