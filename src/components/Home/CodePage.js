@@ -36,7 +36,7 @@ const CodePage = ({ backHome }) => {
   const dataUser = useSelector((state) => state.authDuck.dataUser);
 
   useEffect(() => {
-    console.log(dataUser?.bcConfiguration)
+    console.log(dataUser)
   }, [dataUser])
 
   const countdownInterval = useRef(null); // Cambio aquí
