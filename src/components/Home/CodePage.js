@@ -81,7 +81,7 @@ const CodePage = ({ backHome }) => {
   };
 
   useEffect(() => {
-    if (userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b") {
+    if (!dataUser?.fixedQr != null && !dataUser?.fixedQr !='') {
       if (isRunning && seg === 0 && minutes === 0) {
         if (countdownInterval.current !== null) {
           clearInterval(countdownInterval.current); // Limpieza usando .current
@@ -135,7 +135,7 @@ const CodePage = ({ backHome }) => {
       />
       <CardGafete>
         <View style={{ alignSelf: "flex-start", marginBottom: 5, flexDirection: "row"}}>
-          {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? (
+          {!dataUser?.fixedQr != null && !dataUser?.fixedQr !='' ? (
             code != "" && !loader ? (
               <View style={styles.contInfo}>
                 <QRCode
@@ -220,7 +220,7 @@ const CodePage = ({ backHome }) => {
         </View>
         {/*<Image source={require('../../../assets/qr2.png')} style={styles.img}/>*/}
       </CardGafete>
-      {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" && (
+      {!dataUser?.fixedQr != null && !dataUser?.fixedQr !='' && (
         <View style={styles.contDesc}>
           <Text style={styles.title}>QR dinámico</Text>
           <Text style={styles.desc}>

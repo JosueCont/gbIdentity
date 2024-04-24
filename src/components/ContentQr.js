@@ -33,7 +33,7 @@ const ContentQr = ({ code, loader, userId }) => {
         flexDirection: "row",
       }}
     >
-      {userId != "a1c7cad5-f359-44b2-867e-4fd19c8e0f4b" ? (
+      {!dataUser?.fixedQr != null && !dataUser?.fixedQr !='' ? (
         code != "" && !loader ? (
           // <QRCode
           //     value={code}
@@ -68,7 +68,7 @@ const ContentQr = ({ code, loader, userId }) => {
         )
       ) : (
         <Image
-          source={require("../../assets/qrTest.png")}
+          source={{uri: dataUser?.fixedQr}}
           style={{ width: 170, height: 170, resizeMode: "contain" }}
         />
       )}

@@ -24,6 +24,8 @@ const ModalCredential = ({visible, setVisible}) => {
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     //const loader = useSelector(state => state.homeDuck.loading)
     const [showQr, setShowQr] = useState(true)
+    const dataUser = useSelector((state) => state.authDuck.dataUser);
+
     //const code = useSelector(state => state.homeDuck.code)
     //const isRunning = useSelector(state => state.homeDuck.isRunning)
     //const minutes = useSelector(state => state.homeDuck.minutes);
@@ -82,7 +84,7 @@ const ModalCredential = ({visible, setVisible}) => {
 
 
     useEffect(() => {
-        if(userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b'){
+        if(!dataUser?.fixedQr != null && !dataUser?.fixedQr !=''){
             if(isRunning && seg === 0 && minutes === 0){
                 if (countdownInterval.current !== null) {
                     clearInterval(countdownInterval.current); // Limpieza usando .current
