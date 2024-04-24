@@ -67,6 +67,8 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
         nss: dataUser?.nss,
         birthDate: moment(dataUser?.birthDate).format('DD-MM-YYYY'),
         branch: dataUser?.ouWorkCenter,
+        department: dataUser?.ouDepartment,
+        company: dataUser?.ouCompany,
         image: dataUser?.profileImage
     }
 
@@ -78,21 +80,11 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
                 )}
                 
             </View>
-            <CommunicateList communicates={communicates}/>
-            {/*<View style={styles.contStreak}>
-                <View style={{justifyContent:'center'}}>
-                    <Image source={require('../../../assets/containerNum.png')} style={styles.imgStreak}/>
-                    <Text style={styles.lblStreak}>4</Text>
-                </View>
-                <View style={styles.contDescStreak}>
-                    <Text style={styles.titleDesStreak}>¡Sigue así!</Text>
-                    <Text style={styles.subtitleStreak}>Al día de hoy has acumulado 4 insignias que te reconocen tu gran trayectoria como conductor oficial de Grupo Bimbo.</Text>
-                </View>
-                </View>*/}
+            <CommunicateList communicates={communicates}/> 
 
             {accessList.length > 0 && (
             <View style={styles.contChecks}>
-                <Text style={styles.titleChecks}>Última actividad</Text>
+                <Text style={styles.titleChecks}>mi última actividad</Text>
                 <View style={styles.cardChecks}>
                     <View style={styles.contReg}>{getRegisters()}</View>
                     {accessList.length > 1 && accessList.length != infoList?.totalItems && (

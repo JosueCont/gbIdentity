@@ -17,6 +17,7 @@ injectStore(store)
 
 
 const NavigationContainerConfig = () => {
+    ScreenCapture.usePreventScreenCapture();
     const dispatch = useDispatch();
     const [loggedIn, setLoggedIn] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -37,7 +38,8 @@ const NavigationContainerConfig = () => {
 
     useEffect(() => {
         // if(hasPermissions()){
-            const subscription = ScreenCapture.addScreenshotListener(() => {
+            const subscription = ScreenCapture.addScreenshotListener((action) => {
+                console.log('action',action)
                 setModal(true)
             });
             return () => subscription.remove();

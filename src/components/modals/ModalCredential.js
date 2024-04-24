@@ -23,7 +23,9 @@ const ModalCredential = ({visible, setVisible}) => {
     const userId = useSelector(state => state.authDuck?.dataUser?.id)
     const colorDay = useSelector(state => state.homeDuck.colorDay)
     //const loader = useSelector(state => state.homeDuck.loading)
-    const [showQr, setShowQr] = useState(false)
+    const [showQr, setShowQr] = useState(true)
+    const dataUser = useSelector((state) => state.authDuck.dataUser);
+
     //const code = useSelector(state => state.homeDuck.code)
     //const isRunning = useSelector(state => state.homeDuck.isRunning)
     //const minutes = useSelector(state => state.homeDuck.minutes);
@@ -82,8 +84,8 @@ const ModalCredential = ({visible, setVisible}) => {
 
 
     useEffect(() => {
-        if(userId != 'a1c7cad5-f359-44b2-867e-4fd19c8e0f4b'){
-            if(isRunning && seg === 0 && minutes === 0 && showQr){
+        if(!dataUser?.fixedQr != null && !dataUser?.fixedQr !=''){
+            if(isRunning && seg === 0 && minutes === 0){
                 if (countdownInterval.current !== null) {
                     clearInterval(countdownInterval.current); // Limpieza usando .current
                 }
@@ -145,16 +147,17 @@ const ModalCredential = ({visible, setVisible}) => {
                         ):(
                             <ContentQr userId={userId} code={code}/>
                         )}
-                        {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
+                        {/* {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
                             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
-                        </TouchableOpacity>}
+                        </TouchableOpacity>} */}
                     </CardGafete>
                     </View>
                 ):(
                     <View style={{ flex:1, justifyContent:'center', alignItems:'center'}}>
                     <CardGafete 
                         isHorizontal={true} 
-                        isFront={!showQr} 
+                        isFront={true} 
+                        hideMaxContent={true}
                         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}} 
                         setQrRoute={() => {
                             setShowQr(true)
@@ -164,9 +167,9 @@ const ModalCredential = ({visible, setVisible}) => {
                         ):(
                             <ContentQr userId={userId} code={code}/>
                         )}
-                        {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
+                        {/* {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
                             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
-                        </TouchableOpacity>}
+                        </TouchableOpacity>} */}
                     </CardGafete>
                 </View>
 
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     card:{
         flex:1, 
         backgroundColor:Colors.blue, 
-        marginTop:60, 
+        marginTop:0, 
         //borderRadius:10,
     },
     contInfo:{
