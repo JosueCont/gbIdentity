@@ -22,7 +22,7 @@ const HomeScreen = () => {
     const dataUser = useSelector(state => state.authDuck.dataUser)
     const refresh = useSelector(state => state.homeDuck.refresh)
     const scrollViewRef = useRef();
-const navigation = useNavigation();
+    const navigation = useNavigation();
 
     useEffect(() => {
         if(userId && userId != undefined ) getInitialConfig()
@@ -67,7 +67,6 @@ const navigation = useNavigation();
         await dispatch(userPreferences(userId))
         await dispatch(onGetColorDay())
         dispatch(getCommunicates({pageNumber: 1, pageSize: 1000}))
-
 
     }
 

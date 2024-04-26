@@ -23,8 +23,9 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
     const loader = useSelector(state => state.homeDuck.loading)
     const credentials = useSelector(state => state.authDuck.dataUser?.configuration?.credentials)
     const communicates = useSelector(state => state.homeDuck.communicates)
+    const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
     const [modalCard, setModalCard] = useState(false)
-    
+    console.log('datauser',dataUser, bcConfiguration, credentials)
     const getRegisters = () => {
         return accessList.map((item,index) => (
             <View style={styles.cardItem} key={index}>
@@ -63,8 +64,8 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
         lastName: dataUser?.lastName,
         code: dataUser?.collaboratorId,
         branch:'',
-        curp: dataUser?.curp,
-        nss: dataUser?.nss,
+        curp: bcConfiguration?.showCurp,
+        nss: bcConfiguration?.showNss,
         birthDate: moment(dataUser?.birthDate).format('DD-MM-YYYY'),
         branch: dataUser?.ouWorkCenter,
         department: dataUser?.ouDepartment,
@@ -76,7 +77,7 @@ const InitialPage = ({setQrRoute, showMoreLogs}) => {
         <View style={styles.container}>
             <View style={styles.contCards}>
                 {credentials?.bimboCredential && (
-                    <GafeteItem item={item} setQrRoute={setQrRoute} rules={credentials?.bcConfiguration} />
+                    <GafeteItem item={item} setQrRoute={setQrRoute} rules={bcConfiguration} />
                 )}
                 
             </View>

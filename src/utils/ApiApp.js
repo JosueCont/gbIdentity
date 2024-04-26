@@ -40,3 +40,5 @@ export const putReceiveNotifications = async(data) => await axiosPut(axiosTypes.
 //preferences
 export const getDeleteProfile = async(id) => await axiosGet(`${axiosTypes.DELETE_PROFILE}${id}`) 
 export const getColorDay = async() => await axiosGet(axiosTypes.GET_COLOR_DAY)
+export const getInfoCredentials = async(id) => await axiosGet(`${axiosTypes.GET_INFO_CREDENTIALS}${id}`)
+export const putCredentials = async(data) => await axiosPut(axiosTypes.UPDATE_INFO_CREDENTIALS, data)
