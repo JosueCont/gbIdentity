@@ -121,7 +121,7 @@ const ProfilePage = ({backHome}) => {
                 <View>
                     <Text style={{color: Colors.red, fontSize: getFontSize(16), fontWeight:'700'}}>Datos a mostrar en la tarjeta</Text>
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:10}}>
-                        <Text style={styles.txtPref}>INE</Text>
+                        <Text style={styles.txtPref}>RFC</Text>
                         <Switch 
                             trackColor={{true: Colors.green, false: Colors.gray}}
                             thumbColor={bcConfiguration?.showBirthDate ? Colors.greenStrong : Colors.gray}

@@ -15,11 +15,34 @@ import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import { useSelector, useDispatch } from "react-redux";
 const { height, width } = Dimensions.get("window");
+import { getInfoCredentials } from "../../utils/ApiApp";
 
 const DigitalCredentialBack = ({ code, loader }) => {
   const dataUser = useSelector((state) => state.authDuck.dataUser);
   const [modalQr, setModalQr] = useState(false)
-  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
+  const [bcConfiguration, setBcConfiguration] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    getBcConfiguration(dataUser.id)
+  }, []);
+
+  const getBcConfiguration = async (userId) => {
+    setLoading(true);
+    // Lógica para obtener el código QR...
+    try {
+      const response = await getInfoCredentials(userId);
+      if (response?.data) {
+        console.log("response.data", response.data)
+        setBcConfiguration(response.data.bcConfiguration);
+        setLoading(false); 
+      }
+    } catch (error) {
+      console.log("Error al la configuración de tarjetas", error);
+      setLoading(false);
+    } 
+  }
+
 
 
   return (
@@ -81,7 +104,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
           ) : (
             <View>
               <Text style={styles.lblCompany}>{dataUser?.ouCompany}</Text>
-              {bcConfiguration?.showRfc && (
+              {bcConfiguration?.showBirthDate && (
                 <View
                   style={{ flexDirection: "column", alignItems: "flex-start" }}
                 >
