@@ -25,6 +25,7 @@ const ModalCredential = ({visible, setVisible}) => {
     //const loader = useSelector(state => state.homeDuck.loading)
     const [showQr, setShowQr] = useState(true)
     const dataUser = useSelector((state) => state.authDuck.dataUser);
+    const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
 
     //const code = useSelector(state => state.homeDuck.code)
     //const isRunning = useSelector(state => state.homeDuck.isRunning)
@@ -143,7 +144,7 @@ const ModalCredential = ({visible, setVisible}) => {
                             setShowQr(true);
                             }}>
                         {!showQr ? (
-                            <ContentGafete item={item} rules={rules}/>
+                            <ContentGafete item={item} rules={bcConfiguration}/>
                         ):(
                             <ContentQr userId={userId} code={code}/>
                         )}
@@ -163,7 +164,7 @@ const ModalCredential = ({visible, setVisible}) => {
                             setShowQr(true)
                         }}>
                         {!showQr ? (
-                            <ContentGafete item={item} rules={rules}/>
+                            <ContentGafete item={item} rules={bcConfiguration}/>
                         ):(
                             <ContentQr userId={userId} code={code}/>
                         )}

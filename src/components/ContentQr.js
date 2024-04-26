@@ -23,6 +23,7 @@ const { height, width } = Dimensions.get("window");
 
 const ContentQr = ({ code, loader, userId }) => {
   const dataUser = useSelector((state) => state.authDuck.dataUser);
+  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
 
    
   return (
@@ -99,13 +100,13 @@ const ContentQr = ({ code, loader, userId }) => {
                 <Text style={styles.lblUserConfig}>RFC:</Text>
                 <Text style={styles.lblUserValue}>{dataUser?.rfc}</Text>
               </View>}
-              { dataUser?.curp && <View
+              { bcConfiguration?.showCurp && <View
                 style={{ flexDirection: "column", alignItems: "flex-start" }}
               >
                 <Text style={styles.lblUserConfig}>CURP:</Text>
                 <Text style={styles.lblUserValue}>{dataUser?.curp}</Text>
               </View>}
-              { dataUser?.nss && <View
+              { bcConfiguration?.showNss && <View
                 style={{ flexDirection: "column", alignItems: "flex-start" }}
               >
                 <Text style={styles.lblUserConfig}>IMSS:</Text>

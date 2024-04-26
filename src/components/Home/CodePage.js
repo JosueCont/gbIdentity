@@ -18,6 +18,7 @@ import QRCode from "react-native-qrcode-svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getCodeQR } from "../../store/ducks/homeDuck";
 import { getDinamicCode } from "../../utils/ApiApp";
+import ModalQr from "../modals/ModalQr";
 const { height, width } = Dimensions.get("window");
 
 const CodePage = ({ backHome }) => {
@@ -33,7 +34,9 @@ const CodePage = ({ backHome }) => {
   const [isRunning, setIsRunning] = useState(true);
   const [minutes, setMinutes] = useState(0);
   const [seg, setSeconds] = useState(0);
+  const [modalQr, setModalQr] = useState(false)
   const dataUser = useSelector((state) => state.authDuck.dataUser);
+  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
 
   useEffect(() => {
     console.log(dataUser)
@@ -137,7 +140,7 @@ const CodePage = ({ backHome }) => {
         <View style={{ alignSelf: "flex-start", marginBottom: 5, flexDirection: "row"}}>
           {!dataUser?.fixedQr != null && !dataUser?.fixedQr !='' ? (
             code != "" && !loader ? (
-              <View style={styles.contInfo}>
+              <TouchableOpacity style={styles.contInfo} onPress={() => setModalQr(true)}>
                 <QRCode
                   style={styles.qrCode}
                   value={code}
@@ -148,7 +151,7 @@ const CodePage = ({ backHome }) => {
                   size={140}
                 />
                 
-              </View>
+              </TouchableOpacity>
             ) : (
               <View
                 style={{
@@ -164,7 +167,7 @@ const CodePage = ({ backHome }) => {
             <View style={{width: 170, height: 190,}}>
                 <Image
                   source={{uri: dataUser?.fixedQr }}
-                  style={{ flex:1, resizeMode: "cover" }}
+                  style={{ flex:1, resizeMode: "contain" }}
                 />
 
             </View>
@@ -200,7 +203,7 @@ const CodePage = ({ backHome }) => {
                             {dataUser?.rfc}
                           </Text>
                         </View>}
-                        {dataUser?.curp && <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
+                        {bcConfiguration?.showCurp && <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
                           <Text style={styles.lblUserConfig}>
                             CURP:
                           </Text>
@@ -208,7 +211,7 @@ const CodePage = ({ backHome }) => {
                             {dataUser?.curp}
                           </Text>
                         </View>}
-                        {dataUser?.nss && <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
+                        {bcConfiguration?.showNss && <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
                           <Text style={styles.lblUserConfig}>
                             IMSS:
                           </Text>
@@ -235,6 +238,13 @@ const CodePage = ({ backHome }) => {
           </Text>
         </View>
       )}
+
+      <ModalQr 
+        visible={modalQr}
+        onClose={() => setModalQr(false)}
+        code={code}
+        dataUser={dataUser}
+      />
     </View>
   );
 };

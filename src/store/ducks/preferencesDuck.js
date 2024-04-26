@@ -20,7 +20,8 @@ const initialState = {
     modalFailed:false,
     message:'',
     password:'',
-    repeatPassword:''
+    repeatPassword:'',
+    bcConfiguration:null
 }
 
 const preferencesDuck = (state = initialState, action) => {
