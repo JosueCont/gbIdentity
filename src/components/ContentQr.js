@@ -130,12 +130,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   lblCompany: {
-    fontSize: getFontSize(18),
+    fontSize: getFontSize(16),
     fontWeight: "700",
+    paddingBottom: 5
   },
   lblUserConfig: {
-    fontSize: getFontSize(14),
-    fontWeight: "700",
+    fontSize: getFontSize(13),
+    fontWeight: "600",
   },
   lblUserValue: {
     fontSize: getFontSize(12),

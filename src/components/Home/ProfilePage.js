@@ -125,7 +125,7 @@ const ProfilePage = ({backHome}) => {
                     {loader ? <Spinner size={'sm'} color={Colors.white} />: <Text style={styles.lblBtn}>Cambiar contraseña</Text>}
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() =>{
+            {/* <TouchableOpacity onPress={() =>{
                 dispatch(openModalHome({
                     prop:'modalConfirm', 
                     value:true, 
@@ -134,7 +134,7 @@ const ProfilePage = ({backHome}) => {
                 }))
             }}>
                 <Text style={styles.lblOptions}>Cerrar sesión</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity 
                 onPress={() => {
                     dispatch(onChageModalPreferences({
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         fontWeight:'700'
     },
     contPref:{
-        marginTop:29,
+        marginTop:9,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center'

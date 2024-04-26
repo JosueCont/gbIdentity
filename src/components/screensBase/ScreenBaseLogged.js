@@ -11,10 +11,13 @@ import {
   RefreshControl,
 } from "react-native";
 import { getFontSize } from "../../utils/functions";
+import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
+import { logoutAction } from "../../store/ducks/authDuck";
 import { Colors } from "../../utils/Colors";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { useSelector } from "react-redux";
+import ModalAlertConfirm from "../modals/ModalAlert";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import "moment/locale/es";
 
@@ -28,8 +31,13 @@ const ScreenBaseLogged = ({
   refresh = false,
   onRefresh,
 }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.authDuck.dataUser);
   const badge = useSelector((state) => state.notifyDuck.badgeNotification);
+  const isCloseSession = useSelector(state => state.homeDuck.isCloseSession)
+  const message = useSelector(state => state.homeDuck.message) 
+
+  const modalConfirm = useSelector(state => state.homeDuck.modalConfirm)
 
   return (
     <View style={styles.container}>
@@ -61,6 +69,22 @@ const ScreenBaseLogged = ({
                         <Text style={[styles.lblDesc,{textTransform:'capitalize'}]}>{moment(user?.entryDate).format('MMMM YYYY')}</Text>*/}
           </View>
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <TouchableOpacity
+              onPress={() =>{
+                dispatch(openModalHome({
+                    prop:'modalConfirm', 
+                    value:true, 
+                    message:'¿Deseas cerrar sesión?',
+                    close: true
+                }))
+            }}
+              style={styles.btnNoti}
+            >
+              <> 
+                <FontAwesome5 name="power-off" size={16} color="black" />
+                 
+              </>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={showProfile}
               style={styles.btnNoti}
@@ -88,6 +112,19 @@ const ScreenBaseLogged = ({
           </View>
         </View>
       </View>
+      <ModalAlertConfirm 
+                visible={modalConfirm}
+                onClose={() => {
+                    dispatch(closeModalHome({prop:'modalConfirm', value:false, }))
+                }}
+                setConfirm={() => {
+                    dispatch(closeModalHome({prop:'modalConfirm', value:false, }))
+                    setTimeout(() => {
+                        isCloseSession ? dispatch(logoutAction()) : dispatch(onChangePasswordLogged({userId, password}))
+                    },500)
+                }}
+                message={message}
+            />
       <ScrollView
         ref={scrollViewRef}
         refreshControl={

@@ -35,9 +35,7 @@ const CodePage = ({ backHome }) => {
   const [seg, setSeconds] = useState(0);
   const dataUser = useSelector((state) => state.authDuck.dataUser);
 
-  useEffect(() => {
-    console.log(dataUser)
-  }, [dataUser])
+  
 
   const countdownInterval = useRef(null); // Cambio aquí
 
@@ -287,13 +285,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   lblCompany: {
-    fontSize: getFontSize(18),
-    fontWeight: "700",
-    width: width*.35,
+    fontSize: getFontSize(16),
+    fontWeight: "700", 
+    paddingBottom: 5
   },
   lblUserConfig: {
-    fontSize: getFontSize(14),
-    fontWeight: "700",
+    fontSize: getFontSize(13),
+    fontWeight: "600",
   },
   lblUserValue: {
     fontSize: getFontSize(12), 
