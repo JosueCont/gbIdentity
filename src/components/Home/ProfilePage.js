@@ -7,6 +7,7 @@ import HeaderContent from "../HeaderContent";
 import Input from "../CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction, setValuePAssword, setRepeatPassword, onValidatePassword } from "../../store/ducks/authDuck";
+import { getInfoCredentials, putCredentials } from "../../utils/ApiApp";
 import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
 import ModalAlertConfirm from "../modals/ModalAlert";
 import { onChageModalPreferences, onChangePasswordLogged, onChangeText, onDeleteProfile, updatePreferences } from "../../store/ducks/preferencesDuck";
@@ -38,6 +39,11 @@ const ProfilePage = ({backHome}) => {
     const passwordConfig = useSelector(state => state.authDuck.passwordConfig)
     const isValidatePassword = useSelector(state => state.authDuck.isValidatePassword)
     const rules = useSelector(state => state.authDuck.rules)
+    const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
+    const [disableIne, setDisableIne] = useState(false)
+    const [disableCurp, setDisableCurp] = useState(false)
+    const [disableNss, setDisableNss] = useState(false)
+
 
     useEffect(() => {
         if(password != '' && repeatPassword != '' && isValidatePassword) setDisable(false)
@@ -47,6 +53,21 @@ const ProfilePage = ({backHome}) => {
     useEffect(() => {
         console.log('recibr noticicaiones', receiveNotifications)
     },[receiveNotifications])
+
+    useEffect(() => {
+        getInfoCredential()
+    },[])
+
+    const getInfoCredential = async() => {
+        try {
+            
+            const response = await getInfoCredentials(userId)
+            dispatch(onChangeText({prop:'bcConfiguration', value: response?.data?.bcConfiguration}))
+            console.log('credentials',response?.data)
+        } catch (e) {
+            console.log('errorr credentials',e)
+        }
+    }
 
     const onChangeSwitch = async(val) => {
         await dispatch(updatePreferences({userId, receiveNotifications: val}))
@@ -61,6 +82,22 @@ const ProfilePage = ({backHome}) => {
             dispatch(openModalHome({prop:'modalConfirm', value: true,message:'¿Desea cambiar de contraseña?'}))
         }else{
             dispatch(onChageModalPreferences({prop:'modalFailed', value: true, message:'Las contraseñas no son iguales'}))
+        }
+    }
+
+    const onChangeSwitchCredential = async(key, val) => {
+        try {
+            for(let valueKEy in bcConfiguration){
+                if(valueKEy === key) bcConfiguration[valueKEy] = val
+            }
+            let dataSend = {
+                userId,
+                bcConfiguration: bcConfiguration
+            }
+            const response = await putCredentials(dataSend)
+            dispatch(onChangeText({prop:'bcConfiguration', value: response?.data?.bcConfiguration}))
+        } catch (e) {
+            console.log('error',e)
         }
     }
 
@@ -80,6 +117,48 @@ const ProfilePage = ({backHome}) => {
                         //colorScheme={'green'} 
                         value={receiveNotifications}
                         onValueChange={(val) => onChangeSwitch(val)}/>
+                </View>
+                <View>
+                    <Text style={{color: Colors.red, fontSize: getFontSize(16), fontWeight:'700'}}>Datos a mostrar en la tarjeta</Text>
+                    <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:10}}>
+                        <Text style={styles.txtPref}>INE</Text>
+                        <Switch 
+                            trackColor={{true: Colors.green, false: Colors.gray}}
+                            thumbColor={bcConfiguration?.showBirthDate ? Colors.greenStrong : Colors.gray}
+                            disabled={isDisabled}
+                            style={{ transform:[{ scaleX: .7 }, { scaleY: .7 }] }}
+                            //size={'sm'} 
+                            //colorScheme={'green'} 
+                            value={bcConfiguration?.showBirthDate}
+                            onValueChange={(val) => onChangeSwitchCredential('showBirthDate',val)}
+                        />
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text style={styles.txtPref}>CURP</Text>
+                        <Switch 
+                            trackColor={{true: Colors.green, false: Colors.gray}}
+                            thumbColor={bcConfiguration?.showCurp ? Colors.greenStrong : Colors.gray}
+                            disabled={isDisabled}
+                            style={{ transform:[{ scaleX: .7 }, { scaleY: .7 }] }}
+                            //size={'sm'} 
+                            //colorScheme={'green'} 
+                            value={bcConfiguration?.showCurp}
+                            onValueChange={(val) => onChangeSwitchCredential('showCurp',val)}
+                        />
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text style={styles.txtPref}>NSS</Text>
+                        <Switch 
+                            trackColor={{true: Colors.green, false: Colors.gray}}
+                            thumbColor={bcConfiguration?.showNss ? Colors.greenStrong : Colors.gray}
+                            disabled={isDisabled}
+                            style={{ transform:[{ scaleX: .7 }, { scaleY: .7 }] }}
+                            //size={'sm'} 
+                            //colorScheme={'green'} 
+                            value={bcConfiguration?.showNss}
+                            onValueChange={(val) => onChangeSwitchCredential('showNss',val)}
+                        />
+                    </View>
                 </View>
                 <Text style={styles.lblAcep} onPress={() => Linking.openURL('https://www.gbidentity.com/docs/terms-conditions/').catch(err => console.error('No se pudo abrir la URL', err))}>Consultar los términos y condiciones</Text>
 
@@ -217,7 +296,8 @@ const styles = StyleSheet.create({
         marginTop:9,
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
+        marginBottom:15
     },
     txtPref:{
         color: Colors.blueText,

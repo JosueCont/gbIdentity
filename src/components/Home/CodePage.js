@@ -18,6 +18,7 @@ import QRCode from "react-native-qrcode-svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getCodeQR } from "../../store/ducks/homeDuck";
 import { getDinamicCode } from "../../utils/ApiApp";
+import ModalQr from "../modals/ModalQr";
 import DigitalCredentialBack from "../DigitalCredential/DigitalCredentialBack";
 const { height, width } = Dimensions.get("window");
 
@@ -29,7 +30,9 @@ const CodePage = ({ backHome }) => {
   const [isRunning, setIsRunning] = useState(true);
   const [minutes, setMinutes] = useState(0);
   const [seg, setSeconds] = useState(0);
+  const [modalQr, setModalQr] = useState(false)
   const dataUser = useSelector((state) => state.authDuck.dataUser);
+  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
 
   const countdownInterval = useRef(null); // Cambio aquí
 
@@ -107,6 +110,13 @@ const CodePage = ({ backHome }) => {
           </Text>
         </View>
       )}
+
+      <ModalQr 
+        visible={modalQr}
+        onClose={() => setModalQr(false)}
+        code={code}
+        dataUser={dataUser}
+      />
     </View>
   );
 };

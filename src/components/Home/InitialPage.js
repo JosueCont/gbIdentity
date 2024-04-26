@@ -36,6 +36,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
     (state) => state.authDuck.dataUser?.configuration?.credentials
   );
   const communicates = useSelector((state) => state.homeDuck.communicates);
+  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
   const [modalCard, setModalCard] = useState(false);
 
   const getRegisters = () => {
@@ -94,8 +95,8 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
     lastName: dataUser?.lastName,
     code: dataUser?.collaboratorId,
     branch: "",
-    curp: dataUser?.curp,
-    nss: dataUser?.nss,
+    curp: bcConfiguration?.showCurp,
+    nss: bcConfiguration?.showNss,
     birthDate: moment(dataUser?.birthDate).format("DD-MM-YYYY"),
     branch: dataUser?.ouWorkCenter,
     department: dataUser?.ouDepartment,

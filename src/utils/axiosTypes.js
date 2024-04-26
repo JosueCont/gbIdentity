@@ -22,5 +22,7 @@ export const axiosTypes = {
     GET_REGEX_PASSWORD: '/SecurityConfiguration/GetPasswordRegex',
     GET_PASSWORD_CONFIG:'/SecurityConfiguration/GetPasswordConfiguration',
     GET_GENERAL_CONFIG:'/GeneralConfiguration/App',
-    GET_COMMUNICATIONS: '/Communications/App'
+    GET_COMMUNICATIONS: '/Communications/App',
+    GET_INFO_CREDENTIALS:'/UserConfiguration/credentials/',
+    UPDATE_INFO_CREDENTIALS:'/UserConfiguration/Credentials'
 }

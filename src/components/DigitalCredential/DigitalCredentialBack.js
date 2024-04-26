@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Spinner, Skeleton } from "native-base";
 import QRCode from "react-native-qrcode-svg";
+import ModalQr from "../modals/ModalQr";
 import { Colors } from "../../utils/Colors";
 import { getFontSize } from "../../utils/functions";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,6 +18,9 @@ const { height, width } = Dimensions.get("window");
 
 const DigitalCredentialBack = ({ code, loader }) => {
   const dataUser = useSelector((state) => state.authDuck.dataUser);
+  const [modalQr, setModalQr] = useState(false)
+  const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
+
 
   return (
     <View
@@ -25,6 +29,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
       {!dataUser?.fixedQr != null && !dataUser?.fixedQr != "" ? (
         code != "" && !loader ? (
           <View style={styles.contInfo}>
+             <TouchableOpacity style={styles.contInfo} onPress={() => setModalQr(true)}>
             <QRCode
               style={styles.qrCode}
               value={code}
@@ -34,6 +39,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
               logoBackgroundColor="transparent"
               size={140}
             />
+            </TouchableOpacity>
           </View>
         ) : (
           <View
@@ -75,7 +81,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
           ) : (
             <View>
               <Text style={styles.lblCompany}>{dataUser?.ouCompany}</Text>
-              {dataUser?.rfc && (
+              {bcConfiguration?.showRfc && (
                 <View
                   style={{ flexDirection: "column", alignItems: "flex-start" }}
                 >
@@ -83,7 +89,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
                   <Text style={styles.lblUserValue}>{dataUser?.rfc}</Text>
                 </View>
               )}
-              {dataUser?.curp && (
+              {bcConfiguration?.showCurp && (
                 <View
                   style={{ flexDirection: "column", alignItems: "flex-start" }}
                 >
@@ -91,7 +97,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
                   <Text style={styles.lblUserValue}>{dataUser?.curp}</Text>
                 </View>
               )}
-              {dataUser?.nss && (
+              {bcConfiguration?.showNss && (
                 <View
                   style={{ flexDirection: "column", alignItems: "flex-start" }}
                 >
@@ -103,6 +109,12 @@ const DigitalCredentialBack = ({ code, loader }) => {
           )}
         </View>
       </View>
+      <ModalQr 
+        visible={modalQr}
+        onClose={() => setModalQr(false)}
+        code={code}
+        dataUser={dataUser}
+      />
     </View>
   );
 };
