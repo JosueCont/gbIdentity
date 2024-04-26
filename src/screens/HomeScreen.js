@@ -44,7 +44,7 @@ const navigation = useNavigation();
 
     useEffect(() => {
         const handleBackButton = () => {
-            if(navigation.getState().routes.find(item => item?.name === 'ModalCredential') != undefined){
+            if(navigation.getState().routes.find(item => item?.name === 'ModalDigitalCredential') != undefined){
                 navigation.goBack()
             }
             setSelectedSection('initial')
