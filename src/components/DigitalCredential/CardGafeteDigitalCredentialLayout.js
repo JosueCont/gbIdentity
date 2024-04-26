@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   imgQr: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     resizeMode: "contain",
   },
   imgQrMax: {
