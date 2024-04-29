@@ -18,6 +18,7 @@ export const logoutUser = async(data) => await axiosPost(axiosTypes.LOGOUT,data)
 export const getRegexPassword = async() => await axiosGet(axiosTypes.GET_REGEX_PASSWORD)
 export const getPasswordConfiguration = async() => await axiosGet(axiosTypes.GET_PASSWORD_CONFIG)
 export const getGeneralConfiguration = async() => await axiosGet(axiosTypes.GET_GENERAL_CONFIG)
+export const getUserData = async(id) => await axiosGet(`${axiosTypes.GET_USER_DATA}${id}`)
 
 //AccessLog
 export const postAccessLogList = async(data) => await axiosPost(axiosTypes.ACCESS_LOG_COLLABORATOR,data)

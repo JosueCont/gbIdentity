@@ -103,6 +103,13 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
     company: dataUser?.ouCompany,
     image: dataUser?.profileImage,
   };
+  useEffect(() => {
+    console.log("credentials", credentials)
+  }, [credentials])
+
+  useEffect(() => {
+    console.log("dataUserC", dataUser.configuration?.credentials)
+  }, [dataUser])
 
   return (
     <View style={styles.container}>
