@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ScrollView,
   RefreshControl,
+  Platform
 } from "react-native";
 import { getFontSize } from "../../utils/functions";
 import { openModalHome, closeModalHome } from "../../store/ducks/homeDuck";
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkBlue,
   },
   contHeader: {
-    marginTop: 33,
+    marginTop: Platform.OS == 'ios' ? height > 700 ? 50 : 33 : 33,
     margin: 10,
     backgroundColor: Colors.blue,
     paddingTop: 12,
