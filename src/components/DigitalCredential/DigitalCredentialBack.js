@@ -76,12 +76,15 @@ const DigitalCredentialBack = ({ code, loader }) => {
           </View>
         )
       ) : (
-        <View style={{ width: 170, height: 190 }}>
-          <Image
-            source={{ uri: dataUser?.fixedQr }}
-            style={{ flex: 1, resizeMode: "cover" }}
-          />
+        <TouchableOpacity onPress={() => setModalQr(true)}>
+        <View style={{ width: 150, height: 155 }}>
+            <Image  
+              source={{ uri: dataUser?.fixedQr }}
+              style={{ flex: 1, resizeMode: "center", width: 150, height: 155,
+              alignSelf: "flex-start", }}
+            />
         </View>
+        </TouchableOpacity>
       )}
       <View style={{ width: width / 2, marginLeft: 8 }}>
         <View
@@ -193,6 +196,7 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(16),
     fontWeight: "700",
     paddingBottom: 5,
+    paddingRight: 5,
   },
   lblUserConfig: {
     fontSize: getFontSize(13),

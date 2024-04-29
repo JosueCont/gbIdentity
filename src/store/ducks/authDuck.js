@@ -22,6 +22,7 @@ const LOADER = 'loader';
 const LOGIN_SUCCESS = 'login_success';
 const LOGIN_FAILED = 'login_failed';
 const LOGOUT = 'logout';
+const SET_USER_DATA = 'set_user_data'
 
 const RECOVER_PASSWORD_SUCCESS = 'recover_password_success';
 const RECOVER_PASSWORD_FAILED = 'recover_password_failed';
@@ -80,6 +81,8 @@ const authDuck = (state = initialState, action) => {
             return{ ...state, loading: true}
         case LOGIN_SUCCESS:
             return{ ...state, dataUser: action.payload, loading:false, isLogged: true, email:'', password:'', isChecked:false}
+        case SET_USER_DATA:
+            return{ ...state, dataUser: action.payload, isLogged: true}
         case LOGIN_FAILED:
             return{ ...state, loading: false, message: action.message, isLogged: false, email:'', password:'',isChecked:false, modalErrorLogin:true}
         case LOGOUT:
@@ -361,11 +364,16 @@ export const onValidatePassword = (password, regex, requirements) => dispatch =>
 
 export const getGeneralConfigurationData = async() => {
     const response = await getGeneralConfiguration();
-    console.log('response', response?.data)
+    console.log('response getGeneralConfigurationData', response?.data)
     if(response?.data){
         return response.data;
     }
     return null;
+}
+
+export const onRefreshActionUser = (user) => async(dispatch) => {
+    dispatch({type: SET_USER_DATA, payload:user}) 
+    await AsyncStorage.setItem('user', JSON.stringify(user));
 }
 
 export default authDuck;
