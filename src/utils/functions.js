@@ -55,7 +55,10 @@ export const getExpoToken = async() => {
     }
 }
 
+ 
+
 export const getValidators = (password, regex, polities) => {
+    
     const requirements = {
         minLength: new RegExp(`.{${polities?.passwordLength},}`),
     };

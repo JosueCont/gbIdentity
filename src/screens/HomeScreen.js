@@ -8,10 +8,11 @@ import CodePage from "../components/Home/CodePage";
 import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute, onGetColorDay, getCommunicates, onRefreshAction } from "../store/ducks/homeDuck";
 import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
-import { saveExpoToken } from "../store/ducks/authDuck";
+import { saveExpoToken, onRefreshActionUser } from "../store/ducks/authDuck";
 import { useDispatch, useSelector } from "react-redux";
 import { getExpoToken } from "../utils/functions";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { getUserData } from "../utils/ApiApp";
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -87,6 +88,13 @@ const HomeScreen = () => {
 
     const onRefresh = async() => {
         dispatch(onRefreshAction())
+        handleGetUserData()
+       
+    }
+
+    const handleGetUserData = async() => {
+        const user = await getUserData(userId)
+        dispatch(onRefreshActionUser(user.data))
         setTimeout(() => {
             dispatch(userPreferences(userId))
             dispatch(onGetColorDay())
@@ -94,7 +102,6 @@ const HomeScreen = () => {
             dispatch(getInitialData({userId}))
             dispatch(getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
         },500)
-        console.log('refresh')
     }
 
     return(

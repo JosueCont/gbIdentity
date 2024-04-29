@@ -12,7 +12,6 @@ import {
   resetPassword,
   onValidatePassword,
 } from "../store/ducks/authDuck";
-import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
 
 const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
@@ -27,6 +26,11 @@ const FormConfirmPassword = ({isNewUser, title, isContainToken=''}) => {
     const passwordConfig = useSelector(state => state.authDuck.passwordConfig)
     const isValidatePassword = useSelector(state => state.authDuck.isValidatePassword)
     const rules = useSelector(state => state.authDuck.rules)
+
+    useEffect(() => {
+        console.log("isValidatePassword", isValidatePassword)
+        console.log("passwordConfig", passwordConfig)
+    },[isValidatePassword, passwordConfig])
 
     return(
         <View style={{marginTop:100}}>

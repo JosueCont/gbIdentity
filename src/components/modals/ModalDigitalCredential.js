@@ -31,6 +31,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import { getDinamicCode } from "../../utils/ApiApp";
 import DigitalCredentialFront from "../DigitalCredential/DigitalCredentialFront";
 import DigitalCredentialBack from "../DigitalCredential/DigitalCredentialBack";
+import Animated, { Easing, useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
 const { height, width } = Dimensions.get("window");
 
@@ -53,6 +54,34 @@ const ModalDigitalCredential = ({ visible, setVisible }) => {
   const { item, rules } = route.params;
 
   const countdownInterval = useRef(null); // Cambio aquí
+
+  let transitionValue = useSharedValue(0);
+
+  useEffect(() => {
+    if (isFront) {
+        transitionValue.value = withTiming(0, { duration: 800 });
+    } else {
+        transitionValue.value = withTiming(1, { duration: 800 });
+    }
+}, [isFront]);
+
+  const handleSetIsFront = () => {
+    transitionValue.value = withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) });
+    setIsFront(!isFront);
+    handleTransition();    
+};
+
+  const handleTransition = () => {
+    transitionValue.value = 0; // Restablece el valor de transitionValue al inicio de la animación
+    transitionValue.value = withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) });
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+        opacity: transitionValue.value,
+        transform: [{ scale: transitionValue.value }],
+    };
+});
 
   const getCodeQR = async ({ isRunning, userId }) => {
     setLoading(true);
@@ -159,57 +188,15 @@ const ModalDigitalCredential = ({ visible, setVisible }) => {
               setIsRunning(true);
             }}
             setQrRoute={() => {}}
-            setIsFront={setIsFront}
+            setIsFront={handleSetIsFront}
           >
             {isFront ? (
-              <DigitalCredentialFront item={itemUser} />
+              <DigitalCredentialFront item={itemUser} style={[styles.animatedContainer, animatedStyle]} />
             ) : (
-              <DigitalCredentialBack code={code} rules={rules} />
+              <DigitalCredentialBack code={code} rules={rules} style={[styles.animatedContainer, animatedStyle]} />
             )}
           </CardGafeteDigitalCredentialLayout>
         </View>
-
-        // typeOrientation === 1 || typeOrientation === 2 ? (
-        //     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-        //        <CardGafeteDigitalCredentialLayout
-        //         isHorizontal={false}
-        //         isFront={!showQr}
-        //         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}}
-        //         setQrRoute={() => {
-        //             setShowQr(true);
-        //             }}>
-        //         {!showQr ? (
-        //             <ContentGafete item={item} rules={rules}/>
-        //         ):(
-        //             <ContentQr userId={userId} code={code}/>
-        //         )}
-        //         {/* {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
-        //             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
-        //         </TouchableOpacity>} */}
-        //     </CardGafeteDigitalCredentialLayout>
-        //     </View>
-        // ):(
-        //     <View style={{ flex:1, justifyContent:'center', alignItems:'center'}}>
-        //     <CardGafeteDigitalCredentialLayout
-        //         isHorizontal={true}
-        //         isFront={true}
-        //         hideMaxContent={true}
-        //         showHorizontal={() => {navigation.goBack(); setIsRunning(true)}}
-        //         setQrRoute={() => {
-        //             setShowQr(true)
-        //         }}>
-        //         {!showQr ? (
-        //             <ContentGafete item={item} rules={rules}/>
-        //         ):(
-        //             <ContentQr userId={userId} code={code}/>
-        //         )}
-        //         {/* {showQr && <TouchableOpacity style={{position:'absolute', top:10,}} onPress={() => setShowQr(false)}>
-        //             <MaterialIcons name="arrow-back-ios" size={24} color={Colors.black} />
-        //         </TouchableOpacity>} */}
-        //     </CardGafeteDigitalCredentialLayout>
-        // </View>
-
-        // )
       }
     </SafeAreaView>
   );
@@ -272,6 +259,11 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: "contain",
+  },
+  animatedContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
