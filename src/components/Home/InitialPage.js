@@ -97,6 +97,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
     branch: "",
     curp: bcConfiguration?.showCurp,
     nss: bcConfiguration?.showNss,
+    rfc: bcConfiguration?.showRfc,
     birthDate: moment(dataUser?.birthDate).format("DD-MM-YYYY"),
     branch: dataUser?.ouWorkCenter,
     department: dataUser?.ouDepartment,
@@ -108,7 +109,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
   }, [credentials])
 
   useEffect(() => {
-    console.log("dataUserC", dataUser.configuration?.credentials)
+    console.log("dataUserC", dataUser?.configuration?.credentials)
   }, [dataUser])
 
   return (

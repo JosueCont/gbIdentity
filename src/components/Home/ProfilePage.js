@@ -124,13 +124,13 @@ const ProfilePage = ({backHome}) => {
                         <Text style={styles.txtPref}>RFC</Text>
                         <Switch 
                             trackColor={{true: Colors.green, false: Colors.gray}}
-                            thumbColor={bcConfiguration?.showBirthDate ? Colors.greenStrong : Colors.gray}
+                            thumbColor={bcConfiguration?.showRfc ? Colors.greenStrong : Colors.gray}
                             disabled={isDisabled}
                             style={{ transform:[{ scaleX: .7 }, { scaleY: .7 }] }}
                             //size={'sm'} 
                             //colorScheme={'green'} 
-                            value={bcConfiguration?.showBirthDate}
-                            onValueChange={(val) => onChangeSwitchCredential('showBirthDate',val)}
+                            value={bcConfiguration?.showRfc}
+                            onValueChange={(val) => onChangeSwitchCredential('showRfc',val)}
                         />
                     </View>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>

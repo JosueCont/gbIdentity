@@ -88,7 +88,7 @@ const ContentGafete = ({item, rules,}) => {
           </Text>
           </>
         )}
-        {rules?.showBirthDate && <Text>{item?.birthDate}</Text>}
+        {rules?.showRfc && <Text>{item?.rfc}</Text>}
         {rules?.showCurp && <Text>{item?.curp}</Text>}
         {rules?.showNss && <Text>{item?.nss}</Text>}
       </View>
