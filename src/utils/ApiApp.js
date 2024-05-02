@@ -30,6 +30,9 @@ export const createAccessLocation = async(code) => await axiosPost(axiosTypes.CR
 export const getAccesLocationActives = async() => await axiosGet(axiosTypes.GET_ACTIVES_ACCESSLOCATIONS)
 export const validateQrCode = async(data) => await axiosPost(axiosTypes.VALIDATE_CODE,data);
 
+/*License code  */
+export const getLicenseCode = async(id) => await axiosGet(`${axiosTypes.GET_CODE_DIGITAL_LICENSE}${id}`)
+
 //notifications
 export const postSaveExpoToken = async(data) => await axiosPost(axiosTypes.SAVE_EXPO_TOKEN, data)
 export const getNotificationsCollaborator = async(data) => await axiosPost(axiosTypes.GET_NOTIFICATIONS, data)

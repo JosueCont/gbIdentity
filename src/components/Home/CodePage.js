@@ -17,7 +17,7 @@ import CardGafeteDigitalCredentialLayout from "../DigitalCredential/CardGafeteDi
 import QRCode from "react-native-qrcode-svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getCodeQR } from "../../store/ducks/homeDuck";
-import { getDinamicCode } from "../../utils/ApiApp";
+import { getDinamicCode, getLicenseCode } from "../../utils/ApiApp";
 import ModalQr from "../modals/ModalQr";
 import DigitalCredentialBack from "../DigitalCredential/DigitalCredentialBack";
 const { height, width } = Dimensions.get("window");
@@ -33,6 +33,7 @@ const CodePage = ({ backHome }) => {
   const [modalQr, setModalQr] = useState(false)
   const dataUser = useSelector((state) => state.authDuck.dataUser);
   const bcConfiguration = useSelector(state => state.preferencesDuck.bcConfiguration)
+  const typeCredential = useSelector(state => state.homeDuck.typeSelected)
 
   const countdownInterval = useRef(null); // Cambio aquí
 
@@ -52,6 +53,23 @@ const CodePage = ({ backHome }) => {
       setLoading(false);
     }
   };
+
+  const getCodeQRLicense = async({ userId }) => {
+    try {
+      setLoading(true);
+      const response = await getLicenseCode(userId)
+      if (response?.data?.code){
+        setCode(response?.data?.code)
+        // Inicia el contador aquí solo si es necesario
+        startCounter(response.data.seconds - 1);
+      }
+      console.log('liecncia digital', response?.data)
+    } catch (error) {
+      console.log('error',error)
+    }finally{
+      setLoading(false)
+    }
+  }
 
   const startCounter = (totalSeconds) => {
     if (countdownInterval.current !== null) {
@@ -81,7 +99,8 @@ const CodePage = ({ backHome }) => {
         if (countdownInterval.current !== null) {
           clearInterval(countdownInterval.current); // Limpieza usando .current
         }
-        getCodeQR({ isRunning, userId });
+        if(typeCredential === 1) getCodeQR({ isRunning, userId });
+        else getCodeQRLicense({ userId })
         setIsRunning(false);
       }
     }

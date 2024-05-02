@@ -25,5 +25,6 @@ export const axiosTypes = {
     GET_GENERAL_CONFIG:'/GeneralConfiguration/App',
     GET_COMMUNICATIONS: '/Communications/App',
     GET_INFO_CREDENTIALS:'/UserConfiguration/credentials/',
-    UPDATE_INFO_CREDENTIALS:'/UserConfiguration/Credentials'
+    UPDATE_INFO_CREDENTIALS:'/UserConfiguration/Credentials',
+    GET_CODE_DIGITAL_LICENSE:'/DynamicQr/LicenseCode/'
 }

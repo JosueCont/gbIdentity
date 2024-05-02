@@ -20,7 +20,7 @@ const SET_COLOR_DAY = 'set_color_day'
 const SET_COMMUNICATES = 'set_communicates'
 const SET_REFRESH = 'refresh'
 const ERROR_COMMUNICATES = 'error_communicates'
-
+const CHANGE_STATE = 'change_state_home'
 
 /*const SUCCESS_BADGE = 'success_badge';
 const SET_NOTIFICATIONS = 'set_notifications';
@@ -44,7 +44,8 @@ const initialState = {
     route:'initial',
     colorDay:'',
     communicates:[],
-    refresh:false
+    refresh:false,
+    typeSelected:null
 }
 
 const homeDuck = (state = initialState, action) => {
@@ -53,6 +54,8 @@ const homeDuck = (state = initialState, action) => {
             return{...state, loading:true}
         case CANCEL_LOADING:
             return{ ...state, loading:false}
+        case CHANGE_STATE:
+            return{ ...state, [action.payload.prop]: action.payload.val}
         case SET_CODE:
             return{...state, code: action.payload, loading: false, isRunning: true}
         case FAILED_CODE:
@@ -214,5 +217,11 @@ export const onRefreshAction = () => {
     }
 }
 
+export const onChangeState = ({prop,val}) => {
+    return{
+        type: CHANGE_STATE,
+        payload: { prop,val }
+    }
+}
 
 export default homeDuck;
