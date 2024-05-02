@@ -98,6 +98,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
     branch: "",
     curp: bcConfiguration?.showCurp,
     nss: bcConfiguration?.showNss,
+    rfc: bcConfiguration?.showRfc,
     birthDate: moment(dataUser?.birthDate).format("DD-MM-YYYY"),
     branch: dataUser?.ouWorkCenter,
     department: dataUser?.ouDepartment,

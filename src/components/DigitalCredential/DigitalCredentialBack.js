@@ -107,7 +107,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
           ) : (
             <View>
               <Text style={styles.lblCompany}>{dataUser?.ouCompany}</Text>
-              {bcConfiguration?.showBirthDate && (
+              {bcConfiguration?.showRfc && (
                 <View
                   style={{ flexDirection: "column", alignItems: "flex-start" }}
                 >
@@ -147,7 +147,7 @@ const DigitalCredentialBack = ({ code, loader }) => {
 
 const styles = StyleSheet.create({
   contInfo: {
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: "row",
   },
   container: {
