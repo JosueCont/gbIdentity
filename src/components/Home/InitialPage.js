@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Spinner } from "native-base";
 import { getFontSize } from "../../utils/functions";
@@ -22,7 +23,7 @@ import CardGafeteDigitalCredentialLayout from "../DigitalCredential/CardGafeteDi
 
 const { height, width } = Dimensions.get("window");
 
-const InitialPage = ({ setQrRoute, showMoreLogs }) => {
+const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -108,16 +109,33 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
   }, [credentials])
 
   useEffect(() => {
-    console.log("dataUserC", dataUser.configuration?.credentials)
   }, [dataUser])
+
+  const scrollViewRef = useRef(null);
+
+  const handleScroll = (item) => {
+    //console.log('scrollref',item)
+    const contentOffsetX = item.contentOffset.x;
+    const index = contentOffsetX != 0 ? Math.floor(width / contentOffsetX) : 0;
+    setCurrentIndex(index);
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.contCards}>
+        <ScrollView 
+          ref={scrollViewRef}
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          snapToOffsets={[...Array(2)].map((x, i) =>  width * (i+10) + width / 1.1)}
+          decelerationRate={0}
+          snapToAlignment="center"
+          onMomentumScrollEnd={({ nativeEvent }) => handleScroll(nativeEvent)}
+          >
         {credentials?.bimboCredential && (
           <CardGafeteDigitalCredentialLayout
             background={credentials?.bimboCredential?.color}
-            setQrRoute={setQrRoute}
+            setQrRoute={() => setQrRoute(1)}
             isFront={true}
             showHorizontal={() =>
               navigation.navigate("ModalDigitalCredential", {
@@ -129,7 +147,28 @@ const InitialPage = ({ setQrRoute, showMoreLogs }) => {
             <DigitalCredentialFront item={item} />
           </CardGafeteDigitalCredentialLayout>
         )}
+
+        {credentials?.internalLicense && (
+          <View style={{marginLeft:10}}>
+            <CardGafeteDigitalCredentialLayout
+              background={credentials?.bimboCredential?.color}
+              setQrRoute={() => setQrRoute(2)}
+              isFront={true}
+              showHorizontal={() =>
+                navigation.navigate("ModalDigitalCredential", {
+                  item,
+                  rules: credentials?.bcConfiguration,
+                })
+              }
+            >
+              <DigitalCredentialFront item={item} />
+            </CardGafeteDigitalCredentialLayout>
+
+          </View>
+        )}
+      </ScrollView>
       </View>
+      <View style={{flexDirection:'row'}}>{getIndicators(credentials?.bimboCredential && credentials?.internalLicense ? 2 : 1)}</View>
       <CommunicateList communicates={communicates} />
 
       {accessList.length > 0 && (

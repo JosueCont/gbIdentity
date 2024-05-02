@@ -5,7 +5,15 @@ import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
 import NotificationsPage from "../components/Home/NotificationsPage";
 import CodePage from "../components/Home/CodePage";
-import { cancelAutoGenerateCode, activateAutoGenerate, getLogsUser, onSetRoute, onGetColorDay, getCommunicates, onRefreshAction } from "../store/ducks/homeDuck";
+import { 
+    cancelAutoGenerateCode, 
+    activateAutoGenerate, 
+    getLogsUser, 
+    onSetRoute, 
+    onGetColorDay, 
+    getCommunicates, 
+    onRefreshAction,
+    onChangeState } from "../store/ducks/homeDuck";
 import { userPreferences } from "../store/ducks/preferencesDuck";
 import { getInitialData } from "../store/ducks/notificationsDuck";
 import { saveExpoToken, onRefreshActionUser } from "../store/ducks/authDuck";
@@ -112,7 +120,7 @@ const HomeScreen = () => {
             refresh={refresh}
             onRefresh={() => onRefresh()}>
             {selectedSection === 'initial' ? (
-                <InitialPage setQrRoute={() => {getSelectedRoute('code'); /*dispatch(activateAutoGenerate())*/ }}/>
+                <InitialPage setQrRoute={(type) => {getSelectedRoute('code'); dispatch(onChangeState({prop:'typeSelected', val: type})) }}/>
             ) : selectedSection === 'notifications' ? (
                 <NotificationsPage backHome={() => getSelectedRoute('initial')} userId={userId} moveOnTop={() => onMoveScroll()}/>
             ) : selectedSection === 'profile' ? (
