@@ -18,7 +18,7 @@ const { height, width } = Dimensions.get("window");
 
 const ModalQr = ({ visible, onClose, code, dataUser }) => {
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal visible={visible} animationType="slide" transparent supportedOrientations={['portrait', 'landscape']}>
       <View style={styles.container}>
         <View style={styles.card}>
           <TouchableOpacity
