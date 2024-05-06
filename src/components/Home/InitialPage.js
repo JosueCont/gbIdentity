@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Spinner } from "native-base";
+import { Spinner, Skeleton } from "native-base";
 import { getFontSize } from "../../utils/functions";
 import { Colors } from "../../utils/Colors";
 import moment from "moment/moment";
@@ -23,10 +23,10 @@ import CardGafeteDigitalCredentialLayout from "../DigitalCredential/CardGafeteDi
 
 const { height, width } = Dimensions.get("window");
 
-const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
+const InitialPage = ({ setQrRoute, showMoreLogs, type, currentIndex, setCurrentIndex, scrollCredentialRef }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  //const [currentIndex, setCurrentIndex] = useState(0);
   const accessList = useSelector((state) => state.homeDuck.accessList);
   const userId = useSelector((state) => state.authDuck?.dataUser?.id);
   const dataUser = useSelector((state) => state.authDuck.dataUser);
@@ -114,6 +114,8 @@ const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
 
   const scrollViewRef = useRef(null);
 
+
+
   const handleScroll = (item) => {
     //console.log('scrollref',item)
     const contentOffsetX = item.contentOffset.x;
@@ -125,7 +127,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
     <View style={styles.container}>
       <View style={styles.contCards}>
         <ScrollView 
-          ref={scrollViewRef}
+          ref={scrollCredentialRef}
           horizontal 
           showsHorizontalScrollIndicator={false}
           snapToOffsets={[...Array(2)].map((x, i) =>  width * (i+10) + width / 1.1)}
@@ -186,6 +188,7 @@ const InitialPage = ({ setQrRoute, showMoreLogs, type }) => {
                         userId,
                         name: `${dataUser.firstName} ${dataUser.lastName}`,
                         pageSize: pageSize + 5,
+                        cardType: currentIndex+1
                       })
                     )
                   }
@@ -353,6 +356,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
+  contLoader:{
+    alignSelf:'flex-start', 
+    marginLeft:20, 
+    marginVertical:20
+  }
 });
 
 export default InitialPage;

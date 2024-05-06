@@ -44,40 +44,21 @@ const DigitalCredentialFront = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          {loader ? (
-            <View>
-              <Skeleton.Text
-                px="10"
-                lines={2}
-                mb={2}
-                mt={2}
-                backgroundColor={"gray.100"}
-              />
-            </View>
-          ) : (
-            <View>
-              <Text style={styles.lblName}>{item?.firstName}</Text>
-              <Text style={styles.lblName}>{item?.lastName}</Text>
-            </View>
-          )}
+          
+          <View>
+            <Text style={styles.lblName}>{item?.firstName}</Text>
+            <Text style={styles.lblName}>{item?.lastName}</Text>
+          </View>
+          
         </View>
         <View style={styles.line} />
-        {loader ? (
-          <Skeleton.Text
-            px="2"
-            lines={1}
-            mb={2}
-            mt={2}
-            backgroundColor={"gray.100"}
-            borderRadius={8}
-          />
-        ) : (
-          <View>
-            <Text style={[styles.lblBranch, { marginTop: 6 }]}>
-              {item?.department}
-            </Text>
-          </View>
-        )}
+        
+        <View>
+          <Text style={[styles.lblBranch, { marginTop: 6 }]}>
+            {item?.department}
+          </Text>
+        </View>
+        
       </View>
       {dataUser?.nodeImage != null && dataUser?.nodeImage != "" ? (
         <Image source={{ uri: dataUser?.nodeImage }} style={styles.logoBimbo} />

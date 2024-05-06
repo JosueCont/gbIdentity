@@ -42,6 +42,7 @@ const CodePage = ({ backHome }) => {
     // Lógica para obtener el código QR...
     try {
       const response = await getDinamicCode(userId);
+      console.log('credencial digital', response?.data)
       if (response?.data?.code) {
         setCode(response.data.code);
         setLoading(false);
@@ -58,6 +59,7 @@ const CodePage = ({ backHome }) => {
     try {
       setLoading(true);
       const response = await getLicenseCode(userId)
+      console.log('licencia digital', response?.data)
       if (response?.data?.code){
         setCode(response?.data?.code)
         // Inicia el contador aquí solo si es necesario
@@ -96,9 +98,9 @@ const CodePage = ({ backHome }) => {
   useEffect(() => {
     if (!dataUser?.fixedQr != null && !dataUser?.fixedQr != "") {
       if (isRunning && seg === 0 && minutes === 0) {
-        if (countdownInterval.current !== null) {
-          clearInterval(countdownInterval.current); // Limpieza usando .current
-        }
+        //if (countdownInterval.current !== null) {
+        //  clearInterval(countdownInterval.current); // Limpieza usando .current
+        //}
         if(typeCredential === 1) getCodeQR({ isRunning, userId });
         else getCodeQRLicense({ userId })
         setIsRunning(false);

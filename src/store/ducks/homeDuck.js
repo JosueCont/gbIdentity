@@ -45,7 +45,7 @@ const initialState = {
     colorDay:'',
     communicates:[],
     refresh:false,
-    typeSelected:null
+    typeSelected:0
 }
 
 const homeDuck = (state = initialState, action) => {
@@ -171,7 +171,8 @@ export const getLogsUser = (data) => async(dispatch) => {
         let dataSend = {
             ...data,
             pageNumber: 1,
-            "isFile": true
+            "isFile": true,
+            //cardType: 1
         }
         const response = await postAccessLogList(dataSend)
         if(response?.data?.items){
@@ -203,7 +204,7 @@ export const getCommunicates = (data) => async(dispatch) => {
     try {
         //console.log('dataSend',data)
         const response = await postCommunications(data)
-        //console.log('response comunications', response?.data)
+        //console.log('response comunications', response?.config?.headers?.Authorization)
         dispatch({type: SET_COMMUNICATES, payload: response?.data?.items})
     } catch (e) {
         dispatch({type: ERROR_COMMUNICATES})

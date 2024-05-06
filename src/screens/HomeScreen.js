@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, BackHandler } from "react-native";
+import { View, Text, BackHandler, Dimensions } from "react-native";
 import ScreenBaseLogged from "../components/screensBase/ScreenBaseLogged";
 import InitialPage from "../components/Home/InitialPage";
 import ProfilePage from "../components/Home/ProfilePage";
@@ -22,6 +22,8 @@ import { getExpoToken } from "../utils/functions";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { getUserData } from "../utils/ApiApp";
 
+const { height, width } = Dimensions.get("window");
+
 const HomeScreen = () => {
     const dispatch = useDispatch();
     const routes = ['initial', 'profile','notifications','code'];
@@ -30,8 +32,22 @@ const HomeScreen = () => {
     const isReadNotify = useSelector(state => state.notifyDuck.isReadNotify)
     const dataUser = useSelector(state => state.authDuck.dataUser)
     const refresh = useSelector(state => state.homeDuck.refresh)
+    const typeSelected = useSelector(state => state.homeDuck.typeSelected)
     const scrollViewRef = useRef();
+    const scrollCredentialRef = useRef();
+
     const navigation = useNavigation();
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if(selectedSection === 'initial'){
+            if (scrollCredentialRef.current && scrollCredentialRef.current != null) {
+                setTimeout(() => {
+                    scrollCredentialRef.current.scrollTo({ x: ((width/1.1+ 10) * currentIndex), animated: true });
+                },300)
+            }
+        }
+    },[selectedSection])
 
     useEffect(() => {
         if(userId && userId != undefined ) getInitialConfig()
@@ -47,9 +63,12 @@ const HomeScreen = () => {
 
     useEffect(() => {
         (async() => {
-            if(userId && userId != undefined ) dispatch(await getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
+            if(userId && userId != undefined ){
+                dispatch(await getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5, cardType: currentIndex+1}))
+                dispatch(getCommunicates({pageNumber: 1, pageSize: 1000, cardType: currentIndex+1}))
+            }
         })();
-    },[])
+    },[currentIndex])
 
     useEffect(() => {
         const handleBackButton = () => {
@@ -75,8 +94,17 @@ const HomeScreen = () => {
         const response = await  dispatch(saveExpoToken({userId, expoToken}))
         await dispatch(userPreferences(userId))
         await dispatch(onGetColorDay())
-        dispatch(getCommunicates({pageNumber: 1, pageSize: 1000}))
+        //getAllLogs()
+        
 
+    }
+
+    const getAllLogs = async() => {
+        try {
+            
+        } catch (e) {
+            
+        }
     }
 
     const getSelectedRoute = (route) => {
@@ -106,9 +134,9 @@ const HomeScreen = () => {
         setTimeout(() => {
             dispatch(userPreferences(userId))
             dispatch(onGetColorDay())
-            dispatch(getCommunicates({pageNumber: 1, pageSize: 1000}))
+            dispatch(getCommunicates({pageNumber: 1, pageSize: 1000, cardType: currentIndex+1}))
             dispatch(getInitialData({userId}))
-            dispatch(getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,}))
+            dispatch(getLogsUser({userId, name: `${dataUser.firstName} ${dataUser.lastName}`, pageSize: 5,cardType: currentIndex+1}))
         },500)
     }
 
@@ -120,7 +148,18 @@ const HomeScreen = () => {
             refresh={refresh}
             onRefresh={() => onRefresh()}>
             {selectedSection === 'initial' ? (
-                <InitialPage setQrRoute={(type) => {getSelectedRoute('code'); dispatch(onChangeState({prop:'typeSelected', val: type})) }}/>
+                <InitialPage 
+                    setQrRoute={(type) => {
+                        getSelectedRoute('code'); 
+                        dispatch(onChangeState({prop:'typeSelected', val: type})) 
+                    }}
+                    currentIndex={currentIndex}
+                    setCurrentIndex={(val) => {
+                        setCurrentIndex(val)
+                        dispatch(onChangeState({prop:'typeSelected', val: (val+1)})) 
+                    }}
+                    scrollCredentialRef={scrollCredentialRef}
+                />
             ) : selectedSection === 'notifications' ? (
                 <NotificationsPage backHome={() => getSelectedRoute('initial')} userId={userId} moveOnTop={() => onMoveScroll()}/>
             ) : selectedSection === 'profile' ? (
