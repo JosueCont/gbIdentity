@@ -2,7 +2,7 @@ const commonConfig = {
     "name": "GB Identity",
     "scheme":'gbidentity',
     "slug": "gbidentity",
-    "version": "1.0.3",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon_app.png",
     "userInterfaceStyle": "light",
@@ -60,9 +60,9 @@ const ios = {
     resourceClass: "large",
 }
 
-const version = "1.0.3"
-const versionBuildApp = 5;
-const versionAndroidApp = 5;
+const version = "1.0.7"
+const versionBuildApp = 9;
+const versionAndroidApp = 9;
 
 module.exports = () => {
     if(process.env.APP_ENV === "ios") {
